@@ -227,7 +227,7 @@ public class JobPostingUI {
             updateJobMenu();
             System.out.print("Enter your choice: ");
             choice = input.nextInt();
-            input.nextLine();
+            input.nextLine();// clear buffer
             switch (choice) {
                 case 1:
                     title = getInputJobTittle();
@@ -263,6 +263,11 @@ public class JobPostingUI {
     public void listAllJobPostings() {
         // TODO: Implement job posting listing logic
         jobManager.listAllJobPostings();
+    }
+
+    // getter
+    public JobManager getJobManager() {
+        return jobManager;
     }
 
 }

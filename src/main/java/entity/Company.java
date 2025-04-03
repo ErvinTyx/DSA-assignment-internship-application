@@ -52,4 +52,17 @@ public class Company {
     public void setJobPostings(ArrayList<JobPosting> jobPostings) {
         this.jobPostings = jobPostings;
     }
+
+    @Override
+    public String toString() {
+        return "{" + "id=" + id + ", name=" + name + ", location=" + location + "\njobPostings=" + getStringJobPosting() + "\n}";
+    }
+
+    private String getStringJobPosting() {
+        String result = "";
+        for (int i = 0; i < jobPostings.size(); i++) {
+            result += jobPostings.get(i).toString() + "\n";
+        }
+        return result;
+    }
 }

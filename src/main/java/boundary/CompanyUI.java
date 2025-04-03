@@ -1,7 +1,12 @@
 package boundary;
 
 import java.util.Scanner;
+import adt.ArrayList;
 import control.CompanyManager;
+import control.JobManager;
+import entity.JobPosting;
+import boundary.JobPostingUI;
+
 
 public class CompanyUI {
     private CompanyManager companyManager = new CompanyManager();
@@ -40,7 +45,7 @@ public class CompanyUI {
                     updateCompany();
                     break;    
                 case 4:
-                    addJobPosting();
+                    deleteCompany();
                     break;
                 case 5:
                     listAllCompanies();
@@ -57,28 +62,130 @@ public class CompanyUI {
         } while (choice != 6);
     }
 
+    private String getInputCompanyName() {
+        System.out.print("Enter company name: ");
+        String name = input.nextLine();
+        return name;
+    }
+
+    private String getInputCompanyLocation() {
+        System.out.print("Enter company location: ");
+        String location = input.nextLine();
+        return location;
+
+    }
+
+    private ArrayList<JobPosting> getInputJobPostings() {
+        JobPostingUI jobPostingUI = new JobPostingUI();
+        jobPostingUI.run();
+        return jobPostingUI.getJobManager().getJobPostings();
+    }
+
+    private void updateCompanyMenu() {
+        System.out.println("\n\n\nUpdate Company Menu:");
+        System.out.println("1. Update Company Name");
+        System.out.println("2. Update Company Location");
+        System.out.println("3. Update Company Job Postings");
+        System.out.println("4. Exit");
+    }
+
+    private void updateCom(String id) {
+        // TODO: Implement company update logic
+        String name, location;
+        ArrayList<JobPosting> jobPostings;
+        int choice;
+        do {
+            updateCompanyMenu();
+            choice = input.nextInt();
+            input.nextLine(); // clear buffer
+            switch (choice) {
+                case 1:
+                    name = getInputCompanyName();
+                    companyManager.getCompanyById(id).setName(name);
+                    break;
+                case 2:
+                    location = getInputCompanyLocation();
+                    companyManager.getCompanyById(id).setLocation(location);
+                    break;
+                case 3:
+                    jobPostings = getInputJobPostings();
+                    companyManager.getCompanyById(id).setJobPostings(jobPostings);
+                    break;
+                case 4:
+                    System.out.println("Exiting update menu!");
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        } while (choice != 4);
+    }
+
+
+
     public void registerCompany() {
         // TODO: Implement company registration logic
+        String name, location;
+        ArrayList<JobPosting> jobPostings;
+
+        name = getInputCompanyName();
+        location = getInputCompanyLocation();
+        jobPostings = getInputJobPostings();
+
+        companyManager.registerCompany(name, location, jobPostings);
 
     }
 
     public void removeCompany() {
         // TODO: Implement company removal logic
+        System.out.print("Enter the ID of the company to remove: ");
+        String id = input.nextLine();
+
+        boolean removed = companyManager.removeCompanyById(id);
+
+        if (removed) {
+            System.out.println("Company removed successfully!");
+        } else {
+            System.out.println("Company not found!");
+        }
     }
 
     public void updateCompany() {
         // TODO: Implement company update logic
+
+        // enter company ID to update
+        System.out.print("Enter the ID of the company to update: ");
+        String id = input.nextLine();
+
+        // update the company with the specified ID
+        boolean exists = companyManager.getCompanyById(id) != null;
+        if (exists) {
+            // TODO: Implement company update logic
+            updateCom(id);
+        } else {
+            System.out.println("Company not found!");
+        }
+
+    }
+
+    public void deleteCompany() {
+        // TODO: Implement company deletion logic
+        System.out.print("Enter the ID of the company to delete: ");
+        String id = input.nextLine();
+        boolean deleted = companyManager.removeCompanyById(id);
+        if (deleted) {
+            System.out.println("Company deleted successfully!");
+        } else {
+            System.out.println("Company not found!");
+        }
     }
 
     public void listAllCompanies() {
         // TODO: Implement company listing logic
+        companyManager.listAllCompanies();
     }
 
     public void filterCompanies() {
         // TODO: Implement company filtering logic
-    }
 
-    public void addJobPosting() {
-        // TODO: Implement job posting addition logic
     }
 }

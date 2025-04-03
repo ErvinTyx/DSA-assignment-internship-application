@@ -2,6 +2,7 @@ package control;
 
 import adt.ArrayList;
 import entity.Company;
+import entity.JobPosting;
 public class CompanyManager {
     private ArrayList<Company> companys = new ArrayList<>();
     
@@ -9,25 +10,37 @@ public class CompanyManager {
         companys.add(company);
     }
 
-    public boolean removeCompanyById(Company company) {
+    public void registerCompany(String name, String location, ArrayList<JobPosting>jobPostings) {
+        Company company = new Company(name, location, jobPostings);
+        companys.add(company);
+    }
+
+    public boolean removeCompanyById(String id) {
         for (int i = 0; i < companys.size(); i++) {
-            if (companys.get(i).getId().equals(company.getId())) {
+            if (companys.get(i).getId().equals(id)) {
                 companys.remove(i);
                 return true;
             }
         }
         return false;
+        
     }
 
-    public boolean updateCompanyById(Company company) {
+    public Company getCompanyById(String id) {
         for (int i = 0; i < companys.size(); i++) {
-            if (companys.get(i).getId().equals(company.getId())) {
-                companys.set(i, company);
-                return true;
+            if (companys.get(i).getId().equals(id)) {
+                return companys.get(i);
             }
         }
-        return false;
+        return null;
     }
 
-    
+    public void listAllCompanies() {
+        System.out.println("Companies:");
+        for (int i = 0; i < companys.size(); i++) {
+            System.out.println(companys.get(i).toString());
+        }
+    }
+
+
 }
