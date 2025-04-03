@@ -7,13 +7,49 @@ public class Company {
     private String name;
     private String location;
     private ArrayList<JobPosting> jobPostings = new ArrayList<>();
+    private int COUNTER = 0;
 
-    public Company(String id, String name) {
+    // Constructor
+    public Company(String name, String location, ArrayList<JobPosting> jobPostings) {
+        COUNTER++;
+        this.id = "C" + COUNTER;
+        this.name = name;
+        this.location = location;
+        this.jobPostings = jobPostings;
+    }
+
+    
+    // Getters
+    public String getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public ArrayList<JobPosting> getJobPostings() {
+        return jobPostings;
+    }
+
+    // Setters
+    public void setId(String id) {
         this.id = id;
+    }
+
+    public void setName(String name) {
         this.name = name;
     }
 
-    public void addJobPosting(JobPosting job) {
-        jobPostings.add(job);
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public void setJobPostings(ArrayList<JobPosting> jobPostings) {
+        this.jobPostings = jobPostings;
     }
 }

@@ -1,25 +1,125 @@
 package control;
 
-import adt.ArrayList;
 import entity.JobPosting;
-public class JobManager {
-    private ArrayList<JobPosting> jobs = new ArrayList<>();
-    //private CustomMap<String, JobPosting> jobMap = new CustomMap<>();
+import entity.SkillRequirement;
+import adt.ArrayList;
 
-    public void createJob(JobPosting job) {
-        jobs.add(job);
+public class JobManager {
+    private ArrayList<JobPosting> jobPostings = new ArrayList<>();
+    private ArrayList<SkillRequirement> skillRequirements = new ArrayList<>();
+
+    public void addJobPosting(JobPosting jobPosting) {
+        jobPostings.add(jobPosting);
     }
 
-    //Remove job
-    public boolean removeJob(){
+    public ArrayList<SkillRequirement> getSkillRequirements() {
+        return skillRequirements;
+    }
 
+    public void addJobPosting(String title, String description, ArrayList<SkillRequirement> requiredSkills, String location, double[] salaryRange) {
+        JobPosting jobPosting = new JobPosting(title, description, requiredSkills, location, salaryRange);
+        jobPostings.add(jobPosting);
+    }
+
+    public boolean removeJobPosting(String jobId) {
+        for (int i = 0; i < jobPostings.size(); i++) {
+            if (jobPostings.get(i).getId().equals(jobId)) {
+                jobPostings.remove(i);
+                return true;
+            }
+        }
         return false;
     }
 
-    // Update Jobs
+    public boolean updateJobPosting(String jobId,String title, String description, ArrayList<SkillRequirement> requiredSkills, String location, double[] salaryRange) {
+        for (int i = 0; i < jobPostings.size(); i++) {
+            if (jobPostings.get(i).getId().equals(jobId)) {
+                JobPosting jobPosting = new JobPosting(title, description, requiredSkills, location, salaryRange);
+                jobPostings.replace(i, jobPosting);
+                return true;
+            }
+        }
+        return false;
+    }
 
-    
-    // filtering jobs
-    // location, company, job type, salary range
+    public void clearSkillRequirements() {
+        skillRequirements.clear();
+    }
 
+    public void listAllJobPostings() {
+        System.out.println("Job Postings:");
+
+        for (int i = 0; i < jobPostings.size(); i++) {
+
+            System.out.println(jobPostings.get(i).toString());
+        }
+    }
+
+    public ArrayList<JobPosting> getJobPostings() {
+        return jobPostings;
+    }
+
+    public void addSkillRequirement(String skillname, int importance) {
+        skillRequirements.add(new SkillRequirement(skillname, importance));
+    }
+
+    // contains job postings
+    public boolean containsJobPosting(String jobId) {
+        for (int i = 0; i < jobPostings.size(); i++) {
+            if (jobPostings.get(i).getId().equals(jobId)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean setJobPostingTitle(String jobId, String title) {
+        for (int i = 0; i < jobPostings.size(); i++) {
+            if (jobPostings.get(i).getId().equals(jobId)) {
+                jobPostings.get(i).setTitle(title);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean setJobPostingDescription(String jobId, String description) {
+        for (int i = 0; i < jobPostings.size(); i++) {
+            if (jobPostings.get(i).getId().equals(jobId)) {
+                jobPostings.get(i).setDescription(description);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean setJobPostingLocation(String jobId, String location) {
+        for (int i = 0; i < jobPostings.size(); i++) {
+            if (jobPostings.get(i).getId().equals(jobId)) {
+                jobPostings.get(i).setLocation(location);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean setJobPostingSalaryRange(String jobId, double[] salaryRange) {
+        for (int i = 0; i < jobPostings.size(); i++) {
+            if (jobPostings.get(i).getId().equals(jobId)) {
+                jobPostings.get(i).setSalaryRange(salaryRange);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean setJobPostingRequiredSkills(String jobId, ArrayList<SkillRequirement> requiredSkills) {
+        for (int i = 0; i < jobPostings.size(); i++) {
+            if (jobPostings.get(i).getId().equals(jobId)) {
+                jobPostings.get(i).setRequiredSkills(requiredSkills);
+                return true;
+            }
+        }
+        return false;
+    }
 }

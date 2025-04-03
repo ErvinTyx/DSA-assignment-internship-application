@@ -9,5 +9,11 @@ public class SkillRequirement {
         this.importance = importance;
     }
 
-    
+    @Override
+    public String toString() {
+        return "\n{" +
+                "skillName='" + skillName + '\'' +
+                ", importance=" + importance +
+                '}';
+    }
 }

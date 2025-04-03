@@ -15,6 +15,7 @@ public class ArrayList<T> implements ListInterface<T>, Serializable, Iterable<T>
         this(INITIAL_CAPACITY);
     }
 
+    @SuppressWarnings("unchecked")
     public ArrayList(int capacity) {
         elements = (T[]) new Object[capacity];
         size = 0;
@@ -99,6 +100,7 @@ public class ArrayList<T> implements ListInterface<T>, Serializable, Iterable<T>
 
     private void ensureCapacity() {
         if (size == elements.length) {
+            @SuppressWarnings("unchecked")
             T[] newArray = (T[]) new Object[elements.length * 2];
             System.arraycopy(elements, 0, newArray, 0, size);
             elements = newArray;
