@@ -36,7 +36,7 @@ public class CompanyManager {
     }
 
     public void listAllCompanies() {
-        System.out.println("Companies:");
+        System.out.println("\n\nCompanies:");
         for (int i = 0; i < companys.size(); i++) {
             System.out.println(companys.get(i).toString());
         }

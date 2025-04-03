@@ -3,9 +3,8 @@ package boundary;
 import java.util.Scanner;
 import adt.ArrayList;
 import control.CompanyManager;
-import control.JobManager;
 import entity.JobPosting;
-import boundary.JobPostingUI;
+
 
 
 public class CompanyUI {
@@ -21,6 +20,7 @@ public class CompanyUI {
         System.out.println("5. List All Companies");
         System.out.println("6. Filter Companies");
         System.out.println("7. Exit");
+        System.out.print("Enter your choice: ");
     }
 
     public static void main(String[] args) {
@@ -54,12 +54,12 @@ public class CompanyUI {
                     filterCompanies();
                     break;
                 case 7:
-                    System.out.println("Goodbye!");
+                    System.out.println("Exiting Company Management!");
                     break;
                 default:
                     System.out.println("Invalid choice. Please try again.");
             }
-        } while (choice != 6);
+        } while (choice != 7);
     }
 
     private String getInputCompanyName() {
@@ -87,6 +87,7 @@ public class CompanyUI {
         System.out.println("2. Update Company Location");
         System.out.println("3. Update Company Job Postings");
         System.out.println("4. Exit");
+        System.out.print("Enter your choice: ");
     }
 
     private void updateCom(String id) {
@@ -126,7 +127,7 @@ public class CompanyUI {
         // TODO: Implement company registration logic
         String name, location;
         ArrayList<JobPosting> jobPostings;
-
+        input.nextLine();// clear buffer
         name = getInputCompanyName();
         location = getInputCompanyLocation();
         jobPostings = getInputJobPostings();
@@ -151,7 +152,7 @@ public class CompanyUI {
 
     public void updateCompany() {
         // TODO: Implement company update logic
-
+        input.nextLine(); // clear buffer
         // enter company ID to update
         System.out.print("Enter the ID of the company to update: ");
         String id = input.nextLine();

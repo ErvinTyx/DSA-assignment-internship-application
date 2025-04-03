@@ -55,7 +55,7 @@ public class Company {
 
     @Override
     public String toString() {
-        return "{" + "id=" + id + ", name=" + name + ", location=" + location + "\njobPostings=" + getStringJobPosting() + "\n}";
+        return "{" + "id=" + id + ", name=" + name + ", location=" + location + "\njobPostings=" + getStringJobPosting() + "}";
     }
 
     private String getStringJobPosting() {
