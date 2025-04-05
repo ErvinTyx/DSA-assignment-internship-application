@@ -16,14 +16,18 @@ public class JobManager {
         return skillRequirements;
     }
 
-    public void addJobPosting(String title, String description, ArrayList<SkillRequirement> requiredSkills, String location, double[] salaryRange) {
+    public void addJobPosting(String title, String description, String location, double[] salaryRange) {
+        ArrayList<SkillRequirement> requiredSkills = new ArrayList<>();
+        requiredSkills = getSkillRequirements();
         JobPosting jobPosting = new JobPosting(title, description, requiredSkills, location, salaryRange);
         jobPostings.add(jobPosting);
+        requiredSkills.clear();
     }
 
     public boolean removeJobPosting(String jobId) {
         for (int i = 0; i < jobPostings.size(); i++) {
             if (jobPostings.get(i).getId().equals(jobId)) {
+                jobPostings.set(i, null);
                 jobPostings.remove(i);
                 return true;
             }
@@ -48,10 +52,14 @@ public class JobManager {
 
     public void listAllJobPostings() {
         System.out.println("Job Postings:");
+        if (jobPostings.isEmpty()) {
+            System.out.println("No job postings found.");
+        }else{
 
-        for (int i = 0; i < jobPostings.size(); i++) {
-
-            System.out.println(jobPostings.get(i).toString());
+            for (int i = 0; i < jobPostings.size(); i++) {
+                
+                System.out.println(jobPostings.get(i).toString());
+            }
         }
     }
 

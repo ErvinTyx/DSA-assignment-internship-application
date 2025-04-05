@@ -138,6 +138,8 @@ public class CompanyUI {
 
     public void removeCompany() {
         // TODO: Implement company removal logic
+
+        input.nextLine(); // clear buffer
         System.out.print("Enter the ID of the company to remove: ");
         String id = input.nextLine();
 

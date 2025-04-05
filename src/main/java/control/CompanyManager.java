@@ -17,13 +17,13 @@ public class CompanyManager {
 
     public boolean removeCompanyById(String id) {
         for (int i = 0; i < companys.size(); i++) {
-            if (companys.get(i).getId().equals(id)) {
+            Company company = companys.get(i);
+            if (company != null && id.equals(company.getId())) {  // Safe null check
                 companys.remove(i);
                 return true;
             }
         }
         return false;
-        
     }
 
     public Company getCompanyById(String id) {

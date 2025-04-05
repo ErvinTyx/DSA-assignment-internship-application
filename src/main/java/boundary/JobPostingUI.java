@@ -89,7 +89,7 @@ public class JobPostingUI {
                         }
                         isNumberNValidRange = false;
                     } catch (NumberFormatException e) {
-                        System.out.println("Invalid input. Please enter a valid non-negative number: ");
+                        System.out.print("Invalid input. Please enter a valid non-negative number: ");
                         input.nextLine(); // consume newline left-over
                     }
 
@@ -141,8 +141,8 @@ public class JobPostingUI {
                             isValidImportance = false;
                         }
                     } catch (InputMismatchException e) {
-                        System.out.println("Invalid input. Please enter an integer between 1 and 10: ");
-                        input.nextLine(); // consume invalid input
+                        System.out.print("Invalid input. Please enter an integer between 1 and 10: ");
+                        
                     }
                 } while (isValidImportance);
                 input.nextLine(); // consume newline left-over
@@ -167,7 +167,7 @@ public class JobPostingUI {
 
         getInputSkillRequirement();
 
-        jobManager.addJobPosting(title, description, jobManager.getSkillRequirements(), location, salaryRange);
+        jobManager.addJobPosting(title, description, location, salaryRange);
 
         System.out.println("JobPosting added successfully!");
 
@@ -176,6 +176,8 @@ public class JobPostingUI {
     public void removeJobPosting() {
         // TODO: Implement job posting removal logic
 
+        // clear buffer
+        input.nextLine();
         // Enter the ID of the job posting to remove
         System.out.print("Enter the ID of the job posting to remove: ");
         String jobIdToRemove = input.nextLine();

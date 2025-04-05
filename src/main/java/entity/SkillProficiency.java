@@ -15,4 +15,20 @@ public class SkillProficiency {
     public int getProficiency() {
         return proficiency;
     }
+    
+    // Setters
+    public void setSkillName(String skillName) {
+        this.skillName = skillName;
+    }
+    public void setProficiency(int proficiency) {
+        this.proficiency = proficiency;
+    }
+
+    @Override
+    public String toString() {
+        return "\n{" +
+                "skillName='" + skillName + '\'' +
+                ", proficiency=" + proficiency +
+                '}';
+    }
 }

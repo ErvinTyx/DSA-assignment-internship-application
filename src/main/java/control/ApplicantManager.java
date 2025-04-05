@@ -6,18 +6,100 @@ import entity.SkillProficiency;
 
 public class ApplicantManager {
     private ArrayList<Student> applicants = new ArrayList<>();
+
+    private ArrayList<SkillProficiency> skills = new ArrayList<>();
     
 
     public void registerStudent(Student student) {
         applicants.add(student);
     }
 
-    public void registerStudent(String name, ArrayList<SkillProficiency> skills, String location, int experience) {
-        applicants.add(new Student(name, skills, location, experience));
+    public void clearSkillProficiencies() {
+        skills.clear();
+    }
+
+    public void addSkillProficiency(String skillname, int experience) {
+        skills.add(new SkillProficiency(skillname, experience));
+    }
+
+    public ArrayList<SkillProficiency> getSkillProficiencies() {
+        return skills;
+    }
+
+    //test
+    //getSkillProficienciesprintoutall
+    public String getSkillProficienciesO() {
+        String skillProficiencies = "";
+        for (int i = 0; i < skills.size(); i++) {
+            skillProficiencies = skillProficiencies + skills.get(i).toString();
+        }
+        return skillProficiencies;
+    }
+
+    public boolean getStudentById(String id) {
+        for (int i = 0; i < applicants.size(); i++) {
+            if (applicants.get(i).getId().equals(id)) {
+                return true;
+            }
+        }
+        return false;
     }
     
 
-    public void removeStudentById(Student student) {
-        // 
+    public void registerStudent(String name, String location, int experience) {
+        applicants.add(new Student(name, new ArrayList<SkillProficiency>(), location, experience));
+    }
+    
+
+    public boolean removeStudentById(String id) {
+        for (int i = 0; i < applicants.size(); i++) {
+            if (applicants.get(i).getId().equals(id)) {
+                applicants.remove(i);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void updateStudentName(String id, String name) {
+        for (int i = 0; i < applicants.size(); i++) {
+            if (applicants.get(i).getId().equals(id)) {
+                applicants.get(i).setName(name);
+            }
+        }
+    }
+
+    public void updateStudentLocation(String id, String location) {
+        for (int i = 0; i < applicants.size(); i++) {
+            if (applicants.get(i).getId().equals(id)) {
+                applicants.get(i).setLocation(location);
+            }
+        }
+    }
+
+    public void updateStudentExperience(String id, int experience) {
+        for (int i = 0; i < applicants.size(); i++) {
+            if (applicants.get(i).getId().equals(id)) {
+                applicants.get(i).setExperience(experience);
+            }
+        }
+    }
+
+    public void updateStudentSkills(String id, ArrayList<SkillProficiency> skills) {
+        for (int i = 0; i < applicants.size(); i++) {
+            if (applicants.get(i).getId().equals(id)) {
+                applicants.get(i).setSkills(skills);
+            }
+        }
+    }
+
+    public String listSpecificApplicants(String id) {
+        // view student with specific id
+        for (int i = 0; i < applicants.size(); i++) {
+            if (applicants.get(i).getId().equals(id)) {
+                return applicants.get(i).toString();
+            }
+        }
+        return null;
     }
 }
