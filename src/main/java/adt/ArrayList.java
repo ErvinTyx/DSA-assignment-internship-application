@@ -56,14 +56,7 @@ public class ArrayList<T> implements ListInterface<T>, Serializable, Iterable<T>
         size = 0;
     }
 
-    @Override
-    public boolean replace(int givenPosition, T newEntry) {
-        if (givenPosition < 1 || givenPosition > size) {
-            return false;
-        }
-        elements[givenPosition - 1] = newEntry;
-        return true;
-    }
+
 
     @Override
     public T getEntry(int givenPosition) {

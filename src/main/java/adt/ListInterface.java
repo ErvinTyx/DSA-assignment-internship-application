@@ -16,8 +16,6 @@ public interface ListInterface <T> {
   //Removes all entries from the list.
   public void clear();
   
-  //Replaces the entry at a given position in the list.
-  public boolean replace(int givenPosition, T newEntry);
   
   //Retrieves the entry at a given position in the list.
   public T getEntry(int givenPosition);
