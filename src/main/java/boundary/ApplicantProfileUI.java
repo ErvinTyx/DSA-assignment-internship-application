@@ -146,7 +146,7 @@ public class ApplicantProfileUI {
         } while (isValid);
     }
     public void createApplicantProfile() {
-        // TODO: Implement applicant profile creation logic
+        
         String name, location;
         int experience;
         input.nextLine(); // clear buffer
@@ -173,7 +173,7 @@ public class ApplicantProfileUI {
     }
 
     private void updateApp(String id) {
-        // TODO: Implement applicant profile update logic
+        
         updateAppMenu();
         input.nextLine(); // clear buffer
         int choice = input.nextInt();
@@ -202,7 +202,7 @@ public class ApplicantProfileUI {
     }
 
     public void updateApplicantProfile() {
-        // TODO: Implement applicant profile update logic
+        
         // Enter student ID to update
         System.out.print("Enter the ID of the student to update: ");
         String id = input.nextLine();
@@ -210,7 +210,7 @@ public class ApplicantProfileUI {
         boolean exists = applicantManager.getStudentById(id);
 
         if (exists) {
-            // TODO: Implement applicant profile update logic
+            
             System.out.println("Updating student with ID: " + id);
             updateApp(id);
         } else {
