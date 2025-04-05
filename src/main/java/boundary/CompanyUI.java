@@ -153,7 +153,7 @@ public class CompanyUI {
     }
 
     public void updateCompany() {
-        // TODO: Implement company update logic
+
         input.nextLine(); // clear buffer
         // enter company ID to update
         System.out.print("Enter the ID of the company to update: ");
@@ -162,7 +162,6 @@ public class CompanyUI {
         // update the company with the specified ID
         boolean exists = companyManager.getCompanyById(id) != null;
         if (exists) {
-            // TODO: Implement company update logic
             updateCom(id);
         } else {
             System.out.println("Company not found!");
@@ -171,7 +170,8 @@ public class CompanyUI {
     }
 
     public void deleteCompany() {
-        // TODO: Implement company deletion logic
+
+        input.nextLine(); // clear buffer
         System.out.print("Enter the ID of the company to delete: ");
         String id = input.nextLine();
         boolean deleted = companyManager.removeCompanyById(id);

@@ -18,6 +18,13 @@ public class Company {
         this.jobPostings = jobPostings;
     }
 
+    public Company(Company company) {
+        this.id = company.getId();
+        this.name = company.getName();
+        this.location = company.getLocation();
+        this.jobPostings = company.getJobPostings();
+    }
+
     
     // Getters
     public String getId() {

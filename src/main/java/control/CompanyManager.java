@@ -19,7 +19,7 @@ public class CompanyManager {
         for (int i = 0; i < companys.size(); i++) {
             Company company = companys.get(i);
             if (company != null && id.equals(company.getId())) {  // Safe null check
-                companys.remove(i);
+                companys.remove(i+1);
                 return true;
             }
         }
