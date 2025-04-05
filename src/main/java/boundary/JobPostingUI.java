@@ -152,7 +152,6 @@ public class JobPostingUI {
     }
 
     public void addJobPosting() {
-        // TODO: Implement job posting addition logic
         input.nextLine();// clear buffer
         String title, description, location;
         double[] salaryRange = new double[2];
@@ -174,7 +173,6 @@ public class JobPostingUI {
     }
 
     public void removeJobPosting() {
-        // TODO: Implement job posting removal logic
 
         // clear buffer
         input.nextLine();
@@ -195,8 +193,6 @@ public class JobPostingUI {
 
     public void updateJobPosting() {
         input.nextLine(); // clear buffer
-        // TODO: Implement job posting update logic
-
         // enter the ID of the job posting to update
         System.out.print("Enter the ID of the job posting to update: ");
         String jobIdToUpdate = input.nextLine();
@@ -263,7 +259,6 @@ public class JobPostingUI {
     }
 
     public void listAllJobPostings() {
-        // TODO: Implement job posting listing logic
         jobManager.listAllJobPostings();
     }
 
