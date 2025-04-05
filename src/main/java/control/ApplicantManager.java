@@ -23,18 +23,15 @@ public class ApplicantManager {
     }
 
     public ArrayList<SkillProficiency> getSkillProficiencies() {
-        return skills;
-    }
-
-    //test
-    //getSkillProficienciesprintoutall
-    public String getSkillProficienciesO() {
-        String skillProficiencies = "";
+        ArrayList<SkillProficiency> skillProficiencies = new ArrayList<>();
         for (int i = 0; i < skills.size(); i++) {
-            skillProficiencies = skillProficiencies + skills.get(i).toString();
+            skillProficiencies.add(skills.get(i));
         }
+        clearSkillProficiencies();
         return skillProficiencies;
     }
+
+    
 
     public boolean getStudentById(String id) {
         for (int i = 0; i < applicants.size(); i++) {
@@ -47,14 +44,14 @@ public class ApplicantManager {
     
 
     public void registerStudent(String name, String location, int experience) {
-        applicants.add(new Student(name, new ArrayList<SkillProficiency>(), location, experience));
+        applicants.add(new Student(name, getSkillProficiencies(), location, experience));
     }
     
 
     public boolean removeStudentById(String id) {
         for (int i = 0; i < applicants.size(); i++) {
             if (applicants.get(i).getId().equals(id)) {
-                applicants.remove(i);
+                applicants.remove(i+1);
                 return true;
             }
         }

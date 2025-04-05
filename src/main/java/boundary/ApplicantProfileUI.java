@@ -126,17 +126,17 @@ public class ApplicantProfileUI {
                 String skill = input.nextLine();
                 System.out.print("Enter proficiency of skill " + (i + 1) + " (1-10): ");
                 int experience = 0;
-                boolean isValidImportance = false;
+                boolean isValidImportance = true;
                 do {
                     try {
                         experience = input.nextInt();
                         if (experience < 1 || experience > 10) {
-                            System.out.println("Invalid input. Please enter an integer between 1 and 10: ");
+                            System.out.print("Invalid input. Please enter an integer between 1 and 10: ");
                         } else {
                             isValidImportance = false;
                         }
                     } catch (InputMismatchException e) {
-                        System.out.println("Invalid input. Please enter an integer between 1 and 10: ");
+                        System.out.print("Invalid input. Please enter an integer between 1 and 10: ");
                         input.nextLine(); // consume invalid input
                     }
                 } while (isValidImportance);
@@ -153,15 +153,12 @@ public class ApplicantProfileUI {
 
         name = getInputStudentName();
         location = getInputStudentLocation();
-        getInputSkills();
         experience = getInputStudentExperience();
+        getInputSkills();
         applicantManager.registerStudent(name,  location, experience);
 
         System.out.println("Applicant profile created successfully!");
-        System.out.println("Name: " + name);
-        System.out.println("Location: " + location);
-        System.out.println("Experience: " + experience);
-        System.out.println("Skills: " + applicantManager.getSkillProficienciesO());
+        
 
         
     }
@@ -223,7 +220,6 @@ public class ApplicantProfileUI {
     }
 
     public void deleteApplicantProfile() {
-        // TODO: Implement applicant profile deletion logic
         // Enter student ID to delete
         input.nextLine(); // clear buffer
         System.out.print("Enter the ID of the student to delete: ");

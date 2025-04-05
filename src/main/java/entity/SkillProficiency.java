@@ -8,6 +8,12 @@ public class SkillProficiency {
         this.skillName = skillName;
         this.proficiency = proficiency;
     }
+
+    public SkillProficiency(SkillProficiency skillProficiency) {
+        this.skillName = skillProficiency.getSkillName();
+        this.proficiency = skillProficiency.getProficiency();
+    }
+    
     // Getters
     public String getSkillName() {
         return skillName;

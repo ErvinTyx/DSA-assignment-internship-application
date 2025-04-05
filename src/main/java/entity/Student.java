@@ -21,6 +21,14 @@ public class Student {
         this.experience = experience;
     }
 
+    public Student(Student student) {
+        this.id = student.getId();
+        this.name = student.getName();
+        this.skills = student.getSkills();
+        this.location = student.getLocation();
+        this.experience = student.getExperience();
+    }
+
     // Setters
     public void setId(String id) {
         this.id = id;
@@ -68,7 +76,6 @@ public class Student {
         return "Student{" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
-                ", skills=" + skills +
                 ", location='" + location + '\'' +
                 ", experience=" + experience +
                 "\nSkill Proficiencies: " + getStringSkillProficiencies() +
