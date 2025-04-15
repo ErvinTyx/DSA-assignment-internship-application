@@ -181,6 +181,6 @@ public class CompanyUI {
 
     public void filterCompanies() {
         // TODO: Implement company filtering logic
-
+        
     }
 }
