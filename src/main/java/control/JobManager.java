@@ -3,45 +3,44 @@ package control;
 import entity.JobPosting;
 import entity.SkillRequirement;
 import adt.ArrayList;
+import adt.ListInterface;
 
 public class JobManager {
-    private ArrayList<JobPosting> jobPostings = new ArrayList<>();
-    private ArrayList<SkillRequirement> skillRequirements = new ArrayList<>();
+    private ListInterface<JobPosting> jobPostings = new ArrayList<>();
+    private ListInterface<SkillRequirement> skillRequirements = new ArrayList<>();
 
     public void addJobPosting(JobPosting jobPosting) {
         jobPostings.add(jobPosting);
     }
 
     public ArrayList<SkillRequirement> getSkillRequirements() {
-        ArrayList<SkillRequirement> skillRequirements = new ArrayList<>();
-        for (SkillRequirement skill : this.skillRequirements) {
-            skillRequirements.add(skill);
+        ArrayList<SkillRequirement> skillRequirement = new ArrayList<>();
+        for (int i = 0; i < skillRequirements.size(); i++) {
+            skillRequirement.add(skillRequirements.get(i));
         }
         clearSkillRequirements();
-        return skillRequirements;
+        return skillRequirement;
     }
 
     public void addJobPosting(String title, String description, String location, double[] salaryRange) {
-        
+
         ArrayList<SkillRequirement> requiredSkills = new ArrayList<>();
         requiredSkills = getSkillRequirements();
         JobPosting jobPosting = new JobPosting(title, description, requiredSkills, location, salaryRange);
         jobPostings.add(jobPosting);
-        
+
     }
 
     public boolean removeJobPosting(String jobId) {
         for (int i = 0; i < jobPostings.size(); i++) {
             if (jobId != null && jobId.equals(jobPostings.get(i).getId())) {
 
-                jobPostings.remove(i+1);
+                jobPostings.remove(i + 1);
                 return true;
             }
         }
         return false;
     }
-
-
 
     public void clearSkillRequirements() {
         skillRequirements.clear();
@@ -62,8 +61,8 @@ public class JobManager {
 
     public ArrayList<JobPosting> getJobPostings() {
         ArrayList<JobPosting> copy = new ArrayList<>();
-        for (JobPosting job : jobPostings) {
-            copy.add(job);
+        for (int i = 0; i < jobPostings.size(); i++) {
+            copy.add(jobPostings.get(i));
         }
         return copy;
     }

@@ -1,13 +1,14 @@
 package control;
 
+import adt.ListInterface;
 import adt.ArrayList;
 import entity.Student;
 import entity.SkillProficiency;
 
 public class ApplicantManager {
-    private ArrayList<Student> applicants = new ArrayList<>();
+    private ListInterface<Student> applicants = new ArrayList<>();
 
-    private ArrayList<SkillProficiency> skills = new ArrayList<>();
+    private ListInterface<SkillProficiency> skills = new ArrayList<>();
     
 
     public void registerStudent(Student student) {

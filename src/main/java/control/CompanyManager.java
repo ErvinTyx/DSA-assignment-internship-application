@@ -1,10 +1,10 @@
 package control;
-
+import adt.ListInterface;
 import adt.ArrayList;
 import entity.Company;
 import entity.JobPosting;
 public class CompanyManager {
-    private ArrayList<Company> companys = new ArrayList<>();
+    private ListInterface<Company> companys = new ArrayList<>();
     
     public void registerCompany(Company company) {
         companys.add(company);
