@@ -76,7 +76,7 @@ public class JobPosting {
 
     public String toString() {
         return " [id=" + id + ", title=" + title + ", description=" + description + ", location=" + location
-                + ", salaryRange=" + salaryRange[0] + "~"+ salaryRange[1] + "]\n" + "requiredSkills="
+                + ", salaryRange=" + salaryRange[0] + "~" + salaryRange[1] + "]\n" + "requiredSkills="
                 + getStringSkillRequirement();
     }
 

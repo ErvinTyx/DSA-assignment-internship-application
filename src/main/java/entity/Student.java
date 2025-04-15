@@ -1,7 +1,5 @@
 package entity;
 
-
-
 import adt.ArrayList;
 import adt.ListInterface;
 

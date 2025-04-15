@@ -1,16 +1,16 @@
 package entity;
 
-public class Match implements Comparable<Match>{
+public class Match implements Comparable<Match> {
     private Student student;
     private JobPosting job;
     private double score;
-    
+
     public Match(Student student, JobPosting job, double score) {
         this.student = student;
         this.job = job;
         this.score = score;
     }
-    
+
     @Override
     public int compareTo(Match other) {
         // Sort in descending order of score

@@ -1,7 +1,5 @@
 package entity;
 
-import java.util.List;
-
 import adt.ArrayList;
 import adt.ListInterface;
 
@@ -28,7 +26,6 @@ public class Company {
         this.jobPostings = company.getJobPostings();
     }
 
-    
     // Getters
     public String getId() {
         return id;
@@ -65,7 +62,8 @@ public class Company {
 
     @Override
     public String toString() {
-        return "{" + "id=" + id + ", name=" + name + ", location=" + location + "\njobPostings=" + getStringJobPosting() + "}";
+        return "{" + "id=" + id + ", name=" + name + ", location=" + location + "\njobPostings=" + getStringJobPosting()
+                + "}";
     }
 
     private String getStringJobPosting() {
