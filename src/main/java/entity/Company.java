@@ -1,12 +1,15 @@
 package entity;
 
+import java.util.List;
+
 import adt.ArrayList;
+import adt.ListInterface;
 
 public class Company {
     private String id;
     private String name;
     private String location;
-    private ArrayList<JobPosting> jobPostings = new ArrayList<>();
+    private ListInterface<JobPosting> jobPostings = new ArrayList<>();
     private int COUNTER = 0;
 
     // Constructor
@@ -39,7 +42,7 @@ public class Company {
         return location;
     }
 
-    public ArrayList<JobPosting> getJobPostings() {
+    public ListInterface<JobPosting> getJobPostings() {
         return jobPostings;
     }
 

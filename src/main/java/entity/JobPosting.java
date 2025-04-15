@@ -1,12 +1,13 @@
 package entity;
 
 import adt.ArrayList;
+import adt.ListInterface;
 
 public class JobPosting {
     private String id;
     private String title;
     private String description;
-    private ArrayList<SkillRequirement> requiredSkills = new ArrayList<>();
+    private ListInterface<SkillRequirement> requiredSkills = new ArrayList<>();
     private String location;
     private double[] salaryRange;
     private static int COUNTER = 0;
@@ -36,7 +37,7 @@ public class JobPosting {
         return description;
     }
 
-    public ArrayList<SkillRequirement> getRequiredSkills() {
+    public ListInterface<SkillRequirement> getRequiredSkills() {
         return requiredSkills;
     }
 

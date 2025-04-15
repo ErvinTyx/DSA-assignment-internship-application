@@ -1,20 +1,22 @@
 package entity;
 
+
+
 import adt.ArrayList;
+import adt.ListInterface;
 
 public class Student {
     private String id;
     private String name;
-    private ArrayList<SkillProficiency> skills = new ArrayList<>();
+    private ListInterface<SkillProficiency> skills = new ArrayList<>();
     private String location;
     private int experience;
     private static int COUNTER;
 
-
     // constructor
     public Student(String name, ArrayList<SkillProficiency> skills, String location, int experience) {
         COUNTER++;
-        this.id = "S"+COUNTER;
+        this.id = "S" + COUNTER;
         this.name = name;
         this.skills = skills;
         this.location = location;
@@ -59,7 +61,7 @@ public class Student {
         return name;
     }
 
-    public ArrayList<SkillProficiency> getSkills() {
+    public ListInterface<SkillProficiency> getSkills() {
         return skills;
     }
 
