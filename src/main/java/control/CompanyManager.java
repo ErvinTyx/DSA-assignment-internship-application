@@ -26,6 +26,11 @@ public class CompanyManager {
         return false;
     }
 
+    public ListInterface<Company> getCompanies() {
+        return companys;
+    }
+    
+
     public Company getCompanyById(String id) {
         for (int i = 0; i < companys.size(); i++) {
             if (companys.get(i).getId().equals(id)) {
@@ -42,5 +47,33 @@ public class CompanyManager {
         }
     }
 
+    public ArrayList<Company> filterCompaniesByName(String name) {
+        ArrayList<Company> filteredCompanies = new ArrayList<>();
+        
+        // Iterate over all companies and check if the company name contains the input name
+        for (int i = 0; i < companys.size(); i++) {
+            Company company = companys.get(i);
+            if (company.getName().toLowerCase().contains(name.toLowerCase())) {
+                filteredCompanies.add(company);
+            }
+        }
+        
+        return filteredCompanies;
+    }
+
+    // Method to filter companies by location
+    public ArrayList<Company> filterCompaniesByLocation(String location) {
+        ArrayList<Company> filteredCompanies = new ArrayList<>();
+        
+        // Iterate over all companies and check if the company location contains the input location
+        for (int i = 0; i < companys.size(); i++) {
+            Company company = companys.get(i);
+            if (company.getLocation().toLowerCase().contains(location.toLowerCase())) {
+                filteredCompanies.add(company);
+            }
+        }
+        
+        return filteredCompanies;
+    }
 
 }
