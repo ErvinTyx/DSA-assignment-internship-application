@@ -283,14 +283,14 @@ public class JobPostingUI {
         input.nextLine(); 
     
         boolean found = false;
-        for (var job : jobManager.getJobPostings()) {
-            String jobTitle = job.getTitle().toLowerCase();
+        for (int i = 0; i < jobManager.getJobPostings().size(); i++) {
+            String jobTitle = jobManager.getJobPostings().get(i).getTitle().toLowerCase();
             String[] words = jobTitle.split("\\s+"); 
     
             for (String word : words) {
                 if (SearchUtil.fuzzySearch(query, word, threshold)) {
                     System.out.println("\nMatched Job Posting:");
-                    System.out.println(job);
+                    System.out.println(jobManager.getJobPostings().get(i));
                     found = true;
                     break; 
                 }

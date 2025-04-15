@@ -2,6 +2,7 @@ package boundary;
 
 import java.util.Scanner;
 import adt.ArrayList;
+import adt.ListInterface;
 import control.CompanyManager;
 import entity.Company;
 import entity.JobPosting;
@@ -75,7 +76,7 @@ public class CompanyUI {
 
     }
 
-    private ArrayList<JobPosting> getInputJobPostings() {
+    private ListInterface<JobPosting> getInputJobPostings() {
         JobPostingUI jobPostingUI = new JobPostingUI();
         jobPostingUI.run();
         return jobPostingUI.getJobManager().getJobPostings();
@@ -92,7 +93,7 @@ public class CompanyUI {
 
     private void updateCom(String id) {
         String name, location;
-        ArrayList<JobPosting> jobPostings;
+        ListInterface<JobPosting> jobPostings;
         int choice;
         do {
             updateCompanyMenu();
@@ -122,7 +123,7 @@ public class CompanyUI {
 
     public void registerCompany() {
         String name, location;
-        ArrayList<JobPosting> jobPostings;
+        ListInterface<JobPosting> jobPostings;
         input.nextLine();// clear buffer
         name = getInputCompanyName();
         location = getInputCompanyLocation();
@@ -214,14 +215,14 @@ public class CompanyUI {
     private void filterByName() {
         System.out.print("Enter company name to filter: ");
         String name = input.nextLine();
-        ArrayList<Company> filteredCompanies = companyManager.filterCompaniesByName(name);
+        ListInterface<Company> filteredCompanies = companyManager.filterCompaniesByName(name);
 
         if (filteredCompanies.isEmpty()) {
             System.out.println("No companies found with the specified name.");
         } else {
             System.out.println("Companies found with the name \"" + name + "\":");
-            for (Company company : filteredCompanies) {
-                System.out.println(company);
+            for (int i = 0; i < filteredCompanies.size(); i++) {
+                System.out.println(filteredCompanies.get(i));
             }
         }
     }
@@ -229,14 +230,14 @@ public class CompanyUI {
     private void filterByLocation() {
         System.out.print("Enter company location to filter: ");
         String location = input.nextLine();
-        ArrayList<Company> filteredCompanies = companyManager.filterCompaniesByLocation(location);
+        ListInterface<Company> filteredCompanies = companyManager.filterCompaniesByLocation(location);
 
         if (filteredCompanies.isEmpty()) {
             System.out.println("No companies found in the specified location.");
         } else {
             System.out.println("Companies found in the location \"" + location + "\":");
-            for (Company company : filteredCompanies) {
-                System.out.println(company);
+            for (int i = 0; i < filteredCompanies.size(); i++) {
+                System.out.println(filteredCompanies.get(i));
             }
         }
     }
@@ -249,7 +250,7 @@ public class CompanyUI {
         int threshold = input.nextInt();
         input.nextLine(); // clear buffer
 
-        ArrayList<Company> matchedCompanies = new ArrayList<>();
+        ListInterface<Company> matchedCompanies = new ArrayList<>();
 
         for (int i = 0; i < companyManager.getCompanies().size(); i++) {
             Company company = companyManager.getCompanies().get(i);
@@ -266,8 +267,8 @@ public class CompanyUI {
             System.out.println("No companies matched your query.");
         } else {
             System.out.println("\nMatched Companies:");
-            for (Company company : matchedCompanies) {
-                System.out.println(company);
+            for (int i = 0; i < matchedCompanies.size(); i++) {
+                System.out.println(matchedCompanies.get(i));
             }
         }
     }

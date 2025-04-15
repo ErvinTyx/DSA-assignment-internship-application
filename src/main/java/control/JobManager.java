@@ -13,8 +13,8 @@ public class JobManager {
         jobPostings.add(jobPosting);
     }
 
-    public ArrayList<SkillRequirement> getSkillRequirements() {
-        ArrayList<SkillRequirement> skillRequirement = new ArrayList<>();
+    public ListInterface<SkillRequirement> getSkillRequirements() {
+        ListInterface<SkillRequirement> skillRequirement = new ArrayList<>();
         for (int i = 0; i < skillRequirements.size(); i++) {
             skillRequirement.add(skillRequirements.get(i));
         }
@@ -24,7 +24,7 @@ public class JobManager {
 
     public void addJobPosting(String title, String description, String location, double[] salaryRange) {
 
-        ArrayList<SkillRequirement> requiredSkills = new ArrayList<>();
+        ListInterface<SkillRequirement> requiredSkills = new ArrayList<>();
         requiredSkills = getSkillRequirements();
         JobPosting jobPosting = new JobPosting(title, description, requiredSkills, location, salaryRange);
         jobPostings.add(jobPosting);
@@ -59,8 +59,8 @@ public class JobManager {
         }
     }
 
-    public ArrayList<JobPosting> getJobPostings() {
-        ArrayList<JobPosting> copy = new ArrayList<>();
+    public ListInterface<JobPosting> getJobPostings() {
+        ListInterface<JobPosting> copy = new ArrayList<>();
         for (int i = 0; i < jobPostings.size(); i++) {
             copy.add(jobPostings.get(i));
         }
@@ -127,7 +127,7 @@ public class JobManager {
         return false;
     }
 
-    public boolean setJobPostingRequiredSkills(String jobId, ArrayList<SkillRequirement> requiredSkills) {
+    public boolean setJobPostingRequiredSkills(String jobId, ListInterface<SkillRequirement> requiredSkills) {
         for (int i = 0; i < jobPostings.size(); i++) {
             if (jobId != null && jobId.equals(jobPostings.get(i).getId())) {
 

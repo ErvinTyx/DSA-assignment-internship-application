@@ -10,7 +10,6 @@ public class ApplicantManager {
     private ListInterface<Student> applicants = new ArrayList<>();
 
     private ListInterface<SkillProficiency> skills = new ArrayList<>();
-    
 
     public void registerStudent(Student student) {
         applicants.add(student);
@@ -24,16 +23,14 @@ public class ApplicantManager {
         skills.add(new SkillProficiency(skillname, experience));
     }
 
-    public ArrayList<SkillProficiency> getSkillProficiencies() {
-        ArrayList<SkillProficiency> skillProficiencies = new ArrayList<>();
+    public ListInterface<SkillProficiency> getSkillProficiencies() {
+        ListInterface<SkillProficiency> skillProficiencies = new ArrayList<>();
         for (int i = 0; i < skills.size(); i++) {
             skillProficiencies.add(skills.get(i));
         }
         clearSkillProficiencies();
         return skillProficiencies;
     }
-
-    
 
     public boolean getStudentById(String id) {
         for (int i = 0; i < applicants.size(); i++) {
@@ -43,17 +40,15 @@ public class ApplicantManager {
         }
         return false;
     }
-    
 
     public void registerStudent(String name, String location, int experience) {
         applicants.add(new Student(name, getSkillProficiencies(), location, experience));
     }
-    
 
     public boolean removeStudentById(String id) {
         for (int i = 0; i < applicants.size(); i++) {
             if (applicants.get(i).getId().equals(id)) {
-                applicants.remove(i+1);
+                applicants.remove(i + 1);
                 return true;
             }
         }
@@ -84,7 +79,7 @@ public class ApplicantManager {
         }
     }
 
-    public void updateStudentSkills(String id, ArrayList<SkillProficiency> skills) {
+    public void updateStudentSkills(String id, ListInterface<SkillProficiency> skills) {
         for (int i = 0; i < applicants.size(); i++) {
             if (applicants.get(i).getId().equals(id)) {
                 applicants.get(i).setSkills(skills);
@@ -105,7 +100,7 @@ public class ApplicantManager {
     public String filterByExperience(int minExperience) {
         StringBuilder result = new StringBuilder();
         boolean found = false;
-    
+
         for (int i = 0; i < applicants.size(); i++) {
             Student student = applicants.get(i);
             if (student.getExperience() >= minExperience) {
@@ -113,14 +108,14 @@ public class ApplicantManager {
                 found = true;
             }
         }
-    
+
         return found ? result.toString() : "No applicants found with experience >= " + minExperience + " years.";
     }
 
     public String searchByLocation(String location) {
         StringBuilder result = new StringBuilder();
         boolean found = false;
-    
+
         for (int i = 0; i < applicants.size(); i++) {
             Student student = applicants.get(i);
             String[] words = student.getLocation().toLowerCase().split("\\s+");
@@ -128,15 +123,13 @@ public class ApplicantManager {
                 if (SearchUtil.fuzzySearch(word, location.toLowerCase(), 2)) {
                     result.append(student.toString()).append("\n");
                     found = true;
-                    break; 
+                    break;
                 }
             }
         }
-    
+
         return found ? result.toString() : "No applicants found in location: " + location;
     }
-    
-    
 
     public String searchByName(String name) {
         StringBuilder result = new StringBuilder();
@@ -153,7 +146,4 @@ public class ApplicantManager {
         return found ? result.toString() : "No applicants found matching name: " + name;
     }
 
-    
-    
-    
 }

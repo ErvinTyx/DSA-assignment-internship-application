@@ -12,7 +12,7 @@ public class Student {
     private static int COUNTER;
 
     // constructor
-    public Student(String name, ArrayList<SkillProficiency> skills, String location, int experience) {
+    public Student(String name, ListInterface<SkillProficiency> skills, String location, int experience) {
         COUNTER++;
         this.id = "S" + COUNTER;
         this.name = name;
@@ -38,7 +38,7 @@ public class Student {
         this.name = name;
     }
 
-    public void setSkills(ArrayList<SkillProficiency> skills) {
+    public void setSkills(ListInterface<SkillProficiency> skills) {
         this.skills = skills;
     }
 

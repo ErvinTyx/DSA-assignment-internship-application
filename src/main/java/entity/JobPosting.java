@@ -13,7 +13,7 @@ public class JobPosting {
     private static int COUNTER = 0;
 
     // constructor
-    public JobPosting(String title, String description, ArrayList<SkillRequirement> requiredSkills, String location,
+    public JobPosting(String title, String description, ListInterface<SkillRequirement> requiredSkills, String location,
             double[] salaryRange) {
         COUNTER++;
         this.id = "J" + COUNTER;
@@ -62,7 +62,7 @@ public class JobPosting {
         this.description = description;
     }
 
-    public void setRequiredSkills(ArrayList<SkillRequirement> requiredSkills) {
+    public void setRequiredSkills(ListInterface<SkillRequirement> requiredSkills) {
         this.requiredSkills = requiredSkills;
     }
 

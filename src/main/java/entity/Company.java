@@ -1,5 +1,7 @@
 package entity;
 
+import java.util.List;
+
 import adt.ArrayList;
 import adt.ListInterface;
 
@@ -11,7 +13,7 @@ public class Company {
     private int COUNTER = 0;
 
     // Constructor
-    public Company(String name, String location, ArrayList<JobPosting> jobPostings) {
+    public Company(String name, String location, ListInterface<JobPosting> jobPostings) {
         COUNTER++;
         this.id = "C" + COUNTER;
         this.name = name;
@@ -56,7 +58,7 @@ public class Company {
         this.location = location;
     }
 
-    public void setJobPostings(ArrayList<JobPosting> jobPostings) {
+    public void setJobPostings(ListInterface<JobPosting> jobPostings) {
         this.jobPostings = jobPostings;
     }
 

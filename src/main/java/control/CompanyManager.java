@@ -12,7 +12,7 @@ public class CompanyManager {
         companys.add(company);
     }
 
-    public void registerCompany(String name, String location, ArrayList<JobPosting> jobPostings) {
+    public void registerCompany(String name, String location, ListInterface<JobPosting> jobPostings) {
         Company company = new Company(name, location, jobPostings);
         companys.add(company);
     }
@@ -29,7 +29,7 @@ public class CompanyManager {
     }
 
     public ListInterface<Company> getCompanies() {
-        ArrayList<Company> companiesCopy = new ArrayList<>();
+        ListInterface<Company> companiesCopy = new ArrayList<>();
         for (int i = 0; i < companys.size(); i++) {
             Company company = companys.get(i);
             companiesCopy.add(new Company(company));
@@ -54,8 +54,8 @@ public class CompanyManager {
         }
     }
 
-    public ArrayList<Company> filterCompaniesByName(String name) {
-        ArrayList<Company> filteredCompanies = new ArrayList<>();
+    public ListInterface<Company> filterCompaniesByName(String name) {
+        ListInterface<Company> filteredCompanies = new ArrayList<>();
 
         // Iterate over all companies and check if the company name contains the input
         // name
@@ -70,8 +70,8 @@ public class CompanyManager {
     }
 
     // Method to filter companies by location
-    public ArrayList<Company> filterCompaniesByLocation(String location) {
-        ArrayList<Company> filteredCompanies = new ArrayList<>();
+    public ListInterface<Company> filterCompaniesByLocation(String location) {
+        ListInterface<Company> filteredCompanies = new ArrayList<>();
 
         // Iterate over all companies and check if the company location contains the
         // input location
