@@ -4,7 +4,6 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 import control.ApplicantManager;
 
-
 public class ApplicantProfileUI {
     private ApplicantManager applicantManager = new ApplicantManager();
     private Scanner input = new Scanner(System.in);
@@ -26,7 +25,7 @@ public class ApplicantProfileUI {
     }
 
     public void run() {
-        // TODO: Implement applicant profile management logic
+
         int choice;
         do {
             displayMenu();
@@ -57,8 +56,7 @@ public class ApplicantProfileUI {
     }
 
     public void viewApplicantProfile() {
-        // TODO: Implement applicant profile viewing logic
-        //clear buffer
+        // clear buffer
         input.nextLine();
         // Enter student ID to view
         System.out.print("Enter the ID of the student to view: ");
@@ -84,7 +82,7 @@ public class ApplicantProfileUI {
     }
 
     public int getInputStudentExperience() {
-        int experience =0;
+        int experience = 0;
         boolean isValid = true;
         while (isValid) {
             System.out.print("Enter student working year experience: ");
@@ -145,8 +143,9 @@ public class ApplicantProfileUI {
             }
         } while (isValid);
     }
+
     public void createApplicantProfile() {
-        
+
         String name, location;
         int experience;
         input.nextLine(); // clear buffer
@@ -155,12 +154,10 @@ public class ApplicantProfileUI {
         location = getInputStudentLocation();
         experience = getInputStudentExperience();
         getInputSkills();
-        applicantManager.registerStudent(name,  location, experience);
+        applicantManager.registerStudent(name, location, experience);
 
         System.out.println("Applicant profile created successfully!");
-        
 
-        
     }
 
     private void updateAppMenu() {
@@ -173,7 +170,7 @@ public class ApplicantProfileUI {
     }
 
     private void updateApp(String id) {
-        
+
         updateAppMenu();
         input.nextLine(); // clear buffer
         int choice = input.nextInt();
@@ -202,7 +199,7 @@ public class ApplicantProfileUI {
     }
 
     public void updateApplicantProfile() {
-        
+
         // Enter student ID to update
         System.out.print("Enter the ID of the student to update: ");
         String id = input.nextLine();
@@ -210,13 +207,13 @@ public class ApplicantProfileUI {
         boolean exists = applicantManager.getStudentById(id);
 
         if (exists) {
-            
+
             System.out.println("Updating student with ID: " + id);
             updateApp(id);
         } else {
             System.out.println("Student not found!");
         }
-        
+
     }
 
     public void deleteApplicantProfile() {

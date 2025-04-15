@@ -5,8 +5,6 @@ import adt.ArrayList;
 import control.CompanyManager;
 import entity.JobPosting;
 
-
-
 public class CompanyUI {
     private CompanyManager companyManager = new CompanyManager();
     private Scanner input = new Scanner(System.in);
@@ -39,11 +37,11 @@ public class CompanyUI {
                     registerCompany();
                     break;
                 case 2:
-                    removeCompany();    
+                    removeCompany();
                     break;
                 case 3:
                     updateCompany();
-                    break;    
+                    break;
                 case 4:
                     deleteCompany();
                     break;
@@ -91,7 +89,6 @@ public class CompanyUI {
     }
 
     private void updateCom(String id) {
-        // TODO: Implement company update logic
         String name, location;
         ArrayList<JobPosting> jobPostings;
         int choice;
@@ -121,10 +118,7 @@ public class CompanyUI {
         } while (choice != 4);
     }
 
-
-
     public void registerCompany() {
-        // TODO: Implement company registration logic
         String name, location;
         ArrayList<JobPosting> jobPostings;
         input.nextLine();// clear buffer
@@ -137,7 +131,6 @@ public class CompanyUI {
     }
 
     public void removeCompany() {
-        // TODO: Implement company removal logic
 
         input.nextLine(); // clear buffer
         System.out.print("Enter the ID of the company to remove: ");
@@ -183,7 +176,6 @@ public class CompanyUI {
     }
 
     public void listAllCompanies() {
-        // TODO: Implement company listing logic
         companyManager.listAllCompanies();
     }
 
