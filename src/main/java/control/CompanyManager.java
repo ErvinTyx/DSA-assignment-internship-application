@@ -1,16 +1,18 @@
 package control;
+
 import adt.ListInterface;
 import adt.ArrayList;
 import entity.Company;
 import entity.JobPosting;
+
 public class CompanyManager {
     private ListInterface<Company> companys = new ArrayList<>();
-    
+
     public void registerCompany(Company company) {
         companys.add(company);
     }
 
-    public void registerCompany(String name, String location, ArrayList<JobPosting>jobPostings) {
+    public void registerCompany(String name, String location, ArrayList<JobPosting> jobPostings) {
         Company company = new Company(name, location, jobPostings);
         companys.add(company);
     }
@@ -18,8 +20,8 @@ public class CompanyManager {
     public boolean removeCompanyById(String id) {
         for (int i = 0; i < companys.size(); i++) {
             Company company = companys.get(i);
-            if (company != null && id.equals(company.getId())) {  // Safe null check
-                companys.remove(i+1);
+            if (company != null && id.equals(company.getId())) { // Safe null check
+                companys.remove(i + 1);
                 return true;
             }
         }
@@ -27,9 +29,14 @@ public class CompanyManager {
     }
 
     public ListInterface<Company> getCompanies() {
-        return companys;
+        ArrayList<Company> companiesCopy = new ArrayList<>();
+        for (int i = 0; i < companys.size(); i++) {
+            Company company = companys.get(i);
+            companiesCopy.add(new Company(company));
+        }
+        return companiesCopy;
+
     }
-    
 
     public Company getCompanyById(String id) {
         for (int i = 0; i < companys.size(); i++) {
@@ -49,30 +56,32 @@ public class CompanyManager {
 
     public ArrayList<Company> filterCompaniesByName(String name) {
         ArrayList<Company> filteredCompanies = new ArrayList<>();
-        
-        // Iterate over all companies and check if the company name contains the input name
+
+        // Iterate over all companies and check if the company name contains the input
+        // name
         for (int i = 0; i < companys.size(); i++) {
             Company company = companys.get(i);
             if (company.getName().toLowerCase().contains(name.toLowerCase())) {
                 filteredCompanies.add(company);
             }
         }
-        
+
         return filteredCompanies;
     }
 
     // Method to filter companies by location
     public ArrayList<Company> filterCompaniesByLocation(String location) {
         ArrayList<Company> filteredCompanies = new ArrayList<>();
-        
-        // Iterate over all companies and check if the company location contains the input location
+
+        // Iterate over all companies and check if the company location contains the
+        // input location
         for (int i = 0; i < companys.size(); i++) {
             Company company = companys.get(i);
             if (company.getLocation().toLowerCase().contains(location.toLowerCase())) {
                 filteredCompanies.add(company);
             }
         }
-        
+
         return filteredCompanies;
     }
 
