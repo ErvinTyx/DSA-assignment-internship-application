@@ -1,7 +1,5 @@
 package entity;
 
-import java.util.List;
-
 import adt.ArrayList;
 import adt.ListInterface;
 
