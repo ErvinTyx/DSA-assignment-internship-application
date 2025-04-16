@@ -3,6 +3,7 @@ package boundary;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import control.ApplicantManager;
+import dao.StudentInitializer;
 
 public class ApplicantProfileUI {
     private ApplicantManager applicantManager = new ApplicantManager();
@@ -11,6 +12,11 @@ public class ApplicantProfileUI {
     public static void main(String[] args) {
         ApplicantProfileUI applicantProfileUI = new ApplicantProfileUI();
         applicantProfileUI.run();
+    }
+
+     public ApplicantProfileUI() {
+        StudentInitializer.initialize(applicantManager);;
+        System.out.println("Application initialized with sample student data.");
     }
 
     public void displayMenu() {
