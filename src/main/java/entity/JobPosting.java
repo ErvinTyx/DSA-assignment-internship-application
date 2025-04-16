@@ -10,11 +10,12 @@ public class JobPosting {
     private ListInterface<SkillRequirement> requiredSkills = new ArrayList<>();
     private String location;
     private double[] salaryRange;
+    private int experienceRequired;
     private static int COUNTER = 0;
 
     // constructor
     public JobPosting(String title, String description, ListInterface<SkillRequirement> requiredSkills, String location,
-            double[] salaryRange) {
+                      double[] salaryRange, int experienceRequired) {
         COUNTER++;
         this.id = "J" + COUNTER;
         this.title = title;
@@ -22,9 +23,10 @@ public class JobPosting {
         this.requiredSkills = requiredSkills;
         this.location = location;
         this.salaryRange = salaryRange;
+        this.experienceRequired = experienceRequired;
     }
 
-    // getters
+    // Getters
     public String getId() {
         return id;
     }
@@ -49,7 +51,11 @@ public class JobPosting {
         return salaryRange;
     }
 
-    // setters
+    public int getExperienceRequired() {
+        return experienceRequired;
+    }
+
+    // Setters
     public void setId(String id) {
         this.id = id;
     }
@@ -74,10 +80,16 @@ public class JobPosting {
         this.salaryRange = salaryRange;
     }
 
+    public void setExperienceRequired(int experienceRequired) {
+        this.experienceRequired = experienceRequired;
+    }
+
+    @Override
     public String toString() {
-        return " [id=" + id + ", title=" + title + ", description=" + description + ", location=" + location
-                + ", salaryRange=" + salaryRange[0] + "~" + salaryRange[1] + "]\n" + "requiredSkills="
-                + getStringSkillRequirement();
+        return " [id=" + id + ", title=" + title + ", description=" + description +
+                ", location=" + location + ", experienceRequired=" + experienceRequired +
+                ", salaryRange=" + salaryRange[0] + "~" + salaryRange[1] + "]\n" +
+                "requiredSkills=" + getStringSkillRequirement();
     }
 
     public String getStringSkillRequirement() {
