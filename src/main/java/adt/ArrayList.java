@@ -4,8 +4,7 @@ package adt;
 import java.io.Serializable;
 import java.util.Iterator;
 
-
-public class ArrayList<T> implements ListInterface<T>, Serializable, Iterable<T> {
+public class ArrayList<T> implements ListInterface<T>, Serializable {
 
     private T[] elements;
     private int size;
@@ -55,8 +54,6 @@ public class ArrayList<T> implements ListInterface<T>, Serializable, Iterable<T>
     public void clear() {
         size = 0;
     }
-
-
 
     @Override
     public T getEntry(int givenPosition) {
@@ -165,6 +162,5 @@ public class ArrayList<T> implements ListInterface<T>, Serializable, Iterable<T>
             return elements[currentIndex++];
         }
     }
-    
-    
+
 }
