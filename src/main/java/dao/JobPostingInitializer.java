@@ -13,7 +13,8 @@ public class JobPostingInitializer {
                 "Java Developer",
                 "Develop backend systems with Java and Spring Boot.",
                 "Kuala Lumpur",
-                salaryRange1
+                salaryRange1,
+                3 // Experience required: 3 years
         );
         jobManager.clearSkillRequirements(); // Clear skills after adding the job posting
 
@@ -24,7 +25,8 @@ public class JobPostingInitializer {
                 "Frontend Developer",
                 "Create and maintain responsive web interfaces.",
                 "Penang",
-                salaryRange2
+                salaryRange2,
+                2 // Experience required: 2 years
         );
         jobManager.clearSkillRequirements(); // Clear skills after adding the job posting
 
@@ -35,7 +37,8 @@ public class JobPostingInitializer {
                 "Data Analyst",
                 "Analyze data to identify trends and insights for decision making.",
                 "Remote",
-                salaryRange3
+                salaryRange3,
+                4 // Experience required: 4 years
         );
         jobManager.clearSkillRequirements(); // Clear skills after adding the job posting
 
@@ -46,7 +49,8 @@ public class JobPostingInitializer {
                 "UI/UX Designer",
                 "Design intuitive and engaging user interfaces for web and mobile apps.",
                 "Johor Bahru",
-                salaryRange4
+                salaryRange4,
+                5 // Experience required: 5 years
         );
         jobManager.clearSkillRequirements(); // Clear skills after adding the job posting
     }

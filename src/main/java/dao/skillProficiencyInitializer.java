@@ -22,16 +22,16 @@ public class skillProficiencyInitializer {
         return proficiencies;
     }
 
-    public static ArrayList<SkillProficiency> getUXProficiencies() {
-        ArrayList<SkillProficiency> proficiencies = new ArrayList<>();
+    public static ListInterface<SkillProficiency> getUXProficiencies() {
+        ListInterface<SkillProficiency> proficiencies = new ArrayList<>();
         proficiencies.add(new SkillProficiency("Figma", 4));
         proficiencies.add(new SkillProficiency("User Research", 3));
         proficiencies.add(new SkillProficiency("Prototyping", 4));
         return proficiencies;
     }
 
-    public static ArrayList<SkillProficiency> getPMProficiencies() {
-        ArrayList<SkillProficiency> proficiencies = new ArrayList<>();
+    public static ListInterface<SkillProficiency> getPMProficiencies() {
+        ListInterface<SkillProficiency> proficiencies = new ArrayList<>();
         proficiencies.add(new SkillProficiency("Agile", 5));
         proficiencies.add(new SkillProficiency("Scrum", 4));
         proficiencies.add(new SkillProficiency("Communication", 5));
