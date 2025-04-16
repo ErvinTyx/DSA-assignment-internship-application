@@ -238,10 +238,10 @@ public class ApplicantProfileUI {
             System.out.println("3. Minimum Years of Experience");
             System.out.println("4. Exit");
             System.out.print("Enter your choice: ");
-            
+
             choice = input.nextInt();
             input.nextLine(); // clear buffer
-    
+
             switch (choice) {
                 case 1:
                     System.out.print("Enter name to search: ");
@@ -267,6 +267,5 @@ public class ApplicantProfileUI {
             }
         } while (choice != 4);
     }
-    
 
 }

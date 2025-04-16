@@ -3,7 +3,6 @@ package boundary;
 import control.JobManager;
 import dao.JobPostingInitializer;
 import utility.SearchUtil;
-
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -161,31 +160,47 @@ public class JobPostingUI {
         } while (isValid);
     }
 
+    // Method to get experience requirement input
+    private int getInputExperienceRequired() {
+        int experienceRequired = -1;
+        boolean isValid = false;
+        while (!isValid) {
+            System.out.print("Enter the required experience in years (e.g., 3): ");
+            try {
+                experienceRequired = input.nextInt();
+                if (experienceRequired >= 0) {
+                    isValid = true;
+                } else {
+                    System.out.println("Experience must be a non-negative integer.");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input. Please enter a valid integer.");
+                input.nextLine(); // clear invalid input
+            }
+        }
+        return experienceRequired;
+    }
+
     public void addJobPosting() {
-        input.nextLine();// clear buffer
+        input.nextLine(); // clear buffer
         String title, description, location;
         double[] salaryRange = new double[2];
+        int experienceRequired;
 
         title = getInputJobTittle();
-
         description = getInputJobDescription();
-
         location = getInputJobLocation();
-
         salaryRange = getInputJobSalaryRange();
-
+        experienceRequired = getInputExperienceRequired();  // Collect experience requirement
         getInputSkillRequirement();
 
-        jobManager.addJobPosting(title, description, location, salaryRange);
+        jobManager.addJobPosting(title, description, location, salaryRange, experienceRequired);  // Pass experience to the JobPosting
 
         System.out.println("JobPosting added successfully!");
-
     }
 
     public void removeJobPosting() {
-
-        // clear buffer
-        input.nextLine();
+        input.nextLine(); // clear buffer
         // Enter the ID of the job posting to remove
         System.out.print("Enter the ID of the job posting to remove: ");
         String jobIdToRemove = input.nextLine();
@@ -208,8 +223,8 @@ public class JobPostingUI {
         String jobIdToUpdate = input.nextLine();
 
         // update the job posting with the specified ID
-        boolean exsists = jobManager.containsJobPosting(jobIdToUpdate);
-        if (exsists) {
+        boolean exists = jobManager.containsJobPosting(jobIdToUpdate);
+        if (exists) {
             updateJob(jobIdToUpdate);
         } else {
             System.out.println("JobPosting not found!");
@@ -224,18 +239,20 @@ public class JobPostingUI {
         System.out.println("3. Update Job Location");
         System.out.println("4. Update Job Salary Range");
         System.out.println("5. Update Job Skill Requirements");
-        System.out.println("6. Exit");
+        System.out.println("6. Update Job Experience Requirement");
+        System.out.println("7. Exit");
     }
 
     private void updateJob(String jobIdToUpdate) {
         String title, description, location;
         double[] salaryRange = new double[2];
+        int experienceRequired;
         int choice = 0;
         do {
             updateJobMenu();
             System.out.print("Enter your choice: ");
             choice = input.nextInt();
-            input.nextLine();// clear buffer
+            input.nextLine(); // clear buffer
             switch (choice) {
                 case 1:
                     title = getInputJobTittle();
@@ -259,12 +276,15 @@ public class JobPostingUI {
                     jobManager.setJobPostingRequiredSkills(jobIdToUpdate, jobManager.getSkillRequirements());
                     break;
                 case 6:
+                    experienceRequired = getInputExperienceRequired();
+                    jobManager.setJobPostingExperienceRequired(jobIdToUpdate, experienceRequired);  // Update experience
                     break;
-                
+                case 7:
+                    break;
                 default:
                     System.out.println("Invalid choice!");
             }
-        } while (choice != 6);
+        } while (choice != 7);
 
     }
 
@@ -272,40 +292,37 @@ public class JobPostingUI {
         jobManager.listAllJobPostings();
     }
 
-
     private void searchJobPostingByTitle() {
-        input.nextLine(); 
+        input.nextLine(); // clear buffer
         System.out.print("Enter title to search for: ");
         String query = input.nextLine().toLowerCase();
-    
+
         System.out.print("Enter fuzzy threshold (e.g. 2): ");
         int threshold = input.nextInt();
-        input.nextLine(); 
-    
+        input.nextLine();
+
         boolean found = false;
         for (int i = 0; i < jobManager.getJobPostings().size(); i++) {
             String jobTitle = jobManager.getJobPostings().get(i).getTitle().toLowerCase();
-            String[] words = jobTitle.split("\\s+"); 
-    
+            String[] words = jobTitle.split("\\s+");
+
             for (String word : words) {
                 if (SearchUtil.fuzzySearch(query, word, threshold)) {
                     System.out.println("\nMatched Job Posting:");
                     System.out.println(jobManager.getJobPostings().get(i));
                     found = true;
-                    break; 
+                    break;
                 }
             }
         }
-    
+
         if (!found) {
             System.out.println("No job postings matched your query.");
         }
     }
-    
-    
+
     // getter
     public JobManager getJobManager() {
         return jobManager;
     }
-
 }
