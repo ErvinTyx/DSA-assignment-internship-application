@@ -4,12 +4,12 @@ import adt.ListInterface;
 
 import java.util.List;
 import java.util.Scanner;
-
 import adt.ArrayList;
 import entity.Company;
 import entity.Interview;
 import entity.JobPosting;
 import entity.Match;
+import entity.Student;
 
 public class InterviewSchedulerManager {
 
@@ -102,11 +102,27 @@ public class InterviewSchedulerManager {
                     System.out.println("Enter 1 for accept and 0 for reject");
                     System.out.print("Enter state: ");
                     int state = input.nextInt();
-                    interviewsResult.get(i).setState(j, 1);
+
+                    // set state
+                    interviewsResult.get(i).setState(j, state + 1);
 
                 }
                 input.close();
             }
         }
     }
+
+    public void displayAllInterviews(Student student) {
+        if(!interviewsResult.isEmpty()){
+        for (int i = 0; i < interviews.size(); i++) {
+            for (int j = 0; j < interviews.get(i).getMatches().size(); j++) {
+                if (interviews.get(i).getMatches().get(j).getStudent().getId() == student.getId()) {
+
+                    interviewsResult.add(interviews.get(i));
+
+            }
+        }
+    }
+    }
+
 }

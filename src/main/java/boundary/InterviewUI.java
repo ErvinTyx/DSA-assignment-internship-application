@@ -96,10 +96,12 @@ public class InterviewUI {
     private void runMainCompany(Company company) {
         displayMenuCompany();
         int choice = getUserChoice();
-        switch (choice) {
-            case 1 -> scheduleInterview(company);
-            case 2 -> viewScheduledInterviews(company);
-        }
+        do {
+            switch (choice) {
+                case 1 -> scheduleInterview(company);
+                case 2 -> viewScheduledInterviews(company);
+            }
+        } while (choice != 3);
     }
 
     public void scheduleInterview(Company company) {
@@ -134,23 +136,32 @@ public class InterviewUI {
         System.out.println("\n=== INTERVIEW SCHEDULING SYSTEM ===");
         System.out.println("1. Accept or Reject Interview");
         System.out.println("2. View Scheduled Interviews");
+        System.out.println("3. Exit");
     }
 
     private void runMainStudent(Student student) {
         displayMenuStudent();
         int choice = getUserChoice();
-        switch (choice) {
-            case 1 -> acceptOrRejectInterview();
-            case 2 -> viewScheduledInterviewsStudent();
-        }
+        do {
+            switch (choice) {
+                case 1 -> acceptOrRejectInterview(student);
+                case 2 -> viewScheduledInterviewsStudent(student);
+            }
+        } while (choice != 3);
     }
 
-    public void acceptOrRejectInterview() {
+    public void acceptOrRejectInterview(Student student) {
+
+        System.out.println("Accept or Reject Interview");
+        System.out.print("Enter Interview ID: ");
+        String interviewId = input.nextLine();
+        System.out.println("1. Accept");
+        System.out.println("2. Reject");
 
     }
 
-    public void viewScheduledInterviewsStudent() {
-
+    public void viewScheduledInterviewsStudent(Student student) {
+        interviews.displayAllInterviews(student);
     }
 
     private int getUserChoice() {

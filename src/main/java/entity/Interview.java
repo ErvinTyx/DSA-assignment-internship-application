@@ -17,8 +17,7 @@ public class Interview {
     // list of the Specific Job match
     private ListInterface<Match> matches;
 
-    // state = pending / rejectedByCompany / sheduled / acceptedBy application /
-    // reject application
+    // state = pending / rejectedByCompany / sheduled / acceptedBy application // reject applicationByStudent
     private int[] state;
 
     public void setDate(int Idate, int Imonth, int Iyear, int Ihour, int Imin) {
