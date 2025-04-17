@@ -56,6 +56,7 @@ public class InterviewUI {
             displayMenuLogin();
             choice = getUserChoice();
             handleMainChoice(choice);
+            interviews.clearInterviewsRelated();
 
         } while (choice != 3);
 
@@ -151,12 +152,23 @@ public class InterviewUI {
     }
 
     public void acceptOrRejectInterview(Student student) {
-
+        if (interviews.resultsInterviewIsEmpty()) {
+            interviews.displayAllInterviews(student);
+        }
         System.out.println("Accept or Reject Interview");
         System.out.print("Enter Interview ID: ");
         String interviewId = input.nextLine();
-        System.out.println("1. Accept");
-        System.out.println("2. Reject");
+        boolean found = interviews.getInterviewsResult(interviewId);
+        if (found) {
+            
+            System.out.println("1. Accept");
+            System.out.println("2. Reject");
+            System.out.print("Enter your choice: ");
+            int choice = getUserChoice();
+            interviews.setInterviewResultState(interviewId, student.getId(), choice+2);// plus to to set state to 3 for accepted and 4 for rejected
+            
+        }
+
 
     }
 

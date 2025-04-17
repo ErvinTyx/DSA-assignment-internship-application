@@ -113,16 +113,51 @@ public class InterviewSchedulerManager {
     }
 
     public void displayAllInterviews(Student student) {
-        if(!interviewsResult.isEmpty()){
-        for (int i = 0; i < interviews.size(); i++) {
-            for (int j = 0; j < interviews.get(i).getMatches().size(); j++) {
-                if (interviews.get(i).getMatches().get(j).getStudent().getId() == student.getId()) {
+        if (!interviewsResult.isEmpty()) {
+            for (int i = 0; i < interviews.size(); i++) {
+                for (int j = 0; j < interviews.get(i).getMatches().size(); j++) {
+                    if (interviews.get(i).getMatches().get(j).getStudent().getId() == student.getId()) {
 
-                    interviewsResult.add(interviews.get(i));
+                        interviewsResult.add(interviews.get(i));
 
+                    }
+                }
             }
         }
     }
+
+    public void setInterviewResultState(String InterviewId, String studentId, int state) {
+        for (int i = 0; i < interviewsResult.size(); i++) {
+            if (interviewsResult.get(i).getId().equals(InterviewId)) {
+                for (int j = 0; j < interviewsResult.get(i).getMatches().size(); j++) {
+                    Match match = interviewsResult.get(i).getMatches().get(j);
+                    if (match.getStudent().getId().equals(studentId)) {
+                        interviewsResult.get(i).setState(j, state);
+                    }
+                }
+            }
+        }
     }
 
+    public boolean getInterviewsResult(String id) {
+        boolean found = false;
+        for (int i = 0; i < interviewsResult.size(); i++) {
+            if (interviewsResult.get(i).getId().equals(id)) {
+                System.out.println(interviewsResult.get(i));
+                found = true;
+            }
+        }
+        if (!found) {
+            System.out.println("No interview found");
+        }
+        return found;
+    }
+
+    public void clearInterviewsRelated() {
+        interviewsResult.clear();
+    }
+
+    public boolean resultsInterviewIsEmpty() {
+        return interviewsResult.isEmpty();
+    }
 }
