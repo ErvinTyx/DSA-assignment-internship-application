@@ -2,8 +2,11 @@ package boundary;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
+
+import adt.ListInterface;
 import control.ApplicantManager;
 import dao.StudentInitializer;
+import entity.Student;
 
 public class ApplicantProfileUI {
     private ApplicantManager applicantManager = new ApplicantManager();
@@ -14,8 +17,8 @@ public class ApplicantProfileUI {
         applicantProfileUI.run();
     }
 
-     public ApplicantProfileUI() {
-        StudentInitializer.initialize(applicantManager);;
+    public ApplicantProfileUI() {
+        StudentInitializer.initialize(applicantManager);
         System.out.println("Application initialized with sample student data.");
     }
 
@@ -26,12 +29,12 @@ public class ApplicantProfileUI {
         System.out.println("3. Update Applicant Profile");
         System.out.println("4. Delete Applicant Profile");
         System.out.println("5. Filter Applicant Profiles");
-        System.out.println("6. Exit");
+        System.out.println("6. Get All Applicants");
+        System.out.println("7. Exit");
         System.out.print("Enter your choice: ");
     }
 
     public void run() {
-
         int choice;
         do {
             displayMenu();
@@ -53,21 +56,31 @@ public class ApplicantProfileUI {
                     filterApplicantProfiles();
                     break;
                 case 6:
+                    getAllApplicants();  
+                    break;
+                case 7:
                     System.out.println("Exiting Applicant Profile Management!");
                     break;
                 default:
                     System.out.println("Invalid choice. Please try again.");
             }
-        } while (choice != 6);
+        } while (choice != 7);
+    }
+
+    public void getAllApplicants() {
+        System.out.println("\nAll Applicant Profiles:");
+        ListInterface<Student> allApplicants = applicantManager.getApplicants(); // Assuming you have a method that returns all applicants as a string
+        if (allApplicants != null && !allApplicants.isEmpty()) {
+            System.out.println(allApplicants);
+        } else {
+            System.out.println("No applicants available.");
+        }
     }
 
     public void viewApplicantProfile() {
-        // clear buffer
-        input.nextLine();
-        // Enter student ID to view
+        input.nextLine(); // clear buffer
         System.out.print("Enter the ID of the student to view: ");
         String studentId = input.nextLine();
-        // View the student with the specified ID
         String student = applicantManager.listSpecificApplicants(studentId);
         if (student != null) {
             System.out.println("Applicant Profile:");
@@ -151,7 +164,6 @@ public class ApplicantProfileUI {
     }
 
     public void createApplicantProfile() {
-
         String name, location;
         int experience;
         input.nextLine(); // clear buffer
@@ -163,7 +175,6 @@ public class ApplicantProfileUI {
         applicantManager.registerStudent(name, location, experience);
 
         System.out.println("Applicant profile created successfully!");
-
     }
 
     private void updateAppMenu() {
@@ -205,25 +216,20 @@ public class ApplicantProfileUI {
     }
 
     public void updateApplicantProfile() {
-
-        // Enter student ID to update
+        input.nextLine(); // clear buffer
         System.out.print("Enter the ID of the student to update: ");
         String id = input.nextLine();
-        // update the student with the specified ID
         boolean exists = applicantManager.getStudentById(id);
 
         if (exists) {
-
             System.out.println("Updating student with ID: " + id);
             updateApp(id);
         } else {
             System.out.println("Student not found!");
         }
-
     }
 
     public void deleteApplicantProfile() {
-        // Enter student ID to delete
         input.nextLine(); // clear buffer
         System.out.print("Enter the ID of the student to delete: ");
         String id = input.nextLine();
