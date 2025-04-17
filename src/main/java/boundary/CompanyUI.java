@@ -4,258 +4,195 @@ import java.util.Scanner;
 import adt.ArrayList;
 import adt.ListInterface;
 import control.CompanyManager;
+import control.JobManager;
+import dao.CompanyInitializer;
 import entity.Company;
 import entity.JobPosting;
 import utility.SearchUtil;
 
 public class CompanyUI {
-    private CompanyManager companyManager = new CompanyManager();
-    private Scanner input = new Scanner(System.in);
-
-    public void displayMenu() {
-        System.out.println("\n\n\nCompany Menu:");
-        System.out.println("1. Register Company");
-        System.out.println("2. Remove Company information by ID");
-        System.out.println("3. Update Company information by ID");
-        System.out.println("4. Manage Job Posting");
-        System.out.println("5. List All Companies");
-        System.out.println("6. Filter Companies");
-        System.out.println("7. Exit");
-        System.out.print("Enter your choice: ");
-    }
+    private final Scanner input = new Scanner(System.in);
+    private final CompanyManager companyManager = new CompanyManager();
+    private final JobManager jobManager = new JobManager();
 
     public static void main(String[] args) {
-        CompanyUI companyUI = new CompanyUI();
-        companyUI.run();
+        new CompanyUI().run();
     }
 
     public void run() {
+        CompanyInitializer.initialize(companyManager, jobManager);
         int choice;
-        do {
-            displayMenu();
-            choice = input.nextInt();
 
-            switch (choice) {
-                case 1:
-                    registerCompany();
-                    break;
-                case 2:
-                    removeCompany();
-                    break;
-                case 3:
-                    updateCompany();
-                    break;
-                case 4:
-                    deleteCompany();
-                    break;
-                case 5:
-                    listAllCompanies();
-                    break;
-                case 6:
-                    filterCompanies();
-                    break;
-                case 7:
-                    System.out.println("Exiting Company Management!");
-                    break;
-                default:
-                    System.out.println("Invalid choice. Please try again.");
-            }
+        do {
+            displayMainMenu();
+            choice = getUserChoice();
+            handleMainChoice(choice);
         } while (choice != 7);
     }
 
-    private String getInputCompanyName() {
-        System.out.print("Enter company name: ");
-        String name = input.nextLine();
-        return name;
-    }
-
-    private String getInputCompanyLocation() {
-        System.out.print("Enter company location: ");
-        String location = input.nextLine();
-        return location;
-
-    }
-
-    private ListInterface<JobPosting> getInputJobPostings() {
-        JobPostingUI jobPostingUI = new JobPostingUI();
-        jobPostingUI.run();
-        return jobPostingUI.getJobManager().getJobPostings();
-    }
-
-    private void updateCompanyMenu() {
-        System.out.println("\n\n\nUpdate Company Menu:");
-        System.out.println("1. Update Company Name");
-        System.out.println("2. Update Company Location");
-        System.out.println("3. Update Company Job Postings");
-        System.out.println("4. Exit");
+    private void displayMainMenu() {
+        System.out.println("\n====== Company Management Menu ======");
+        System.out.println("1. Register Company");
+        System.out.println("2. Remove Company by ID");
+        System.out.println("3. Update Company by ID");
+        System.out.println("4. List All Companies");
+        System.out.println("5. Filter Companies");
+        System.out.println("6. Exit");
         System.out.print("Enter your choice: ");
     }
 
-    private void updateCom(String id) {
-        String name, location;
-        ListInterface<JobPosting> jobPostings;
+    private int getUserChoice() {
+        while (!input.hasNextInt()) {
+            System.out.print("Invalid input. Please enter a number: ");
+            input.next();
+        }
+        return input.nextInt();
+    }
+
+    private void handleMainChoice(int choice) {
+        input.nextLine(); // clear buffer
+        switch (choice) {
+            case 1 -> registerCompany();
+            case 2 -> removeCompany();
+            case 3 -> updateCompany();
+            case 4 -> listAllCompanies();
+            case 5 -> displayFilterMenu();
+            case 6 -> System.out.println("Exiting Company Management. Goodbye!");
+            default -> System.out.println("Invalid choice. Please try again.");
+        }
+    }
+
+    private void registerCompany() {
+        System.out.println("\n-- Register New Company --");
+        String name = prompt("Enter company name: ");
+        String location = prompt("Enter company location: ");
+        ListInterface<JobPosting> jobPostings = getInputJobPostings();
+
+        companyManager.registerCompany(name, location, jobPostings);
+        System.out.println("Company registered successfully!");
+    }
+
+    private void removeCompany() {
+        System.out.println("\n-- Remove Company --");
+        String id = prompt("Enter company ID to remove: ");
+        boolean removed = companyManager.removeCompanyById(id);
+
+        System.out.println(removed ? "Company removed successfully!" : "Company not found.");
+    }
+
+    private void updateCompany() {
+        System.out.println("\n-- Update Company --");
+        String id = prompt("Enter company ID to update: ");
+
+        if (companyManager.getCompanyById(id) != null) {
+            runUpdateMenu(id);
+        } else {
+            System.out.println("Company not found.");
+        }
+    }
+
+    private void runUpdateMenu(String id) {
         int choice;
         do {
-            updateCompanyMenu();
-            choice = input.nextInt();
+            displayUpdateMenu();
+            choice = getUserChoice();
             input.nextLine(); // clear buffer
+
+            Company company = companyManager.getCompanyById(id);
             switch (choice) {
-                case 1:
-                    name = getInputCompanyName();
-                    companyManager.getCompanyById(id).setName(name);
-                    break;
-                case 2:
-                    location = getInputCompanyLocation();
-                    companyManager.getCompanyById(id).setLocation(location);
-                    break;
-                case 3:
-                    jobPostings = getInputJobPostings();
-                    companyManager.getCompanyById(id).setJobPostings(jobPostings);
-                    break;
-                case 4:
-                    System.out.println("Exiting update menu!");
-                    break;
-                default:
-                    System.out.println("Invalid choice. Please try again.");
+                case 1 -> company.setName(prompt("Enter new company name: "));
+                case 2 -> company.setLocation(prompt("Enter new company location: "));
+                case 3 -> company.setJobPostings(getInputJobPostings());
+                case 4 -> System.out.println("Exiting update menu.");
+                default -> System.out.println("Invalid choice. Please try again.");
             }
         } while (choice != 4);
     }
 
-    public void registerCompany() {
-        String name, location;
-        ListInterface<JobPosting> jobPostings;
-        input.nextLine();// clear buffer
-        name = getInputCompanyName();
-        location = getInputCompanyLocation();
-        jobPostings = getInputJobPostings();
-
-        companyManager.registerCompany(name, location, jobPostings);
-
+    private void displayUpdateMenu() {
+        System.out.println("\n-- Update Company Info --");
+        System.out.println("1. Update Name");
+        System.out.println("2. Update Location");
+        System.out.println("3. Update Job Postings");
+        System.out.println("4. Exit");
+        System.out.print("Enter your choice: ");
     }
 
-    public void removeCompany() {
+    private void listAllCompanies() {
+        System.out.println("\n-- List of All Companies --");
+        displayFormattedCompanies(companyManager.getCompanies());
+    }
 
-        input.nextLine(); // clear buffer
-        System.out.print("Enter the ID of the company to remove: ");
-        String id = input.nextLine();
-
-        boolean removed = companyManager.removeCompanyById(id);
-
-        if (removed) {
-            System.out.println("Company removed successfully!");
-        } else {
-            System.out.println("Company not found!");
+    private void displayFormattedCompanies(ListInterface<Company> companies) {
+        if (companies.isEmpty()) {
+            System.out.println("No companies found.");
+            return;
         }
-    }
-
-    public void updateCompany() {
-
-        input.nextLine(); // clear buffer
-        // enter company ID to update
-        System.out.print("Enter the ID of the company to update: ");
-        String id = input.nextLine();
-
-        // update the company with the specified ID
-        boolean exists = companyManager.getCompanyById(id) != null;
-        if (exists) {
-            updateCom(id);
-        } else {
-            System.out.println("Company not found!");
+    
+        for (int i = 0; i < companies.size(); i++) {
+            Company company = companies.get(i);
+            System.out.println("\n===========================================");
+            System.out.println("Company ID     : " + company.getId());
+            System.out.println("Name           : " + company.getName());
+            System.out.println("Location       : " + company.getLocation());
+    
+            ListInterface<JobPosting> jobPostings = company.getJobPostings();
+            System.out.println("Job Postings   :");
+    
+            if (jobPostings == null || jobPostings.isEmpty()) {
+                System.out.println("  No job postings available.");
+            } else {
+                for (int j = 0; j < jobPostings.size(); j++) {
+                    JobPosting job = jobPostings.get(j);
+                    System.out.println("  • " + job.getTitle() + " (" + job.getLocation() + ")");
+                }
+            }
         }
-
+        System.out.println("===========================================");
     }
+    
+    
 
-    public void deleteCompany() {
-
-        input.nextLine(); // clear buffer
-        System.out.print("Enter the ID of the company to delete: ");
-        String id = input.nextLine();
-        boolean deleted = companyManager.removeCompanyById(id);
-        if (deleted) {
-            System.out.println("Company deleted successfully!");
-        } else {
-            System.out.println("Company not found!");
-        }
-    }
-
-    public void listAllCompanies() {
-        companyManager.listAllCompanies();
-    }
-
-    public void filterCompanies() {
-        System.out.println("\nFilter Companies Menu:");
-        System.out.println("1. Filter by Company Name");
-        System.out.println("2. Filter by Location");
-        System.out.println("3. Search Company Name (Fuzzy Match)");
+    private void displayFilterMenu() {
+        System.out.println("\n-- Filter Companies --");
+        System.out.println("1. By Name");
+        System.out.println("2. By Location");
+        System.out.println("3. Fuzzy Search Name");
         System.out.println("4. Exit");
         System.out.print("Enter your choice: ");
 
-        int choice = input.nextInt();
+        int choice = getUserChoice();
         input.nextLine(); // clear buffer
 
         switch (choice) {
-            case 1:
-                filterByName();
-                break;
-            case 2:
-                filterByLocation();
-                break;
-            case 3:
-                searchCompanyByName();
-                break;
-            case 4:
-                System.out.println("Exiting filter menu!");
-                break;
-            default:
-                System.out.println("Invalid choice. Please try again.");
-                break;
+            case 1 -> filterByName();
+            case 2 -> filterByLocation();
+            case 3 -> searchCompanyByName();
+            case 4 -> System.out.println("Exiting filter menu.");
+            default -> System.out.println("Invalid choice. Please try again.");
         }
     }
 
     private void filterByName() {
-        System.out.print("Enter company name to filter: ");
-        String name = input.nextLine();
-        ListInterface<Company> filteredCompanies = companyManager.filterCompaniesByName(name);
-
-        if (filteredCompanies.isEmpty()) {
-            System.out.println("No companies found with the specified name.");
-        } else {
-            System.out.println("Companies found with the name \"" + name + "\":");
-            for (int i = 0; i < filteredCompanies.size(); i++) {
-                System.out.println(filteredCompanies.get(i));
-            }
-        }
+        String name = prompt("Enter company name to filter: ");
+        ListInterface<Company> companies = companyManager.filterCompaniesByName(name);
+        displayFilteredCompanies(companies, "name", name);
     }
 
     private void filterByLocation() {
-        System.out.print("Enter company location to filter: ");
-        String location = input.nextLine();
-        ListInterface<Company> filteredCompanies = companyManager.filterCompaniesByLocation(location);
-
-        if (filteredCompanies.isEmpty()) {
-            System.out.println("No companies found in the specified location.");
-        } else {
-            System.out.println("Companies found in the location \"" + location + "\":");
-            for (int i = 0; i < filteredCompanies.size(); i++) {
-                System.out.println(filteredCompanies.get(i));
-            }
-        }
+        String location = prompt("Enter company location to filter: ");
+        ListInterface<Company> companies = companyManager.filterCompaniesByLocation(location);
+        displayFilteredCompanies(companies, "location", location);
     }
 
     private void searchCompanyByName() {
-        System.out.print("Enter company name to search: ");
-        String query = input.nextLine().toLowerCase();
-
-        System.out.print("Enter fuzzy threshold (e.g. 2): ");
-        int threshold = input.nextInt();
-        input.nextLine(); // clear buffer
+        String query = prompt("Enter company name to search (fuzzy): ").toLowerCase();
+        int threshold = Integer.parseInt(prompt("Enter fuzzy threshold (e.g., 2): "));
 
         ListInterface<Company> matchedCompanies = new ArrayList<>();
-
         for (int i = 0; i < companyManager.getCompanies().size(); i++) {
             Company company = companyManager.getCompanies().get(i);
-            String[] words = company.getName().toLowerCase().split("\\s+");
-            for (String word : words) {
+            for (String word : company.getName().toLowerCase().split("\\s+")) {
                 if (SearchUtil.fuzzySearch(query, word, threshold)) {
                     matchedCompanies.add(company);
                     break;
@@ -266,11 +203,29 @@ public class CompanyUI {
         if (matchedCompanies.isEmpty()) {
             System.out.println("No companies matched your query.");
         } else {
-            System.out.println("\nMatched Companies:");
-            for (int i = 0; i < matchedCompanies.size(); i++) {
-                System.out.println(matchedCompanies.get(i));
-            }
+            System.out.println("\n-- Matched Companies --");
+            matchedCompanies.forEach(System.out::println);
         }
     }
 
+    private ListInterface<JobPosting> getInputJobPostings() {
+        System.out.println("\n-- Enter Job Postings for the Company --");
+        JobPostingUI jobPostingUI = new JobPostingUI();
+        jobPostingUI.run();
+        return jobPostingUI.getJobManager().getJobPostings();
+    }
+
+    private String prompt(String message) {
+        System.out.print(message);
+        return input.nextLine();
+    }
+
+    private void displayFilteredCompanies(ListInterface<Company> companies, String type, String keyword) {
+        if (companies.isEmpty()) {
+            System.out.printf("No companies found with the %s \"%s\".\n", type, keyword);
+        } else {
+            System.out.printf("Companies with %s \"%s\":\n", type, keyword);
+            companies.forEach(System.out::println);
+        }
+    }
 }
