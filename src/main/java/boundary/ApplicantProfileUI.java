@@ -2,7 +2,6 @@ package boundary;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
-
 import adt.ListInterface;
 import control.ApplicantManager;
 import dao.StudentInitializer;
@@ -12,16 +11,20 @@ public class ApplicantProfileUI {
     private ApplicantManager applicantManager = new ApplicantManager();
     private Scanner input = new Scanner(System.in);
 
+    // Main method
     public static void main(String[] args) {
         ApplicantProfileUI applicantProfileUI = new ApplicantProfileUI();
         applicantProfileUI.run();
     }
 
+    // Constructor
     public ApplicantProfileUI() {
+        // Sample student data
         StudentInitializer.initialize(applicantManager);
         System.out.println("Application initialized with sample student data.");
     }
 
+    // Display menu
     public void displayMenu() {
         System.out.println("\n\n\nApplicant Profile Management:");
         System.out.println("1. Create Applicant Profile");
@@ -34,6 +37,7 @@ public class ApplicantProfileUI {
         System.out.print("Enter your choice: ");
     }
 
+    // Main menu
     public void run() {
         int choice;
         do {
@@ -67,6 +71,7 @@ public class ApplicantProfileUI {
         } while (choice != 7);
     }
 
+    // Method to get all applicants
     public void getAllApplicants() {
         System.out.println("\nAll Applicant Profiles:");
         ListInterface<Student> allApplicants = applicantManager.getApplicants(); // Assuming you have a method that returns all applicants as a string
@@ -77,6 +82,7 @@ public class ApplicantProfileUI {
         }
     }
 
+    // Method to view a specific student
     public void viewApplicantProfile() {
         input.nextLine(); // clear buffer
         System.out.print("Enter the ID of the student to view: ");
@@ -90,16 +96,19 @@ public class ApplicantProfileUI {
         }
     }
 
+    // Method to get user name
     public String getInputStudentName() {
         System.out.print("Enter student name: ");
         return input.nextLine();
     }
 
+    // Method to get user location
     public String getInputStudentLocation() {
         System.out.print("Enter student location: ");
         return input.nextLine();
     }
 
+    // Method to get user experience
     public int getInputStudentExperience() {
         int experience = 0;
         boolean isValid = true;
@@ -120,6 +129,7 @@ public class ApplicantProfileUI {
         return experience;
     }
 
+    // Method to get user skills
     public void getInputSkills() {
         boolean isValid = true;
         int numSkills = 0;
@@ -163,6 +173,7 @@ public class ApplicantProfileUI {
         } while (isValid);
     }
 
+    // Method to create a new student
     public void createApplicantProfile() {
         String name, location;
         int experience;
@@ -177,6 +188,7 @@ public class ApplicantProfileUI {
         System.out.println("Applicant profile created successfully!");
     }
 
+    // Method to update a student menu
     private void updateAppMenu() {
         System.out.println("\n\n\nUpdate Applicant Profile Menu:");
         System.out.println("1. Update Student Name");
@@ -186,6 +198,7 @@ public class ApplicantProfileUI {
         System.out.println("5. Exit");
     }
 
+    // Method to update a student
     private void updateApp(String id) {
 
         updateAppMenu();
@@ -215,6 +228,7 @@ public class ApplicantProfileUI {
         }
     }
 
+    // Method to update a student verify exists
     public void updateApplicantProfile() {
         input.nextLine(); // clear buffer
         System.out.print("Enter the ID of the student to update: ");
@@ -229,6 +243,7 @@ public class ApplicantProfileUI {
         }
     }
 
+    // Method to delete a student
     public void deleteApplicantProfile() {
         input.nextLine(); // clear buffer
         System.out.print("Enter the ID of the student to delete: ");
@@ -241,6 +256,7 @@ public class ApplicantProfileUI {
         }
     }
 
+    // Method to filter applicants
     public void filterApplicantProfiles() {
         int choice;
         do {

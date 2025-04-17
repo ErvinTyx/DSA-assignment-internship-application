@@ -3,6 +3,7 @@ package control;
 import adt.ListInterface;
 import adt.ArrayList;
 import entity.Company;
+import utility.SearchUtil;
 import entity.JobPosting;
 
 public class CompanyManager {
@@ -54,7 +55,7 @@ public class CompanyManager {
         }
     }
 
-    public ListInterface<Company> filterCompaniesByName(String name) {
+    public void filterCompaniesByName(String name) {
         ListInterface<Company> filteredCompanies = new ArrayList<>();
 
         // Iterate over all companies and check if the company name contains the input
@@ -65,12 +66,22 @@ public class CompanyManager {
                 filteredCompanies.add(company);
             }
         }
+        displayFilteredCompanies(filteredCompanies, "name", name);
 
-        return filteredCompanies;
+    }
+
+    // Method to display filtered companies
+    private void displayFilteredCompanies(ListInterface<Company> companies, String type, String keyword) {
+        if (companies.isEmpty()) {
+            System.out.printf("No companies found with the %s \"%s\".\n", type, keyword);
+        } else {
+            System.out.printf("Companies with %s \"%s\":\n", type, keyword);
+            companies.forEach(System.out::println);
+        }
     }
 
     // Method to filter companies by location
-    public ListInterface<Company> filterCompaniesByLocation(String location) {
+    public void filterCompaniesByLocation(String location) {
         ListInterface<Company> filteredCompanies = new ArrayList<>();
 
         // Iterate over all companies and check if the company location contains the
@@ -82,7 +93,26 @@ public class CompanyManager {
             }
         }
 
-        return filteredCompanies;
+        displayFilteredCompanies(filteredCompanies, "location", location);
     }
 
+    public void searchCompanyByName(String query, int threshold) {
+        ListInterface<Company> matchedCompanies = new ArrayList<>();
+        for (int i = 0; i < companys.size(); i++) {
+            Company company = companys.get(i);
+            for (String word : company.getName().toLowerCase().split("\\s+")) {
+                if (SearchUtil.fuzzySearch(query, word, threshold)) {
+                    matchedCompanies.add(company);
+                    break;
+                }
+            }
+        }
+
+        if (matchedCompanies.isEmpty()) {
+            System.out.println("No companies matched your query.");
+        } else {
+            System.out.println("\n-- Matched Companies --");
+            matchedCompanies.forEach(System.out::println);
+        }
+    }
 }

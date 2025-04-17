@@ -4,23 +4,21 @@ import java.util.Scanner;
 import adt.ArrayList;
 import adt.ListInterface;
 import control.CompanyManager;
-import control.JobManager;
 import dao.CompanyInitializer;
 import entity.Company;
 import entity.JobPosting;
-import utility.SearchUtil;
 
 public class CompanyUI {
-    private final Scanner input = new Scanner(System.in);
-    private final CompanyManager companyManager = new CompanyManager();
-    private final JobManager jobManager = new JobManager();
+    private Scanner input = new Scanner(System.in);
+    private CompanyManager companyManager = new CompanyManager();
 
     public static void main(String[] args) {
-        new CompanyUI().run();
+        CompanyUI companyUI = new CompanyUI();
+        companyUI.run();
     }
 
     public void run() {
-        CompanyInitializer.initialize(companyManager, jobManager);
+        CompanyInitializer.initialize(companyManager);
         int choice;
 
         do {
@@ -120,7 +118,7 @@ public class CompanyUI {
 
     private void listAllCompanies() {
         System.out.println("\n-- List of All Companies --");
-        displayFormattedCompanies(companyManager.getCompanies());
+        companyManager.listAllCompanies();
     }
 
     private void displayFormattedCompanies(ListInterface<Company> companies) {
@@ -128,17 +126,17 @@ public class CompanyUI {
             System.out.println("No companies found.");
             return;
         }
-    
+
         for (int i = 0; i < companies.size(); i++) {
             Company company = companies.get(i);
             System.out.println("\n===========================================");
             System.out.println("Company ID     : " + company.getId());
             System.out.println("Name           : " + company.getName());
             System.out.println("Location       : " + company.getLocation());
-    
+
             ListInterface<JobPosting> jobPostings = company.getJobPostings();
             System.out.println("Job Postings   :");
-    
+
             if (jobPostings == null || jobPostings.isEmpty()) {
                 System.out.println("  No job postings available.");
             } else {
@@ -150,8 +148,6 @@ public class CompanyUI {
         }
         System.out.println("===========================================");
     }
-    
-    
 
     private void displayFilterMenu() {
         System.out.println("\n-- Filter Companies --");
@@ -175,39 +171,26 @@ public class CompanyUI {
 
     private void filterByName() {
         String name = prompt("Enter company name to filter: ");
-        ListInterface<Company> companies = companyManager.filterCompaniesByName(name);
-        displayFilteredCompanies(companies, "name", name);
+        companyManager.filterCompaniesByName(name);
+
     }
 
+    // Method to filter companies by location
     private void filterByLocation() {
         String location = prompt("Enter company location to filter: ");
-        ListInterface<Company> companies = companyManager.filterCompaniesByLocation(location);
-        displayFilteredCompanies(companies, "location", location);
+        companyManager.filterCompaniesByLocation(location);
     }
 
+    // Method to search companies by name
     private void searchCompanyByName() {
         String query = prompt("Enter company name to search (fuzzy): ").toLowerCase();
         int threshold = Integer.parseInt(prompt("Enter fuzzy threshold (e.g., 2): "));
+        companyManager.searchCompanyByName(query, threshold);
 
-        ListInterface<Company> matchedCompanies = new ArrayList<>();
-        for (int i = 0; i < companyManager.getCompanies().size(); i++) {
-            Company company = companyManager.getCompanies().get(i);
-            for (String word : company.getName().toLowerCase().split("\\s+")) {
-                if (SearchUtil.fuzzySearch(query, word, threshold)) {
-                    matchedCompanies.add(company);
-                    break;
-                }
-            }
-        }
-
-        if (matchedCompanies.isEmpty()) {
-            System.out.println("No companies matched your query.");
-        } else {
-            System.out.println("\n-- Matched Companies --");
-            matchedCompanies.forEach(System.out::println);
-        }
     }
 
+    // Method to get input job postings
+    // @dev : Involved jobposting
     private ListInterface<JobPosting> getInputJobPostings() {
         System.out.println("\n-- Enter Job Postings for the Company --");
         JobPostingUI jobPostingUI = new JobPostingUI();
@@ -215,17 +198,10 @@ public class CompanyUI {
         return jobPostingUI.getJobManager().getJobPostings();
     }
 
+    // Method to get user input
     private String prompt(String message) {
         System.out.print(message);
         return input.nextLine();
     }
 
-    private void displayFilteredCompanies(ListInterface<Company> companies, String type, String keyword) {
-        if (companies.isEmpty()) {
-            System.out.printf("No companies found with the %s \"%s\".\n", type, keyword);
-        } else {
-            System.out.printf("Companies with %s \"%s\":\n", type, keyword);
-            companies.forEach(System.out::println);
-        }
-    }
 }

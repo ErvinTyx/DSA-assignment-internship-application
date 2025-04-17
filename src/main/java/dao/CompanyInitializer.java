@@ -8,8 +8,9 @@ import entity.JobPosting;
 
 public class CompanyInitializer {
 
-    public static void initialize(CompanyManager companyManager, JobManager jobManager) {
+    public static void initialize(CompanyManager companyManager) {
         // Initialize job postings first
+        JobManager jobManager = new JobManager();
         JobPostingInitializer.initialize(jobManager);
         ListInterface<JobPosting> allPostings = jobManager.getJobPostings();
 
