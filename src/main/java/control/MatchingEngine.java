@@ -211,4 +211,10 @@ public class MatchingEngine {
         }
         return found;
     }
+
+    // @dev : purpose to not make it encapsulated just to deleted matches from interview 
+    public ListInterface<Match> getMatches() {
+        return matches;
+    }
+
 }

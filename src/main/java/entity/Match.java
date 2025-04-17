@@ -40,4 +40,13 @@ public class Match implements Comparable<Match> {
     public void setScore(double score) {
         this.score = score;
     }
+
+    @Override
+    public String toString() {
+        return "Match{" +
+                "student=" + student +
+                ", job=" + job +
+                ", score=" + score +
+                '}';
+    }
 }
