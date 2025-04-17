@@ -146,4 +146,13 @@ public class ApplicantManager {
         return found ? result.toString() : "No applicants found matching name: " + name;
     }
 
+    public ListInterface<Student> getApplicants() {
+        ListInterface<Student> copy = new ArrayList<>();
+        for (int i = 0; i < applicants.size(); i++) {
+            copy.add(applicants.get(i));
+        }
+        return copy;
+    }
+
+
 }
