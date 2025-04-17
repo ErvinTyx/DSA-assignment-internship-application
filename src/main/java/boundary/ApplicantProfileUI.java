@@ -60,7 +60,7 @@ public class ApplicantProfileUI {
                     filterApplicantProfiles();
                     break;
                 case 6:
-                    getAllApplicants();  
+                    getAllApplicants();
                     break;
                 case 7:
                     System.out.println("Exiting Applicant Profile Management!");
@@ -74,7 +74,8 @@ public class ApplicantProfileUI {
     // Method to get all applicants
     public void getAllApplicants() {
         System.out.println("\nAll Applicant Profiles:");
-        ListInterface<Student> allApplicants = applicantManager.getApplicants(); // Assuming you have a method that returns all applicants as a string
+        ListInterface<Student> allApplicants = applicantManager.getApplicants(); // Assuming you have a method that
+                                                                                 // returns all applicants as a string
         if (allApplicants != null && !allApplicants.isEmpty()) {
             System.out.println(allApplicants);
         } else {
@@ -89,7 +90,7 @@ public class ApplicantProfileUI {
         String studentId = input.nextLine();
         String student = applicantManager.listSpecificApplicants(studentId);
         if (student != null) {
-            System.out.println("Applicant Profile:");
+            System.out.println("\n========== YOUR PROFILE DETAILS ==========");
             System.out.println(student);
         } else {
             System.out.println("Student not found!");

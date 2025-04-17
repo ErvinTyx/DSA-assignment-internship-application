@@ -34,9 +34,8 @@ public class SkillProficiency {
 
     @Override
     public String toString() {
-        return "\n{" +
-                "skillName='" + skillName + '\'' +
-                ", proficiency=" + proficiency +
-                '}';
+        return "- " + skillName +
+                " (Proficiency: " + proficiency
+                + ")";
     }
 }

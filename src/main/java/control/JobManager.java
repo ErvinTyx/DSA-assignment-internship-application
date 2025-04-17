@@ -143,7 +143,7 @@ public class JobManager {
         return false;
     }
 
-    public void searchJobPostings(String query, int threshold, boolean byTitle) {
+    public ListInterface<JobPosting> searchJobPostings(String query, int threshold, boolean byTitle) {
         ListInterface<JobPosting> results = new adt.ArrayList<>();
 
         query = query.toLowerCase();
@@ -170,7 +170,7 @@ public class JobManager {
             System.out.println("Found " + results.size() + " matching job posting(s):");
             displayFormattedJobPostings(results);
         }
-
+        return results;
     }
 
     public void displayFormattedJobPostings(ListInterface<JobPosting> jobPostings) {

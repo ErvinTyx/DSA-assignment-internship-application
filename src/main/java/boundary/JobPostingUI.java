@@ -3,7 +3,6 @@ package boundary;
 import control.JobManager;
 import entity.JobPosting;
 import adt.ListInterface;
-
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -17,7 +16,7 @@ public class JobPostingUI {
         this.input = new Scanner(System.in);
     }
 
-    public JobPostingUI(JobPosting jobs) {
+    public JobPostingUI(ListInterface<JobPosting> jobs) {
         this.jobManager = new JobManager();
         this.input = new Scanner(System.in);
         jobManager.addJobPosting(jobs);
@@ -211,6 +210,10 @@ public class JobPostingUI {
         System.out.println("Search by:");
         System.out.println("1. Title");
         System.out.println("2. Location");
+        makeSearchJobs();
+    }
+
+    private ListInterface<JobPosting> makeSearchJobs() {
         int searchChoice = getIntInput("Enter your choice: ", 1, 2);
 
         String query = "";
@@ -225,8 +228,14 @@ public class JobPostingUI {
 
         int threshold = getIntInput("Enter fuzzy search threshold (0-5, higher = more matches): ", 0, 5);
 
-        jobManager.searchJobPostings(query, threshold, byTitle);
+        ListInterface<JobPosting> jobs = jobManager.searchJobPostings(query, threshold, byTitle);
         pressEnterToContinue();
+        return jobs;
+    }
+
+    public ListInterface<JobPosting> FindJobMatch() {
+        searchJobPostings();
+        return makeSearchJobs();
     }
 
     // Method to display all job postings with IDs

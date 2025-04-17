@@ -41,6 +41,15 @@ public class ApplicantManager {
         return false;
     }
 
+    public Student getStudentEntity(String id) {
+        for (int i = 0; i < applicants.size(); i++) {
+            if (applicants.get(i).getId().equals(id)) {
+                return applicants.get(i);
+            }
+        }
+        return null;
+    }
+
     public void registerStudent(String name, String location, int experience) {
         applicants.add(new Student(name, getSkillProficiencies(), location, experience));
     }
@@ -153,6 +162,5 @@ public class ApplicantManager {
         }
         return copy;
     }
-
 
 }

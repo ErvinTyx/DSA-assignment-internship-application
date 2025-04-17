@@ -73,19 +73,19 @@ public class Student {
 
     @Override
     public String toString() {
-        return "Student{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", location='" + location + '\'' +
-                ", experience=" + experience +
-                "\nSkill Proficiencies: " + getStringSkillProficiencies() +
-                '}';
+        return "\n ID: " + id +
+                "\nName: " + name +
+                "\nLocation: " + location +
+                "\nExperience: " + experience + " years" +
+                "\nSkills:" + getStringSkillProficiencies()
+
+        ;
     }
 
     public String getStringSkillProficiencies() {
         String skillProficiencies = "";
         for (int i = 0; i < skills.size(); i++) {
-            skillProficiencies = skillProficiencies + skills.get(i).toString();
+            skillProficiencies += skills.get(i).toString();
         }
         return skillProficiencies;
     }
