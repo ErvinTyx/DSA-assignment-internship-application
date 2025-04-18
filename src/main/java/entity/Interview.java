@@ -20,22 +20,7 @@ public class Interview {
     // state = pending / rejectedByCompany / sheduled / acceptedBy application // reject applicationByStudent
     private int[] state;
 
-    public void setDate(int Idate, int Imonth, int Iyear, int Ihour, int Imin) {
-        this.Idate = Idate;
-        this.Imonth = Imonth;
-        this.Iyear = Iyear;
-        this.Ihour = Ihour;
-        this.Imin = Imin;
-    }
-    public void setSAllState(int state) {
-        for (int i = 0; i < this.state.length; i++) {
-            this.state[i] = state;
-        }
-    }
-
-    public void setState(int index, int state) {
-        this.state[index] = state;
-    }
+    
 
     // constructor
     public Interview(ListInterface<Match> matches) {
@@ -55,6 +40,22 @@ public class Interview {
     }
 
     // setters
+    public void setDate(int Idate, int Imonth, int Iyear, int Ihour, int Imin) {
+        this.Idate = Idate;
+        this.Imonth = Imonth;
+        this.Iyear = Iyear;
+        this.Ihour = Ihour;
+        this.Imin = Imin;
+    }
+    public void setSAllState(int state) {
+        for (int i = 0; i < this.state.length; i++) {
+            this.state[i] = state;
+        }
+    }
+
+    public void setState(int index, int state) {
+        this.state[index] = state;
+    }
         
 
     // getters

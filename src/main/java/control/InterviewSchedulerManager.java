@@ -40,14 +40,12 @@ public class InterviewSchedulerManager {
     // @dev : this loop through all interview that belong to the company and assign
     // to result interview
     public void displayAllInterviews(Company company) {
-        if (!interviewsResult.isEmpty()) {
+        if (interviewsResult.isEmpty()) {
             ListInterface<JobPosting> jobPostings = company.getJobPostings();
             for (int i = 0; i < company.getJobPostings().size(); i++) {
                 JobPosting job = jobPostings.get(i);
-                for (int j = 0; j < interviews.size(); j++) {
-                    if (interviews.get(i).getMatches().get(0).getJob().getId() == job.getId()) {
-                        interviewsResult.add(interviews.get(i));
-                    }
+                if (interviews.get(i).getMatches().get(0).getJob().getId() == job.getId()) {
+                    interviewsResult.add(interviews.get(i));
                 }
             }
 
@@ -77,6 +75,8 @@ public class InterviewSchedulerManager {
         for (int i = 0; i < interviewsResult.size(); i++) {
             if (interviewsResult.get(i).getState()[0] == 0) {
                 System.out.println("Interview " + (i + 1) + ": " + interviewsResult.get(i).getId());
+                // print out for which job
+                System.out.println(interviewsResult.get(i).getMatches().get(0).getJob().getTitle());
                 // input date
                 System.out.print("Enter Date: ");
                 int date = input.nextInt();
@@ -96,7 +96,7 @@ public class InterviewSchedulerManager {
 
                 // set state
                 for (int j = 0; j < interviewsResult.get(i).getState().length; j++) {
-                    // print matches
+                    // print out each student
                     System.out.println(interviewsResult.get(j).getMatches().get(j));
                     // accept or reject
                     System.out.println("Enter 1 for accept and 0 for reject");
@@ -113,7 +113,7 @@ public class InterviewSchedulerManager {
     }
 
     public void displayAllInterviews(Student student) {
-        if (!interviewsResult.isEmpty()) {
+        if (interviewsResult.isEmpty()) {
             for (int i = 0; i < interviews.size(); i++) {
                 for (int j = 0; j < interviews.get(i).getMatches().size(); j++) {
                     if (interviews.get(i).getMatches().get(j).getStudent().getId() == student.getId()) {
@@ -124,6 +124,35 @@ public class InterviewSchedulerManager {
                 }
             }
         }
+
+        for (int i = 0; i < interviewsResult.size(); i++) {
+            System.out.println("\n");
+            System.out.println("Interview " + (i + 1) + ": " + interviewsResult.get(i).getId());
+            System.out.println("Date: " + interviewsResult.get(i).getIdate() + "/"
+                    + interviewsResult.get(i).getImonth() + "/" + interviewsResult.get(i).getIyear());
+            System.out.println(
+                    "Time: " + interviewsResult.get(i).getIhour() + ":" + interviewsResult.get(i).getImin());
+            System.out.println("Job: " + interviewsResult.get(i).getMatches().get(0).getJob().getTitle());
+            for (int j = 0; j < interviewsResult.get(i).getMatches().size(); j++) {
+                if (interviewsResult.get(i).getMatches().get(j).getStudent().getId() == student.getId()) {
+                    System.out.println("State: " + getDisplayState(interviewsResult.get(i).getState()[j]));
+                }
+                
+            }
+        }
+    }
+    private String getDisplayState(int i) {
+        if(i == 0){
+            return "Pending";
+        }else if(i == 1){
+            return "Rejected by company";
+        }else if(i == 2){
+            return "Scheduled";
+        }else if(i == 3){
+            return "Accepted by applicant";
+        }else{
+            return "Rejected by applicant";
+        }
     }
 
     public void setInterviewResultState(String InterviewId, String studentId, int state) {
@@ -131,7 +160,7 @@ public class InterviewSchedulerManager {
             if (interviewsResult.get(i).getId().equals(InterviewId)) {
                 for (int j = 0; j < interviewsResult.get(i).getMatches().size(); j++) {
                     Match match = interviewsResult.get(i).getMatches().get(j);
-                    if (match.getStudent().getId().equals(studentId)) {
+                    if (match.getStudent().getId().equals(studentId) && interviewsResult.get(i).getState()[j] == 2) {
                         interviewsResult.get(i).setState(j, state);
                     }
                 }

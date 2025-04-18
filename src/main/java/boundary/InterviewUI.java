@@ -9,8 +9,10 @@ import control.InterviewSchedulerManager;
 import control.JobManager;
 import control.MatchingEngine;
 import entity.Company;
+import entity.Interview;
 import entity.Match;
 import entity.Student;
+import dao.*;
 
 public class InterviewUI {
     private InterviewSchedulerManager interviews;
@@ -20,19 +22,33 @@ public class InterviewUI {
     private ApplicantManager applicantManagers;
     private Scanner input = new Scanner(System.in);
 
-    // TODO: as student accept or reject interview
 
-    // TODO: company schedule interview
+    public InterviewUI(InterviewSchedulerManager interviews, MatchingEngine matchingEngines, CompanyManager companyManagers, JobManager jobManagers, ApplicantManager applicantManagers) {
+        this.interviews = interviews;
+        this.matchingEngines = matchingEngines;
+        this.companyManagers = companyManagers;
+        this.jobManagers = jobManagers;
+        this.applicantManagers = applicantManagers;
+        
+    }
+
     public static void main(String[] args) {
         MatchingEngine matchingEngine = new MatchingEngine();
         CompanyManager companyManager = new CompanyManager();
         ApplicantManager applicantManager = new ApplicantManager();
         JobManager jobManager = new JobManager();
+        InterviewSchedulerManager interviews = new InterviewSchedulerManager();
 
-        // Initialize sample data
+
+        // TODO: Initialize sample data
+        JobPostingInitializer.initialize(jobManager);
+        StudentInitializer.initialize(applicantManager);
+        CompanyInitializer.initialize(companyManager);
+        MatchInitializer.matchStudents(matchingEngine, jobManager, companyManager, applicantManager);
+        InterviewInitializer.initialize(interviews, matchingEngine, companyManager, jobManager, applicantManager);
 
         // Create InterviewUI instance
-        InterviewUI interviewUI = new InterviewUI();
+        InterviewUI interviewUI = new InterviewUI(interviews, matchingEngine, companyManager, jobManager, applicantManager);
         interviewUI.run();
 
     }
@@ -121,6 +137,7 @@ public class InterviewUI {
 
     public void viewScheduledInterviews(Company company) {
         interviews.displayAllInterviews(company);
+        prompt("Press enter to continue...");
     }
 
     private void loginAsStudent(String id) {
@@ -152,21 +169,23 @@ public class InterviewUI {
     }
 
     public void acceptOrRejectInterview(Student student) {
-        if (interviews.resultsInterviewIsEmpty()) {
+        if (!interviews.resultsInterviewIsEmpty()) {
             interviews.displayAllInterviews(student);
-        }
-        System.out.println("Accept or Reject Interview");
-        System.out.print("Enter Interview ID: ");
-        String interviewId = input.nextLine();
-        boolean found = interviews.getInterviewsResult(interviewId);
-        if (found) {
-            
-            System.out.println("1. Accept");
-            System.out.println("2. Reject");
-            System.out.print("Enter your choice: ");
-            int choice = getUserChoice();
-            interviews.setInterviewResultState(interviewId, student.getId(), choice+2);// plus to to set state to 3 for accepted and 4 for rejected
-            
+            System.out.println("Accept or Reject Interview");
+            System.out.print("Enter Interview ID: ");
+            String interviewId = input.nextLine();
+            boolean found = interviews.getInterviewsResult(interviewId);
+            if (found) {
+                
+                System.out.println("1. Accept");
+                System.out.println("2. Reject");
+                System.out.print("Enter your choice: ");
+                int choice = getUserChoice();
+                interviews.setInterviewResultState(interviewId, student.getId(), choice+2);// plus to to set state to 3 for accepted and 4 for rejected
+
+            }
+        }else{
+            System.out.println("No interviews scheduled");
         }
 
 
