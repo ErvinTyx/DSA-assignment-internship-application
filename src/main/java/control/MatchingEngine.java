@@ -13,7 +13,9 @@ import utility.SearchUtil;
 
 public class MatchingEngine {
 
-    private ListInterface<Match> matches = new ArrayList<>();
+    private ListInterface<Match> matches= new ArrayList<>();
+
+    private ListInterface<Match> matchesResult = new ArrayList<>();
 
     private ListInterface<JobPosting> jobposting = new ArrayList<>();
 
@@ -21,27 +23,27 @@ public class MatchingEngine {
 
     /**
      * Calculates match scores between all students and jobs, filters out low
-     * matches,
+     * matchesResult,
      * sorts the results, and returns the sorted list.
      */
-    public void calculateMatches(Student student) {
-        matches.clear();
+    public void calculatematches(Student student) {
+        matchesResult.clear();
         for (int j = 0; j < jobposting.size(); j++) {
-            JobPosting job = jobposting.get(j);
+            JobPosting job = result.get(j);
             double score = calculateMatchScore(student, job);
-            if (score > 0.4) { // Only add meaningful matches
-                matches.add(new Match(student, job, score));
+            if (score > 0.4) { // Only add meaningful matchesResult
+                matchesResult.add(new Match(student, job, score));
             }
         }
 
         // Convert to array and sort
-        Match[] matchArray = listToArray(matches);
+        Match[] matchArray = listToArray(matchesResult);
         SearchUtil.mergeSort(matchArray);
 
         // Rebuild the list in sorted order
-        matches.clear();
+        matchesResult.clear();
         for (Match match : matchArray) {
-            matches.add(match);
+            matchesResult.add(match);
         }
     }
 
@@ -94,8 +96,9 @@ public class MatchingEngine {
         if (!jobposting.isEmpty()) {
 
             ListInterface<Company> companys = companyManager.getCompanies();
+            ListInterface<JobPosting> jobs = new ArrayList<>();
             for (int i = 0; i < companys.size(); i++) {
-                ListInterface<JobPosting> jobs = companys.get(i).getJobPostings();
+                jobs = companys.get(i).getJobPostings();
                 for (int j = 0; j < jobs.size(); j++) {
                     jobposting.add(jobs.get(i));
                 }
@@ -104,7 +107,6 @@ public class MatchingEngine {
     }
 
     public void seachRelatedJobMatch() {
-        result.clear();
         JobPostingUI jobPostingUI = new JobPostingUI(jobposting);
         result = jobPostingUI.FindJobMatch();
     }
@@ -112,17 +114,18 @@ public class MatchingEngine {
     public void clearJobsData() {
         jobposting.clear();
         result.clear();
+        matchesResult.clear();
     }
 
     public void displayScoresJobs() {
-        if (matches.isEmpty()) {
+        if (matchesResult.isEmpty()) {
             System.out.println("No job matches found for your profile.");
         } else {
-            System.out.println("\n=========== YOUR JOB MATCHES ===========\n");
+            System.out.println("\n=========== YOUR JOB matchesResult ===========\n");
             System.out.printf("%-5s %-25s %-15s %-10s\n", "No.", "Job", "Location", "Match Score");
             System.out.println("------------------------------------------------------------------");
-            for (int i = 0; i < matches.size(); i++) {
-                Match match = matches.get(i);
+            for (int i = 0; i < matchesResult.size(); i++) {
+                Match match = matchesResult.get(i);
                 System.out.printf("%-5d %-25s %-15s %-10.2f\n",
                         (i + 1),
                         match.getJob().getTitle(),
@@ -133,8 +136,10 @@ public class MatchingEngine {
     }
 
     public void getMatchDetails(int num) {
-        if (num > 0 && num <= matches.size()) {
-            displayJobMatchDetails(matches.get(num - 1));
+        if (num > 0 && num <= matchesResult.size()) {
+            Match match = matchesResult.get(num - 1);
+            displayJobMatchDetails(match);
+            matches.add(match);
         }
     }
 
@@ -178,8 +183,8 @@ public class MatchingEngine {
         boolean found = false;
         int count = 1;
         // TODO: It is better to sort the matching score bigest to smallest
-        for (int i = 0; i < matches.size(); i++) {
-            Match match = matches.get(i);
+        for (int i = 0; i < matchesResult.size(); i++) {
+            Match match = matchesResult.get(i);
             if (match.getScore() >= minScore) {
                 System.out.printf("%-5d %-25s %-15s %-10.2f\n",
                         count++,
@@ -192,12 +197,16 @@ public class MatchingEngine {
         return found;
     }
 
+    public boolean resultIsEmpty() {
+        return result.isEmpty();
+    }
+
     public boolean displayFilterLocation(String location) {
         boolean found = false;
         int count = 1;
 
-        for (int i = 0; i < matches.size(); i++) {
-            Match match = matches.get(i);
+        for (int i = 0; i < matchesResult.size(); i++) {
+            Match match = matchesResult.get(i);
             if (match.getJob().getLocation().toLowerCase().contains(location)) {
                 System.out.printf("%-5d %-25s %-15s %-10.2f\n",
                         count++,
@@ -212,7 +221,25 @@ public class MatchingEngine {
         return found;
     }
 
-    // @dev : purpose to not make it encapsulated just to deleted matches from interview 
+    public void displayAllMatches() {
+        if (matchesResult.isEmpty()) {
+            System.out.println("No job matches found for your profile.");
+        } else {
+            System.out.println("\n=========== YOUR JOB matchesResult ===========\n");
+            System.out.printf("%-5s %-25s %-15s %-10s\n", "No.", "Job", "Location", "Match Score");
+            System.out.println("------------------------------------------------------------------");
+            for (int i = 0; i < matchesResult.size(); i++) {
+                Match match = matchesResult.get(i);
+                System.out.printf("%-5d %-25s %-15s %-10.2f\n",
+                        (i + 1),
+                        match.getJob().getTitle(),
+                        match.getJob().getLocation(),
+                        match.getScore());
+            }
+        }
+    }
+
+    // @dev : purpose to not make it encapsulated just to deleted matchesResult from interview 
     public ListInterface<Match> getMatches() {
         return matches;
     }

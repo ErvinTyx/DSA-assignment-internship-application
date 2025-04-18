@@ -144,7 +144,7 @@ public class JobManager {
     }
 
     public ListInterface<JobPosting> searchJobPostings(String query, int threshold, boolean byTitle) {
-        ListInterface<JobPosting> results = new adt.ArrayList<>();
+        ListInterface<JobPosting> results = new ArrayList<>();
 
         query = query.toLowerCase();
 

@@ -49,7 +49,7 @@ public class JobPostingUI {
                     listAllJobPostings();
                     break;
                 case 5:
-                    searchJobPostings();
+                    makeSearchJobs();
                     break;
                 case 6:
                     System.out.println("\nExiting Job Posting Management System!");
@@ -203,19 +203,19 @@ public class JobPostingUI {
     }
 
     // Method to search job postings
-    private void searchJobPostings() {
+    private void searchJobPostingsMenu() {
         clearInputBuffer();
         System.out.println("\n=== SEARCH JOB POSTINGS ===");
 
         System.out.println("Search by:");
         System.out.println("1. Title");
         System.out.println("2. Location");
-        makeSearchJobs();
     }
 
     private ListInterface<JobPosting> makeSearchJobs() {
-        int searchChoice = getIntInput("Enter your choice: ", 1, 2);
-
+        searchJobPostingsMenu();
+        int searchChoice = getIntInput("\nEnter your choice: ", 1, 2);
+        getStringInput("");// clear buffer
         String query = "";
         boolean byTitle = true;
 
@@ -234,7 +234,6 @@ public class JobPostingUI {
     }
 
     public ListInterface<JobPosting> FindJobMatch() {
-        searchJobPostings();
         return makeSearchJobs();
     }
 

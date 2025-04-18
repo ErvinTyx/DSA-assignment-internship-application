@@ -56,18 +56,11 @@ public class MatchUI {
             System.out.println("\nFinding job matches for " + student.getName() + "...");
             matchingEngine.seachRelatedJobMatch();
             // use match engine find the student score for all of the jobs
-            matchingEngine.calculateMatches(student);
+            matchingEngine.calculatematches(student);
 
             // display all the scores which are high than 0.4
             matchingEngine.displayScoresJobs();
 
-            System.out.println("\nEnter a job number to view details (0 to go back): ");
-
-            int selection = input.nextInt();
-            input.nextLine(); // Consume newline
-            matchingEngine.getMatchDetails(selection);
-            System.out.println("\nPress Enter to continue...");
-            input.nextLine();
         } else {
             System.out.println("Student ID not found. Please try again.");
             return;
@@ -107,7 +100,10 @@ public class MatchUI {
                         filterByJobLocation(); // Filter student's matches by location
                         break;
                     case 4:
-                        System.out.println("Exiting Job Matching System. Goodbye!"); // Exit
+                        applyForJob();
+                        break;
+                    case 5:
+                        System.out.println("Exiting Student Job Matching System. Goodbye!");
                         break;
                     default:
                         System.out.println("Invalid choice. Please try again.");
@@ -117,17 +113,35 @@ public class MatchUI {
                 input.nextLine();
                 choice = 0;
             }
-        } while (choice != 4);
+        } while (choice != 5);
         matchingEngine.clearJobsData();
+    }
+
+    public void applyForJob() {
+        Student student = enterStudentId();
+        if (student == null) {
+            System.out.println("Student ID not found. Please try again.");
+        } else {
+            if(matchingEngine.resultIsEmpty()){
+                System.out.println("Please Search your job matches first.");
+            }else{
+                System.out.println("\n=========== JOB DETAILS ===========\n");
+                matchingEngine.displayAllMatches();
+                System.out.print("Enter the number of the job you want to apply for: ");
+                int jobNumber = input.nextInt();
+                matchingEngine.getMatchDetails(jobNumber);
+                input.nextLine();
+            }
+        }
     }
 
     // Display the menu options
     private void displayMenu() {
         System.out.println("\n===== STUDENT JOB MATCHING SYSTEM =====");
-        System.out.println("1. View your job matches");
+        System.out.println("1. Search your job matches");
         System.out.println("2. Filter your matches by minimum score");
         System.out.println("3. Filter your matches by job location");
-        System.out.println("4. View your profile details");
+        System.out.println("4. Apply for a job");
         System.out.println("5. Exit");
         System.out.println("=====================================");
     }
