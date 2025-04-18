@@ -8,7 +8,7 @@ public class Company {
     private String name;
     private String location;
     private ListInterface<JobPosting> jobPostings = new ArrayList<>();
-    private int COUNTER = 0;
+    private static int COUNTER = 0;
 
     // Constructor
     public Company(String name, String location, ListInterface<JobPosting> jobPostings) {
