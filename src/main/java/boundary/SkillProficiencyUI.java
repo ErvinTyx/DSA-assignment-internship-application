@@ -50,7 +50,7 @@ public class SkillProficiencyUI {
         boolean flag = true;
         while (flag) {
             try {
-                System.out.print("Enter Skill Proficiency Importance:");
+                System.out.print("Enter Skill Proficiency:");
                 skillProficiencyImportance = sc.nextInt();
                 if (skillProficiencyImportance > 0 && skillProficiencyImportance <= 10) {
                     flag = false;
@@ -70,7 +70,7 @@ public class SkillProficiencyUI {
         boolean flag = true;
         while (flag) {
             try {
-                System.out.print("Enter Skill Proficiency Importance:");
+                System.out.print("Enter Skill Proficiency :");
                 skillProficiencyImportance = sc.nextInt();
                 if (skillProficiencyImportance > 0 && skillProficiencyImportance <= 10) {
                     flag = false;

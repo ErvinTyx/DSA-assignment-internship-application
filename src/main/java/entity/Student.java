@@ -24,7 +24,7 @@ public class Student {
     public Student(Student student) {
         this.id = student.getId();
         this.name = student.getName();
-        this.skills = student.getSkills();
+        this.skills = student.getSkillProficiencies();
         this.location = student.getLocation();
         this.experience = student.getExperience();
     }
@@ -59,7 +59,7 @@ public class Student {
         return name;
     }
 
-    public ListInterface<SkillProficiency> getSkills() {
+    public ListInterface<SkillProficiency> getSkillProficiencies() {
         return skills;
     }
 
@@ -73,20 +73,20 @@ public class Student {
 
     @Override
     public String toString() {
-        return "\n ID: " + id +
-                "\nName: " + name +
-                "\nLocation: " + location +
-                "\nExperience: " + experience + " years" +
-                "\nSkills:" + getStringSkillProficiencies()
-
-        ;
-    }
-
-    public String getStringSkillProficiencies() {
-        String skillProficiencies = "";
-        for (int i = 0; i < skills.size(); i++) {
-            skillProficiencies += skills.get(i).toString();
+        String studentInfo = "";
+        studentInfo += String.format("|%15s|%15s|%15s|%15s|\n", id, name, location, experience + " years");
+        studentInfo += "+---------------+---------------+---------------+---------------+";
+        studentInfo += "\tSkills:\n";
+        if (skills.isEmpty()) {
+            studentInfo += "\t\tNo Skill Proficiency\n";
+        } else {
+            studentInfo += "\t\t+-----+---------------+-------------+\n";
+            studentInfo += "\t\t| No. |     Skill     | Proficiency |\n";
+            studentInfo += "\t\t+-----+---------------+-------------+\n";
+            for (int i = 0; i < skills.size(); i++) {
+                studentInfo += String.format("\t\t|%-4d %s\n", i + 1, skills.get(i));
+            }
         }
-        return skillProficiencies;
+        return studentInfo;
     }
 }

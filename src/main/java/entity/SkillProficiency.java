@@ -34,8 +34,9 @@ public class SkillProficiency {
 
     @Override
     public String toString() {
-        return "- " + skillName +
-                " (Proficiency: " + proficiency
-                + ")";
+        String result = "";
+        result += String.format("|%-15s| %12d|\n", skillName, proficiency);
+        result += "\t\t+-----+---------------+-------------+\n";
+        return result;
     }
 }

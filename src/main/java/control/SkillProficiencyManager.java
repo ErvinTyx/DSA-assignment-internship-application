@@ -68,8 +68,16 @@ public class SkillProficiencyManager {
 
     public String getAllSkillProficiencys() {
         String allSkillProficiencys = "";
-        for (int i = 0; i < skillProficiencys.size(); i++) {
-            allSkillProficiencys += "\t\t" + (i + 1) + ". " + skillProficiencys.get(i).toString();
+
+        if (skillProficiencys.isEmpty()) {
+            allSkillProficiencys += "\t\tNo Skill Proficiency\n";
+        } else {
+            allSkillProficiencys += "\t\t+-----+---------------+-------------+\n";
+            allSkillProficiencys += "\t\t| No. |     Skill     | Proficiency |\n";
+            allSkillProficiencys += "\t\t+-----+---------------+-------------+\n";
+            for (int i = 0; i < skillProficiencys.size(); i++) {
+                allSkillProficiencys += String.format("\t\t|%-4d %s\n", i + 1, skillProficiencys.get(i));
+            }
         }
         return allSkillProficiencys;
     }
@@ -87,9 +95,18 @@ public class SkillProficiencyManager {
         }
     }
 
-    // public static void main(String[] args) {
-    //     SkillProficiencyManager skillProficiencyManager = new SkillProficiencyManager();
-    //     skillProficiencyManager.runSkillProficiency();
-    // }
+    protected ListInterface<SkillProficiency> getSkillProficiencys() {
+        ListInterface<SkillProficiency> skillProficiencys = new ArrayList<>();
+        for (int i = 0; i < this.skillProficiencys.size(); i++) {
+            skillProficiencys.add(this.skillProficiencys.get(i));
+        }
+        this.skillProficiencys.clear();
+        return skillProficiencys;
+    }
+
+    public static void main(String[] args) {
+        SkillProficiencyManager skillProficiencyManager = new SkillProficiencyManager(new ArrayList<>());
+        skillProficiencyManager.runSkillProficiency();
+    }
 
 }

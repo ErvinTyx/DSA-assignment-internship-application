@@ -2,10 +2,6 @@ package boundary;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
-import adt.ListInterface;
-import control.ApplicantManager;
-import dao.StudentInitializer;
-import entity.Student;
 
 public class ApplicantProfileUI {
 
@@ -86,7 +82,7 @@ public class ApplicantProfileUI {
         return applicantName;
     }
 
-    public int inputApplicantWorkingExperience(){
+    public int inputApplicantWorkingExperience() {
         int workingExperience = 0;
         boolean flag = true;
         while (flag) {
@@ -119,6 +115,19 @@ public class ApplicantProfileUI {
         return applicantId;
     }
 
-    
+    public void listStudentInfo(String info) {
+        String header = String.format("+---------------+---------------+---------------+---------------+\n");
+        header += String.format("|%15s|%15s|%15s|%15s|\n", "ID", "Name", "Location", "Experience");
+        header += String.format("+---------------+---------------+---------------+---------------+");
+        System.out.println(header);
+        System.out.println(info);
+    }
+
+    public void displayEnterToContinueMessage() {
+        System.out.println("\nPress Enter to continue...");
+        sc.nextLine();
+    }
+
+
 
 }
