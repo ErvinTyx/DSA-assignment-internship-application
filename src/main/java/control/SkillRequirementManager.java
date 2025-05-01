@@ -13,12 +13,38 @@ public class SkillRequirementManager {
         this.skillRequirements = skillRequirements;
     }
 
-    // // remove this after testing
-    // public SkillRequirementManager() {
-
-    // }
 
     public void runSkillRequirement() {
+        int choice = 0;
+        do {
+            choice = skillRequirementUI.getMenuChoice();
+            switch (choice) {
+                case 1:
+                    addNewSkillRequirement();
+                    skillRequirementUI.listAllSkillRequirements(getAllSkillRequirements());
+                    break;
+                case 2:
+                    displaySkillRequirement();
+                    break;
+                case 3:
+                    updateSkillRequirement();
+                    displaySkillRequirement();
+                    break;
+                case 4:
+                    deleteSkillRequirement();
+                    displaySkillRequirement();
+                    break;
+                case 5:
+                    MessageUI.displayExitMessageSkillRequirement();
+                    break;
+                default:
+                    MessageUI.displayInvalidChoiceMessage();
+            }
+        } while (choice != 5);
+    }
+
+    protected void runSkillRequirement(ListInterface<SkillRequirement> skillRequirements) {
+        this.skillRequirements = skillRequirements;
         int choice = 0;
         do {
             choice = skillRequirementUI.getMenuChoice();
@@ -87,6 +113,14 @@ public class SkillRequirementManager {
         }
     }
 
+    protected ListInterface<SkillRequirement> getSkillRequirements() {
+        ListInterface<SkillRequirement> skillRequirements = new ArrayList<>();
+        for (int i = 0; i < this.skillRequirements.size(); i++) {
+            skillRequirements.add(this.skillRequirements.get(i));
+        }
+        this.skillRequirements.clear();
+        return skillRequirements;
+    }
     // public static void main(String[] args) {
     //     SkillRequirementManager skillRequirementManager = new SkillRequirementManager();
     //     skillRequirementManager.runSkillRequirement();

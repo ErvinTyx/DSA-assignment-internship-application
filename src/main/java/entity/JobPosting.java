@@ -11,11 +11,29 @@ public class JobPosting {
     private String location;
     private double[] salaryRange;
     private int experienceRequired;
+    // score for match
+    private int locationImprotance;
+    private int experienceImportance;
+    private int skillImportance;
     private static int COUNTER = 0;
+
+    public JobPosting(JobPosting jobPosting) {
+        this.id = jobPosting.getId();
+        this.title = jobPosting.getTitle();
+        this.description = jobPosting.getDescription();
+        this.requiredSkills = jobPosting.getRequiredSkills();
+        this.location = jobPosting.getLocation();
+        this.salaryRange = jobPosting.getSalaryRange();
+        this.experienceRequired = jobPosting.getExperienceRequired();
+        this.locationImprotance = jobPosting.getLocationImprotance();
+        this.experienceImportance = jobPosting.getExperienceImportance();
+        this.skillImportance = jobPosting.getSkillImportance();
+    }
 
     // constructor
     public JobPosting(String title, String description, ListInterface<SkillRequirement> requiredSkills, String location,
-                      double[] salaryRange, int experienceRequired) {
+            double[] salaryRange, int experienceRequired, int locationImprotance, int experienceImportance,
+            int skillImportance) {
         COUNTER++;
         this.id = "J" + COUNTER;
         this.title = title;
@@ -24,9 +42,24 @@ public class JobPosting {
         this.location = location;
         this.salaryRange = salaryRange;
         this.experienceRequired = experienceRequired;
+        this.locationImprotance = locationImprotance;
+        this.experienceImportance = experienceImportance;
+        this.skillImportance = skillImportance;
     }
 
     // Getters
+    public int getLocationImprotance() {
+        return locationImprotance;
+    }
+
+    public int getExperienceImportance() {
+        return experienceImportance;
+    }
+
+    public int getSkillImportance() {
+        return skillImportance;
+    }
+
     public String getId() {
         return id;
     }
@@ -86,17 +119,22 @@ public class JobPosting {
 
     @Override
     public String toString() {
-        return " [id=" + id + ", title=" + title + ", description=" + description +
-                ", location=" + location + ", experienceRequired=" + experienceRequired +
-                ", salaryRange=" + salaryRange[0] + "~" + salaryRange[1] + "]\n" +
-                "requiredSkills=" + getStringSkillRequirement();
+        // TODO: remove unnecessary heading
+        String result = String.format(
+                "| %-2s | %-8s | %-20s | %-16s | %-13d | %-6.2f~%-6.2f     | %-8d | %-6d | %-6d | %-15s %n" +
+                        "\t+----+----------+----------------------+------------------+---------------+---------------------+----------+---------+--------+%n",
+                id, title, description, location, experienceRequired, salaryRange[0], salaryRange[1],
+                experienceImportance, locationImprotance, skillImportance, getStringSkillRequirement());
+        return result;
     }
 
     public String getStringSkillRequirement() {
-        String result = "";
+        String result = "\n\t\t---------------\n\t\tSkill Requirement   \n\t+---------------+----------+\n\t|     Skill    | Importance|\n\t+---------------+-------------+\n";
         for (int i = 0; i < requiredSkills.size(); i++) {
-            result += requiredSkills.get(i).toString();
+            result += "\t"+ requiredSkills.get(i).toString();
         }
         return result;
     }
+
+    
 }
