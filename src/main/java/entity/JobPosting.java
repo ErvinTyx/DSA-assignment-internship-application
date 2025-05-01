@@ -131,10 +131,9 @@ public class JobPosting {
     public String getStringSkillRequirement() {
         String result = "\n\t\t---------------\n\t\tSkill Requirement   \n\t+---------------+----------+\n\t|     Skill    | Importance|\n\t+---------------+-------------+\n";
         for (int i = 0; i < requiredSkills.size(); i++) {
-            result += "\t"+ requiredSkills.get(i).toString();
+            result += "\t" + requiredSkills.get(i).toString();
         }
         return result;
     }
 
-    
 }

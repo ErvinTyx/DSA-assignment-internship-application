@@ -13,7 +13,6 @@ public class SkillRequirementManager {
         this.skillRequirements = skillRequirements;
     }
 
-
     public void runSkillRequirement() {
         int choice = 0;
         do {
@@ -122,7 +121,8 @@ public class SkillRequirementManager {
         return skillRequirements;
     }
     // public static void main(String[] args) {
-    //     SkillRequirementManager skillRequirementManager = new SkillRequirementManager();
-    //     skillRequirementManager.runSkillRequirement();
+    // SkillRequirementManager skillRequirementManager = new
+    // SkillRequirementManager();
+    // skillRequirementManager.runSkillRequirement();
     // }
 }

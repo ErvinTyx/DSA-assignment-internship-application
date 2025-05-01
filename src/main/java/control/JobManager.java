@@ -11,8 +11,6 @@ public class JobManager {
     private JobPostingUI jobPostingUI = new JobPostingUI();
     private SkillRequirementManager skillRequirementManager = new SkillRequirementManager(new ArrayList<>());
 
-
-
     public JobManager(ListInterface<JobPosting> jobPostings) {
         this.jobPostings = jobPostings;
     }

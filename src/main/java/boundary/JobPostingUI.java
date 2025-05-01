@@ -203,6 +203,5 @@ public class JobPostingUI {
         sc.nextLine();
         return jobPostingIndex;
     }
-    
 
 }
