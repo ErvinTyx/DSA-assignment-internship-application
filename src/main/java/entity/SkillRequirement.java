@@ -24,9 +24,6 @@ public class SkillRequirement {
 
     @Override
     public String toString() {
-        return "\n{" +
-                "skillName='" + skillName + '\'' +
-                ", importance=" + importance +
-                '}';
+        return String.format("| %-15s | %-10d |%n", skillName, importance);
     }
 }
