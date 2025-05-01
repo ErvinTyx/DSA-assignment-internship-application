@@ -8,4 +8,8 @@ public class MessageUI {
     public static void displayExitMessageSkillRequirement() {
         System.out.println("Exiting the Skill Requirement Management System.");
     }
+
+    public static void displayExitMessageSkillProficiency() {
+        System.out.println("Exiting the Skill Proficiency Management System.");
+    }
 }
