@@ -26,6 +26,13 @@ public class Company {
         this.jobPostings = company.getJobPostings();
     }
 
+    public Company(String name, String location) {
+        COUNTER++;
+        this.id = "C" + COUNTER;
+        this.name = name;
+        this.location = location;
+    }
+
     // Getters
     public String getId() {
         return id;
@@ -62,15 +69,27 @@ public class Company {
 
     @Override
     public String toString() {
-        return "{" + "id=" + id + ", name=" + name + ", location=" + location + "\njobPostings=" + getStringJobPosting()
-                + "}";
+        String result = String.format(
+                "|%4s|%10s| %9s| %13s       |\n" +
+                        "+----+----------+----------+-----------------------+\n",
+                id, name, location, getStringJobPosting());
+        return result;
     }
 
     private String getStringJobPosting() {
+        if (jobPostings.isEmpty()) {
+            return "No job posting.";
+        }
         String result = "";
+        result += "\n\t---------------------" +"\n\tJob Posting List" + "\n\t---------------------"+"\n\t+----+----------+----------------------+------------------+---------------+---------------------+--------+--------+--------+----------+\n"
+                        +
+                        "\t| ID | Title    | Description          | Location         | Exp. Required | Salary Range        | ExpImp | LocImp | SkillImp| Skills   |\n"
+                        +
+                        "\t+----+----------+----------------------+------------------+---------------+---------------------+--------+--------+---------+----------+\n";
         for (int i = 0; i < jobPostings.size(); i++) {
-            result += jobPostings.get(i).toString() + "\n";
+            result += "\t"+jobPostings.get(i).toString();
         }
         return result;
     }
+
 }

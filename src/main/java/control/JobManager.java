@@ -40,6 +40,32 @@ public class JobManager {
         } while (choice != 5);
     }
 
+    protected void runJobPosting(ListInterface<JobPosting> jobPostings) {
+        this.jobPostings = jobPostings;
+        int choice = 0;
+        do {
+            choice = jobPostingUI.getMenuChoice();
+            switch (choice) {
+                case 1:
+                    addJobPosting();
+                    break;
+                case 2:
+                    displayAllJobPosting();
+                    break;
+                case 3:
+                    updateJobPosting();
+                    break;
+                case 4:
+                    deleteJobPosting();
+                    break;
+                case 5:
+                    return;
+                default:
+                    MessageUI.displayInvalidChoiceMessage();
+            }
+        } while (choice != 5);
+    }
+
     public void addJobPosting() {
         String jobPostingTitle = jobPostingUI.inputJobPostingTitle();// got
         String jobPostingDescription = jobPostingUI.inputJobPostingDescription();// got
@@ -64,6 +90,16 @@ public class JobManager {
 
     public void displayAllJobPosting() {
         jobPostingUI.listAllJobPosting(getAllJobPosting());
+    }
+
+    public ListInterface<JobPosting> getJobPostings() {
+        ListInterface<JobPosting> jobPostings = new ArrayList<>();
+        for (int i = 0; i < this.jobPostings.size(); i++) {
+            jobPostings.add(this.jobPostings.get(i));
+        }
+
+        this.jobPostings.clear();
+        return jobPostings;
     }
 
     private String getAllJobPosting() {

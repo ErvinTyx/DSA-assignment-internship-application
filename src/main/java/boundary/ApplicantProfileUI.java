@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class ApplicantProfileUI {
 
-    private static Scanner sc = new Scanner(System.in);
+    private Scanner sc = new Scanner(System.in);
 
     private void applicantMenuLogin() {
         System.out.println();

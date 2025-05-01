@@ -119,7 +119,6 @@ public class JobPosting {
 
     @Override
     public String toString() {
-        // TODO: remove unnecessary heading
         String result = String.format(
                 "| %-2s | %-8s | %-20s | %-16s | %-13d | %-6.2f~%-6.2f     | %-8d | %-6d | %-6d | %-15s %n" +
                         "\t+----+----------+----------------------+------------------+---------------+---------------------+----------+---------+--------+%n",

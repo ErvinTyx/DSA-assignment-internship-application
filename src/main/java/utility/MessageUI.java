@@ -29,4 +29,12 @@ public class MessageUI {
         System.out.println("Applicant account deleted.");
     }
 
+    public static void displayDeleteCompanyAccountMessage() {
+        System.out.println("Company account deleted.");
+    }
+
+    public static void displayCompanyInfoNotFoundMessage() {
+        System.out.println("Company Id not found.");
+    }
+
 }
