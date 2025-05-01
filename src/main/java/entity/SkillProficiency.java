@@ -1,6 +1,6 @@
 package entity;
-
-public class SkillProficiency {
+import java.io.Serializable;
+public class SkillProficiency implements Serializable {
     private String skillName;
     private int proficiency;
 

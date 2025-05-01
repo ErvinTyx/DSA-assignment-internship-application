@@ -2,8 +2,9 @@ package entity;
 
 import adt.ArrayList;
 import adt.ListInterface;
+import java.io.Serializable;
 
-public class Student {
+public class Student implements Serializable {
     private String id;
     private String name;
     private ListInterface<SkillProficiency> skills = new ArrayList<>();
@@ -76,7 +77,7 @@ public class Student {
         String studentInfo = "";
         studentInfo += String.format("|%15s|%15s|%15s|%15s|\n", id, name, location, experience + " years");
         studentInfo += "+---------------+---------------+---------------+---------------+";
-        studentInfo += "\tSkills:\n";
+        studentInfo += "\t\nSkills:\n";
         if (skills.isEmpty()) {
             studentInfo += "\t\tNo Skill Proficiency\n";
         } else {

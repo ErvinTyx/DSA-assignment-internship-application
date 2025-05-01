@@ -47,6 +47,36 @@ public class SkillProficiencyManager {
         } while (choice != 5);
     }
 
+    protected void runSkillProficiency(ListInterface<SkillProficiency> skillProficiencys) {
+        this.skillProficiencys = skillProficiencys;
+        int choice = 0;
+        do {
+            choice = skillProficiencyUI.getMenuChoice();
+            switch (choice) {
+                case 1:
+                    addNewSkillProficiency();
+                    skillProficiencyUI.listAllSkillProficiencys(getAllSkillProficiencys());
+                    break;
+                case 2:
+                    displaySkillProficiency();
+                    break;
+                case 3:
+                    updateSkillProficiency();
+                    displaySkillProficiency();
+                    break;
+                case 4:
+                    deleteSkillProficiency();
+                    displaySkillProficiency();
+                    break;
+                case 5:
+                    MessageUI.displayExitMessageSkillProficiency();
+                    break;
+                default:
+                    MessageUI.displayInvalidChoiceMessage();
+            }
+        } while (choice != 5);
+    }
+
     public void addNewSkillProficiency() {
         String name = skillProficiencyUI.inputSkillProficiencyName();
         int importance = skillProficiencyUI.inputSkillProficiencyImportance();

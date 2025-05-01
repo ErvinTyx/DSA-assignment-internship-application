@@ -21,4 +21,12 @@ public class MessageUI {
         System.out.println("Entering the Skill Proficiency Management System.");
     }
 
+    public static void displayLogOutMessage() {
+        System.out.println("Logging out.");
+    }
+
+    public static void displayDeleteApplicantAccountMessage() {
+        System.out.println("Applicant account deleted.");
+    }
+
 }
