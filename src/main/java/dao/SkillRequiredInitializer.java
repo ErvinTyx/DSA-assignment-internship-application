@@ -4,6 +4,7 @@ import adt.*;
 import control.JobManager;
 import entity.SkillRequirement;
 
+
 public class SkillRequiredInitializer {
     public ListInterface<SkillRequirement> initializeDeveloperSkills() {
         ListInterface<SkillRequirement> developerSkills = new ArrayList<>();

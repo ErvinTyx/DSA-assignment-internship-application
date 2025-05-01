@@ -1,9 +1,10 @@
 package entity;
 
-import adt.ArrayList;
-import adt.ListInterface;
+import adt.*;
+import java.io.Serializable;
 
-public class Company {
+
+public class Company implements Serializable {
     private String id;
     private String name;
     private String location;

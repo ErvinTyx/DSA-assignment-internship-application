@@ -6,13 +6,19 @@ import entity.JobPosting;
 import utility.MessageUI;
 import entity.Company;
 import control.JobManager;
+import dao.CompanyDAO;
 
 public class CompanyManager {
 
     private ListInterface<Company> companyList = new ArrayList<>();
     private JobManager jobManager = new JobManager(new ArrayList<>());
     private CompanyUI companyUI = new CompanyUI();
+    private CompanyDAO companyDAO = new CompanyDAO();
     private int index = -1;
+
+    public CompanyManager(){
+        companyList = companyDAO.retrieveFromFile();
+    }
 
     public void runCompanyProfile() {
         boolean flag = true;
@@ -30,6 +36,7 @@ public class CompanyManager {
                     break;
             }
         }
+        companyDAO.saveToFile(companyList);
     }
 
     public void login() {

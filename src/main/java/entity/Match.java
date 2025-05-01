@@ -1,6 +1,6 @@
 package entity;
-
-public class Match implements Comparable<Match> {
+import java.io.Serializable;
+public class Match implements Serializable {
     private Student student;
     private JobPosting job;
     private double score;
@@ -11,11 +11,6 @@ public class Match implements Comparable<Match> {
         this.score = score;
     }
 
-    @Override
-    public int compareTo(Match other) {
-        // Sort in descending order of score
-        return Double.compare(other.score, this.score);
-    }
 
     public Student getStudent() {
         return student;

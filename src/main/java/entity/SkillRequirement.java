@@ -1,6 +1,7 @@
 package entity;
 
-public class SkillRequirement {
+import java.io.Serializable;
+public class SkillRequirement implements Serializable {
     private String skillName;
     private int importance;
 

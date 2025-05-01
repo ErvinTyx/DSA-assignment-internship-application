@@ -5,8 +5,9 @@ import boundary.JobPostingUI;
 import entity.JobPosting;
 import utility.MessageUI;
 import entity.SkillRequirement;
+import java.io.Serializable;
 
-public class JobManager {
+public class JobManager implements Serializable {
     private ListInterface<JobPosting> jobPostings = new ArrayList<>();
     private JobPostingUI jobPostingUI = new JobPostingUI();
     private SkillRequirementManager skillRequirementManager = new SkillRequirementManager(new ArrayList<>());

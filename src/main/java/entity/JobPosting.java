@@ -1,9 +1,9 @@
 package entity;
 
-import adt.ArrayList;
-import adt.ListInterface;
+import adt.*;
+import java.io.Serializable;
 
-public class JobPosting {
+public class JobPosting implements Serializable {
     private String id;
     private String title;
     private String description;

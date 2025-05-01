@@ -4,8 +4,9 @@ import adt.*;
 import boundary.SkillRequirementUI;
 import entity.SkillRequirement;
 import utility.MessageUI;
+import java.io.Serializable;
 
-public class SkillRequirementManager {
+public class SkillRequirementManager implements Serializable {
     private ListInterface<SkillRequirement> skillRequirements = new ArrayList<>();
     private SkillRequirementUI skillRequirementUI = new SkillRequirementUI();
 
