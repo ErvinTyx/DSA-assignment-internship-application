@@ -12,62 +12,104 @@ import dao.MatchDAO;
 
 public class MatchingEngine {
     private ListInterface<Match> matches;
-    private CompanyManager companyManager = new CompanyManager();
+    private CompanyManager companyManager;
     private Student student;
     private MatchUI matchUI = new MatchUI();
     private MatchDAO matchDAO = new MatchDAO();
 
     public MatchingEngine() {
-        matchDAO.retrieveFromFile();
+        this.matches = new ArrayList<>();
+        this.companyManager = new CompanyManager(); 
+        matches = matchDAO.retrieveFromFile();
     }
-
+    
     public ListInterface<Match> calculateJobScoreMatches(ListInterface<JobPosting> jobPostings) {
         ListInterface<Match> matches = new ArrayList<>();
+        
+        
         for (int i = 0; i < jobPostings.size(); i++) {
             JobPosting jobPosting = jobPostings.get(i);
+            
+            if (student == null) {
+                System.out.println("ERROR: Student is null in calculateJobScoreMatches");
+                return matches;
+            }
+            
             double score = calculateMatchScore(student, jobPosting);
             matches.add(new Match(new Student(student), new JobPosting(jobPosting), score));
         }
+        
+        if (matches.size() == 0) {
+            System.out.println("No matching jobs found. Returning empty list.");
+            return matches;
+        }
+        
         // menu for applying to jobs
         int choice = 0;
         do {
             // display matches
-            listAllMatches(matches);
+            String matchesInfo = listAllMatches(matches);
+            displayMatches(matchesInfo);
+            
             // select match
             choice = matchUI.inputMatchIndex();
             if (choice != -1 && choice < matches.size()) {
                 // upload to the match list
                 this.matches.add(new Match(matches.get(choice)));
+                System.out.println("Job application submitted successfully!");
             }
         } while (choice != -1);
         
         return matches;
     }
+    
     private void displayMatches(String info) {
-        matchUI.displayMatch(info);
+        if (info.isEmpty()) {
+            matchUI.displayMatch("No matching jobs found.");
+        } else {
+            matchUI.displayMatch(info);
+        }
     }
 
     private String listAllMatches(ListInterface<Match> matches) {
         String output = "";
+        if (matches.size() == 0) {
+            return "No matching jobs found.";
+        }
+        
         for (int i = 0; i < matches.size(); i++) {
             Match match = matches.get(i);
-            output += match.toString();
+            output += (i + 1) + "\n"  + match.toString() + "\n";
         }
         return output;
     }
 
     public void runLookForJobs(Student student) {
-        ListInterface<Match> matches = new ArrayList<>();
-        matches = findStudentMatches();
+        if (student == null) {
+            System.out.println("ERROR: Cannot run job search with null student");
+            return;
+        }
+        
         this.student = student;
+        System.out.println("Running job search for student: " + student.getName());
+        
+        ListInterface<Match> matches = new ArrayList<>();
+        // Get the student's existing matches from the system
+        matches = findStudentMatches();
+        
         int choice;
         do {
             choice = matchUI.matchMenuInput();
             switch (choice) {
                 case 1:
                     // look for jobs
-                    matches =addmatches(searchJobs(), matches);
-                    displayMatches(listAllMatches(matches));
+                    ListInterface<Match> newMatches = searchJobs();
+                    if (newMatches.size() > 0) {
+                        matches = addMatches(newMatches, matches);
+                        displayMatches(listAllMatches(matches));
+                    } else {
+                        System.out.println("No jobs found matching your criteria.");
+                    }
                     break;
                 case 2:
                     // view all available jobs
@@ -84,31 +126,48 @@ public class MatchingEngine {
                 default:
                     MessageUI.displayInvalidChoiceMessage();
             }
-        } while (choice != 3);
+        } while (choice != 4); // Changed from 3 to 4 to match the menu
+        
+        // Save matches before exiting
         matchDAO.saveToFile(this.matches);
     }
-    private ListInterface<Match> addmatches(ListInterface<Match>newMatch, ListInterface<Match> matches) {
-        for (int i = 0; i < newMatch.size(); i++) {
-            matches.add(new Match(newMatch.get(i)));
+    
+    private ListInterface<Match> addMatches(ListInterface<Match> newMatches, ListInterface<Match> matches) {
+        for (int i = 0; i < newMatches.size(); i++) {
+            matches.add(new Match(newMatches.get(i)));
         }
         return matches;
     }
 
     private ListInterface<Match> findStudentMatches() {
-        ListInterface<Match> matches = new ArrayList<>();
-        for (int i = 0; i < matches.size(); i++) {
-            if (matches.get(i).getStudent().equals(student)) {
-                matches.add(matches.get(i));
+        ListInterface<Match> studentMatches = new ArrayList<>();
+    
+        for (int i = 0; i < this.matches.size(); i++) {
+            if (this.matches.get(i).getStudent().equals(student)) {
+                studentMatches.add(this.matches.get(i));
             }
         }
-        return matches;
+        return studentMatches;
     }
+    
     private ListInterface<Match> searchJobs() {
-
         String jobTitle = matchUI.inputJobTitle();
         int weighting = matchUI.inputWeighting();
-        return calculateJobScoreMatches(companyManager.searchJobs(jobTitle, weighting));
-
+        
+        // Debug info before search
+        System.out.println("Starting job search for title: '" + jobTitle + "' with weighting: " + weighting);
+        
+        // Ensure companyManager is initialized
+        if (companyManager == null) {
+            System.out.println("ERROR: companyManager is null, initializing now");
+            companyManager = new CompanyManager();
+        }
+        
+        // Get job postings that match the search criteria
+        ListInterface<JobPosting> matchingJobs = companyManager.searchJobs(jobTitle, weighting);
+        
+        // Calculate match scores for each job
+        return calculateJobScoreMatches(matchingJobs);
     }
 
     public void searchAllJobs() {
@@ -187,7 +246,8 @@ public class MatchingEngine {
         ListInterface<SkillRequirement> jobSkills = job.getRequiredSkills();
         ListInterface<SkillProficiency> studentSkills = student.getSkillProficiencies();
         double skillWeights = (double) job.getSkillImportance();
-        double importancesum = 0;
+        double importanceSum = 0;
+
 
         // Iterate over each skill requirement of the job
         for (int i = 0; i < jobSkills.size(); i++) {
@@ -198,14 +258,22 @@ public class MatchingEngine {
                 SkillProficiency prof = studentSkills.get(j);
                 if (req.getSkillName().equalsIgnoreCase(prof.getSkillName())) {
                     // Add the product of proficiency and importance to the score sum
-                    scoreSum += prof.getProficiency() * req.getImportance();
+                    double contribution = prof.getProficiency() * req.getImportance();
+                    scoreSum += contribution;
                 }
             }
             // Sum up the importance for normalization
-            importancesum += req.getImportance() * 10;
+            importanceSum += req.getImportance() * 10;
+        }
+
+        // Avoid division by zero
+        if (importanceSum == 0) {
+            System.out.println("No skill importance factors found, returning skill score of 0");
+            return 0;
         }
 
         // Normalize the score sum by the total importance and scale by skill weight
-        return scoreSum / importancesum * skillWeights;
+        double finalScore = scoreSum / importanceSum * skillWeights;
+        return finalScore;
     }
 }
