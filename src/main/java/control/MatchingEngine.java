@@ -116,7 +116,7 @@ public class MatchingEngine {
                     MessageUI.displayExitMessageMatch();
                 default -> MessageUI.displayInvalidChoiceMessage();
             }
-        } while (choice != 4); // Changed from 3 to 4 to match the menu
+        } while (choice != 3); // Changed from 3 to 4 to match the menu
 
         // Save matches before exiting
         matchDAO.saveToFile(this.matches);
