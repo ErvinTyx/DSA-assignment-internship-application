@@ -127,21 +127,36 @@ public class CompanyManager {
         companyManager.runCompanyProfile();
     }
 
-    protected ListInterface<JobPosting>searchJobs (String jobTitle,int weighting) {
+    // FIXED METHOD: Changed to public and removed the third parameter to match what MatchingEngine expects
+    public ListInterface<JobPosting> searchJobs(String jobTitle, int weighting) {
         ListInterface<JobPosting> result = new ArrayList<>();
         for (int i = 0; i < companyList.size(); i++) {
-            ListInterface<JobPosting> foundJob =jobManager.searchJobs(jobTitle, weighting,companyList.get(i).getJobPostings());
+           
+            // Get job postings for this company
+            ListInterface<JobPosting> companyJobs = companyList.get(i).getJobPostings();
+            
+            // Check if jobManager is properly initialized
+            if (jobManager == null) {
+                System.out.println("ERROR: jobManager is null");
+                continue;
+            }
+            
+            // Search for matching jobs in this company
+            ListInterface<JobPosting> foundJob = jobManager.searchJobs(jobTitle, weighting, companyJobs);
+            
+            // Add all found jobs to the result list
             for (int j = 0; j < foundJob.size(); j++) {
                 result.add(foundJob.get(j));
             }
         }
+        
+        System.out.println("Total matching jobs found across all companies: " + result.size());
         return result;
     }
 
     protected String displayCompanyInfo() {
         String result = "";
         for (int i = 0; i < companyList.size(); i++) {
-            
             result += displayCompanyInfo(companyList.get(i));
         }
         return result;
