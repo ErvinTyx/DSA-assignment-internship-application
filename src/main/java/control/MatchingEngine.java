@@ -112,9 +112,7 @@ public class MatchingEngine {
                 }
                 case 2 -> // view all available jobs
                     searchAllJobs();
-                case 3 -> // view current matches
-                    displayMatches(listAllMatches(CurrentMatches));
-                case 4 -> // exit
+                case 3 -> 
                     MessageUI.displayExitMessageMatch();
                 default -> MessageUI.displayInvalidChoiceMessage();
             }
