@@ -164,38 +164,4 @@ public class ArrayList<T> implements ListInterface<T>, Serializable {
         }
     }
 
-    // Merge sort for any comparable type
-    public static <T> void mergeSort(T[] arr, Comparator<? super T> comp, boolean ascending) {
-        if (arr == null || arr.length <= 1) return;
-        mergeSort(arr, comp, 0, arr.length - 1, ascending);
-    }
-
-    private static <T> void mergeSort(T[] arr, Comparator<? super T> comp, int left, int right, boolean ascending) {
-        if (left < right) {
-            int mid = left + (right - left) / 2;
-            mergeSort(arr, comp, left, mid, ascending);
-            mergeSort(arr, comp, mid + 1, right, ascending);
-            merge(arr, comp, left, mid, right, ascending);
-        }
-    }
-
-    private static <T> void merge(T[] arr, Comparator<? super T> comp, int left, int mid, int right, boolean ascending) {
-        Object[] temp = new Object[right - left + 1];
-        int i = left, j = mid + 1, k = 0;
-
-        while (i <= mid && j <= right) {
-            int comparison = comp.compare(arr[i], arr[j]);
-            // Use ascending flag to decide order
-            if ((ascending && comparison <= 0) || (!ascending && comparison > 0)) {
-                temp[k++] = arr[i++];
-            } else {
-                temp[k++] = arr[j++];
-            }
-        }
-
-        while (i <= mid) temp[k++] = arr[i++];
-        while (j <= right) temp[k++] = arr[j++];
-
-        System.arraycopy(temp, 0, arr, left, temp.length);
-    }
 }

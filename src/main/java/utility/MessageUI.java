@@ -41,4 +41,8 @@ public class MessageUI {
         System.out.println("Exiting the Match Management System.");
     }
 
+    public static void displayExitingMessageInterviewScheduler() {
+        System.out.println("Exiting the Interview Scheduler.");
+    }
+    
 }

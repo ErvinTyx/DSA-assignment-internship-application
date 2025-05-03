@@ -14,6 +14,8 @@ public class ApplicantManager {
     private int index = -1;
     private StudentDAO studentDAO = new StudentDAO();
     private MatchingEngine matchingEngine = new MatchingEngine();
+    private InterviewSchedulerManager interviewSchedulerManager = new InterviewSchedulerManager();
+    
 
     public ApplicantManager() {
         students = studentDAO.retrieveFromFile();
@@ -86,7 +88,7 @@ public class ApplicantManager {
                         matchingEngine.runLookForJobs(students.get(index));
                         break;
                     case 5:
-                        // TODO:manage interview
+                        interviewSchedulerManager.runInterviewScheduler(students.get(index).getId());
                         break;
                     case 3:
                         // delete
