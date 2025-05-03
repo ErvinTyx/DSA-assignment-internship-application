@@ -119,20 +119,36 @@ public class JobPosting implements Serializable {
 
     @Override
     public String toString() {
-        String result = String.format(
-                "| %-2s | %-8s | %-20s | %-16s | %-13d | %-6.2f~%-6.2f     | %-8d | %-6d | %-6d | %-15s %n" +
-                        "\t+----+----------+----------------------+------------------+---------------+---------------------+----------+---------+--------+%n",
-                id, title, description, location, experienceRequired, salaryRange[0], salaryRange[1],
-                experienceImportance, locationImprotance, skillImportance, getStringSkillRequirement());
+        String result = "";
+        result += "\n\n\t--------------------------------------------\n";
+        result += "\tID              : " + id + "\n";
+        result += "\tTitle           : " + title + "\n";
+        result += "\tDescription     : " + description + "\n";
+        result += "\tLocation        : " + location + "\n";
+        result += "\tExperience Req  : " + experienceRequired + " years\n";
+        result += String.format("\tSalary Range    : RM %.2f ~ RM %.2f\n", salaryRange[0], salaryRange[1]);
+        result += "\tExperience Imp. : " + experienceImportance + "\n";
+        result += "\tLocation Imp.   : " + locationImprotance + "\n";
+        result += "\tSkill Imp.      : " + skillImportance + "\n";
+        result += "\t--------------------------------------------\n";
+        result += getStringSkillRequirement();
         return result;
     }
 
+
     public String getStringSkillRequirement() {
-        String result = "\n\t\t---------------\n\t\tSkill Requirement   \n\t+---------------+----------+\n\t|     Skill    | Importance|\n\t+---------------+-------------+\n";
+        String result = "\tSkill Requirements:\n";
+        result += "\t+--------------------------------+------------+\n";
+        result += "\t| Skill Name                     | Importance |\n";
+        result += "\t+--------------------------------+------------+\n";
         for (int i = 0; i < requiredSkills.size(); i++) {
-            result += "\t" + requiredSkills.get(i).toString();
+            result += String.format("\t| %-30s | %-10d |\n",
+                    requiredSkills.get(i).getSkillName(),
+                    requiredSkills.get(i).getImportance());
         }
+        result += "\t+--------------------------------+------------+\n";
         return result;
     }
+    
 
 }
