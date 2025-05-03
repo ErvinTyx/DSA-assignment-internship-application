@@ -14,7 +14,7 @@ public class ApplicantManager {
     private int index = -1;
     private StudentDAO studentDAO = new StudentDAO();
     private MatchingEngine matchingEngine = new MatchingEngine();
-    private InterviewSchedulerManager interviewSchedulerManager = new InterviewSchedulerManager();
+    private InterviewSchedulerManager interviewSchedulerManager = new InterviewSchedulerManager(matchingEngine);
     
 
     public ApplicantManager() {

@@ -14,7 +14,7 @@ public class CompanyManager {
     private JobManager jobManager = new JobManager(new ArrayList<>());
     private CompanyUI companyUI = new CompanyUI();
     private CompanyDAO companyDAO = new CompanyDAO();
-    private InterviewSchedulerManager interviewSchedulerManager = new InterviewSchedulerManager();
+    private InterviewSchedulerManager interviewSchedulerManager = new InterviewSchedulerManager(null);
     private int index = -1;
 
     public CompanyManager(){

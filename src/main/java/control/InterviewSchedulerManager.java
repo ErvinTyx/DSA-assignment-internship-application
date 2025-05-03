@@ -15,10 +15,11 @@ public class InterviewSchedulerManager {
     private ListInterface<Interview> interviews = new ArrayList<>();
     private InterviewUI interviewUI = new InterviewUI();
     private InterviewDAO interviewDAO = new InterviewDAO();
-    private MatchingEngine matchingEngine = new MatchingEngine();
+    private MatchingEngine matchingEngine;
 
-    public InterviewSchedulerManager() {
+    public InterviewSchedulerManager(MatchingEngine matchingEngine) {
         interviews = interviewDAO.retrieveFromFile();
+        this.matchingEngine = matchingEngine;
     }
 
     public void runInterviewScheduler(ListInterface<JobPosting> companyJobs) {
