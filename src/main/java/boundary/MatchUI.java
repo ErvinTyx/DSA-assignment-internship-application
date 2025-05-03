@@ -25,13 +25,17 @@ public class MatchUI {
             try {
                 System.out.print("Enter your choice: ");
                 choice = sc.nextInt();
-                sc.nextLine();
-                flag = false;
+                if (choice < 1 || choice > 3) {
+                    System.out.println("Please enter a valid number.");
+                } else {
+                    flag = false;
+                }
             } catch (InputMismatchException e) {
                 System.out.println("Invalid input. Please enter a valid number.");
-                sc.nextLine(); // clear the invalid input
+                sc.next(); // clear the invalid input
             }
         }
+        sc.nextLine();
         return choice;
     }
 
