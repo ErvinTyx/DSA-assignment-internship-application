@@ -41,6 +41,10 @@ public class Match implements Serializable {
         this.score = score;
     }
 
+    public JobPosting getJobPosting() {
+        return job;
+    }
+
     @Override
     public String toString() {
         return "\n=========================\n"+"Match\n" +"=========================\n"+

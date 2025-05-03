@@ -14,6 +14,7 @@ public class CompanyManager {
     private JobManager jobManager = new JobManager(new ArrayList<>());
     private CompanyUI companyUI = new CompanyUI();
     private CompanyDAO companyDAO = new CompanyDAO();
+    private InterviewSchedulerManager interviewSchedulerManager = new InterviewSchedulerManager();
     private int index = -1;
 
     public CompanyManager(){
@@ -82,7 +83,7 @@ public class CompanyManager {
                         companyUI.listCompanyInfo(displayCompanyInfo(companyList.get(index)));
                         break;
                     case 5:
-                        // TODO : manage interviews
+                        interviewSchedulerManager.runInterviewScheduler(companyList.get(index).getJobPostings());
                         break;
                     case 3:
                         // delete company

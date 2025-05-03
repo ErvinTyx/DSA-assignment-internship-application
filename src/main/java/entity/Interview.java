@@ -1,122 +1,88 @@
 package entity;
 
+import java.time.LocalDateTime;
+
 import adt.ListInterface;
 import entity.Match;
 
 public class Interview {
 
     // Interview DateTime
-    private int Idate;
-    private int Imonth;
-    private int Iyear;
-    private int Ihour;
-    private int Imin;
+    private LocalDateTime scheduledTime;
     private String id;
     private static int COUNTER = 0;
 
     // list of the Specific Job match
     private ListInterface<Match> matches;
 
-    // state = pending / rejectedByCompany / sheduled / acceptedBy application // reject applicationByStudent
+    // state = pending / rejectedByCompany / sheduled / acceptedBy application //
+    // reject applicationByStudent
     private int[] state;
 
-    
-
-    // constructor
-    public Interview(ListInterface<Match> matches) {
-        COUNTER++;
-        this.id = "I" + COUNTER;
-        // initialize state
-        state = new int[matches.size()];
-        this.matches = matches;
+    public String getId() {
+        return id;
     }
 
-    public Interview(ListInterface<Match> matches, int Idate, int Imonth, int Iyear, int Ihour, int Imin) {
-        COUNTER++;
-        this.id = "I" + COUNTER;
-        // initialize state
-        state = new int[matches.size()];
-        this.matches = matches;
-    }
-
-    // setters
-    public void setDate(int Idate, int Imonth, int Iyear, int Ihour, int Imin) {
-        this.Idate = Idate;
-        this.Imonth = Imonth;
-        this.Iyear = Iyear;
-        this.Ihour = Ihour;
-        this.Imin = Imin;
-    }
-    public void setSAllState(int state) {
-        for (int i = 0; i < this.state.length; i++) {
-            this.state[i] = state;
-        }
-    }
-
-    public void setState(int index, int state) {
-        this.state[index] = state;
-    }
-        
-
-    // getters
-    public int getIdate() {
-        return Idate;
+    public LocalDateTime getScheduledTime() {
+        return scheduledTime;
     }
 
     public ListInterface<Match> getMatches() {
         return matches;
     }
 
-    public int getImonth() {
-        return Imonth;
-    }
-
-    public int getIyear() {
-        return Iyear;
-    }
-
-    public int getIhour() {
-        return Ihour;
-    }
-
-    public int getImin() {
-        return Imin;
-    }
-
-    public String getId() {
-        return id;
-    }
-
     public int[] getState() {
-        return state;
+        int[] newState = new int[state.length];
+        System.arraycopy(state, 0, newState, 0, state.length);
+        return newState;
+    }
+
+    public Interview(LocalDateTime scheduledTime, ListInterface<Match> matches, int[] state) {
+        COUNTER++;
+        this.id = "I" + COUNTER;
+        this.scheduledTime = scheduledTime;
+        this.matches = matches;
+        this.state = state;
+    }
+
+    public Interview(Interview interview) {
+        this.id = interview.getId();
+        this.scheduledTime = interview.getScheduledTime();
+        this.matches = interview.getMatches();
+        this.state = interview.getState();
     }
 
     @Override
     public String toString() {
-        return "Total Applicant : " + matches.size() + "\n" + "\nInterview ID : " + id + "\nInterview Date : " + Idate
-                + "/" + Imonth + "/" + Iyear + " at " + Ihour + ":" + Imin + "\nMatches : " + getDisplayMatches();
+        return "======Interview=====\n" + "id :" + id + "\n scheduledTime :" + scheduledTime
+                + "Jobs :\n" + matches.get(0).getJobPosting().toString()
+                + "\n Interview Applicants : \n" + "=====================\n" + getMatchingDetails();
     }
 
-    private String getDisplayMatches() {
+    private String getMatchingDetails() {
         String result = "";
         for (int i = 0; i < matches.size(); i++) {
-            result += "\n" + (i + 1) + ". " + matches.get(i).toString() + " State : " + getDisplayState(i);
-        }
+            result += matches.get(i).getStudent().toString() + "\n";
+            result += "State" + getDisplayState(state[i]) + "\n";
+            result += "Match Score : " + matches.get(i).getScore() + "\n";
+            result += "=============================================\n";
 
+        }
         return result;
     }
 
-    private String getDisplayState(int i) {
-        if(state[i] == 0){
+    public String getDisplayState(int i) {
+        if (i == 0) {
             return "Pending";
-        }else if(state[i] == 1){
+        } else if (i == 1) {
             return "Rejected by company";
-        }else if(state[i] == 2){
+        } else if (i == 2) {
             return "Scheduled";
-        }else if(state[i] == 3){
+        } else if (i == 3) {
             return "Accepted by applicant";
-        }else{
+        } else {
             return "Rejected by applicant";
         }
     }
+
 }
