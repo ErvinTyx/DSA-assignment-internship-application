@@ -37,4 +37,8 @@ public class MessageUI {
         System.out.println("Company Id not found.");
     }
 
+    public static void displayExitMessageMatch() {
+        System.out.println("Exiting the Match Management System.");
+    }
+
 }

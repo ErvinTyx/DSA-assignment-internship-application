@@ -63,8 +63,8 @@ public class JobPostingUI {
             try {
                 System.out.print("Enter Job Posting Experience Years Required: ");
                 jobPostingExperienceRequired = sc.nextInt();
-                if (jobPostingExperienceRequired < 1 || jobPostingExperienceRequired > 10) {
-                    System.out.println("Please enter a valid number between 1 and 10.");
+                if (jobPostingExperienceRequired < 0) {
+                    System.out.println("Please enter a non-negative number.");
                 } else {
                     flag = false;
                 }
@@ -135,7 +135,7 @@ public class JobPostingUI {
             try {
                 System.out.print("Enter Job Posting Location Importance: ");
                 jobPostingLocationImportance = sc.nextInt();
-                if (jobPostingLocationImportance < 0 || jobPostingLocationImportance > 10) {
+                if (jobPostingLocationImportance < 1 || jobPostingLocationImportance > 10) {
                     System.out.println("Please enter a valid number between 1 and 10.");
                 } else {
                     flag = false;

@@ -4,6 +4,7 @@ import adt.*;
 import boundary.JobPostingUI;
 import entity.JobPosting;
 import utility.MessageUI;
+import utility.SearchUtil;
 import entity.SkillRequirement;
 import java.io.Serializable;
 
@@ -150,5 +151,15 @@ public class JobManager implements Serializable {
     public static void main(String[] args) {
         JobManager jobManager = new JobManager(new ArrayList<>());
         jobManager.runJobPosting();
+    }
+
+    protected ListInterface<JobPosting> searchJobs(String jobTitle, int weighting, ListInterface<JobPosting> jobPostings) {
+        ListInterface<JobPosting> result = new ArrayList<>();
+        for (int i = 0; i < this.jobPostings.size(); i++) {
+            if(SearchUtil.fuzzySearch(jobTitle, jobPostings.get(i).getTitle(), weighting)){
+                jobPostings.add(this.jobPostings.get(i));
+            }
+        }
+        return result;
     }
 }

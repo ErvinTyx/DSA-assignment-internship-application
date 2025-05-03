@@ -13,6 +13,7 @@ public class ApplicantManager {
     private ApplicantProfileUI applicantProfileUI = new ApplicantProfileUI();
     private int index = -1;
     private StudentDAO studentDAO = new StudentDAO();
+    private MatchingEngine matchingEngine = new MatchingEngine();
 
     public ApplicantManager() {
         students = studentDAO.retrieveFromFile();
@@ -82,7 +83,7 @@ public class ApplicantManager {
                         break;
 
                     case 4:
-                        // TODO: find job
+                        matchingEngine.runLookForJobs(students.get(index));
                         break;
                     case 5:
                         // TODO:manage interview
