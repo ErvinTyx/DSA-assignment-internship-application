@@ -82,11 +82,6 @@ public class Company implements Serializable {
             return "No job posting.";
         }
         String result = "";
-        result += "\n\t---------------------" +"\n\tJob Posting List" + "\n\t---------------------"+"\n\t+----+----------+----------------------+------------------+---------------+---------------------+--------+--------+--------+----------+\n"
-                        +
-                        "\t| ID | Title    | Description          | Location         | Exp. Required | Salary Range        | ExpImp | LocImp | SkillImp| Skills   |\n"
-                        +
-                        "\t+----+----------+----------------------+------------------+---------------+---------------------+--------+--------+---------+----------+\n";
         for (int i = 0; i < jobPostings.size(); i++) {
             result += "\t"+jobPostings.get(i).toString();
         }
