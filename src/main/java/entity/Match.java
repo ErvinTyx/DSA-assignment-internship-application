@@ -11,6 +11,11 @@ public class Match implements Serializable {
         this.score = score;
     }
 
+    public Match(Match match) {
+        this.student = match.getStudent();
+        this.job = match.getJob();
+        this.score = match.getScore();
+    }   
 
     public Student getStudent() {
         return student;
@@ -38,10 +43,8 @@ public class Match implements Serializable {
 
     @Override
     public String toString() {
-        return "Match{" +
-                "student=" + student +
-                ", job=" + job +
-                ", score=" + score +
-                '}';
+        return "=========================\n"+"Match\n" +"=========================\n"+
+                "=======Student=====\n" + student +
+                "=======Job========\n"+ job +"=======Score======\n"+ score;
     }
 }

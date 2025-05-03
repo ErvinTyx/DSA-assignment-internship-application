@@ -126,4 +126,24 @@ public class CompanyManager {
         CompanyManager companyManager = new CompanyManager();
         companyManager.runCompanyProfile();
     }
+
+    protected ListInterface<JobPosting>searchJobs (String jobTitle,int weighting) {
+        ListInterface<JobPosting> result = new ArrayList<>();
+        for (int i = 0; i < companyList.size(); i++) {
+            ListInterface<JobPosting> foundJob =jobManager.searchJobs(jobTitle, weighting,companyList.get(i).getJobPostings());
+            for (int j = 0; j < foundJob.size(); j++) {
+                result.add(foundJob.get(j));
+            }
+        }
+        return result;
+    }
+
+    protected String displayCompanyInfo() {
+        String result = "";
+        for (int i = 0; i < companyList.size(); i++) {
+            
+            result += displayCompanyInfo(companyList.get(i));
+        }
+        return result;
+    }
 }
