@@ -34,7 +34,7 @@ public class ArrayList<T> implements ListInterface<T>, Serializable {
             return false;
         }
         ensureCapacity();
-        shiftRight(newPosition);
+        removeGapRight(newPosition);
         elements[newPosition - 1] = newEntry;
         size++;
         return true;
@@ -46,7 +46,7 @@ public class ArrayList<T> implements ListInterface<T>, Serializable {
             return null;
         }
         T removedElement = elements[givenPosition - 1];
-        shiftLeft(givenPosition);
+        removeGapLeft(givenPosition);
         size--;
         return removedElement;
     }
@@ -98,13 +98,13 @@ public class ArrayList<T> implements ListInterface<T>, Serializable {
         }
     }
 
-    private void shiftRight(int position) {
+    private void removeGapRight(int position) {
         for (int i = size; i >= position; i--) {
             elements[i] = elements[i - 1];
         }
     }
 
-    private void shiftLeft(int position) {
+    private void removeGapLeft(int position) {
         for (int i = position - 1; i < size - 1; i++) {
             elements[i] = elements[i + 1];
         }
