@@ -1,14 +1,12 @@
 package control;
 
 import java.time.LocalDateTime;
-import java.util.Comparator;
 import adt.*;
 import boundary.InterviewUI;
 import entity.Interview;
 import entity.JobPosting;
 import entity.Match;
 import utility.MessageUI;
-import utility.SearchUtil;
 import dao.InterviewDAO;
 
 public class InterviewSchedulerManager {

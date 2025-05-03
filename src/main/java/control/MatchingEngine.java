@@ -6,16 +6,16 @@ import entity.JobPosting;
 import entity.Match;
 import entity.SkillProficiency;
 import entity.SkillRequirement;
-import utility.*;
 import entity.Student;
 import dao.MatchDAO;
+import utility.MessageUI;
 
 public class MatchingEngine {
     private ListInterface<Match> matches;
     private CompanyManager companyManager;
     private Student student;
-    private MatchUI matchUI = new MatchUI();
-    private MatchDAO matchDAO = new MatchDAO();
+    private final MatchUI matchUI = new MatchUI();
+    private final MatchDAO matchDAO = new MatchDAO();
 
     public MatchingEngine() {
         this.matches = new ArrayList<>();
@@ -24,42 +24,42 @@ public class MatchingEngine {
     }
 
     public ListInterface<Match> calculateJobScoreMatches(ListInterface<JobPosting> jobPostings) {
-        ListInterface<Match> matches = new ArrayList<>();
+        ListInterface<Match> newMatches = new ArrayList<>();
 
         for (int i = 0; i < jobPostings.size(); i++) {
             JobPosting jobPosting = jobPostings.get(i);
 
             if (student == null) {
                 System.out.println("ERROR: Student is null in calculateJobScoreMatches");
-                return matches;
+                return newMatches;
             }
 
             double score = calculateMatchScore(student, jobPosting);
-            matches.add(new Match(new Student(student), new JobPosting(jobPosting), score));
+            newMatches.add(new Match(new Student(student), new JobPosting(jobPosting), score));
         }
 
-        if (matches.size() == 0) {
+        if (newMatches.size() == 0) {
             System.out.println("No matching jobs found. Returning empty list.");
-            return matches;
+            return newMatches;
         }
 
         // menu for applying to jobs
         int choice = 0;
         do {
             // display matches
-            String matchesInfo = listAllMatches(matches);
+            String matchesInfo = listAllMatches(newMatches);
             displayMatches(matchesInfo);
 
             // select match
             choice = matchUI.inputMatchIndex();
-            if (choice != -1 && choice < matches.size()) {
+            if (choice != -1 && choice < newMatches.size()) {
                 // upload to the match list
-                this.matches.add(new Match(matches.get(choice)));
+                this.matches.add(new Match(newMatches.get(choice)));
                 System.out.println("Job application submitted successfully!");
             }
         } while (choice != -1);
 
-        return matches;
+        return newMatches;
     }
 
     public void displayMatches(String info) {
@@ -92,38 +92,31 @@ public class MatchingEngine {
         this.student = student;
         System.out.println("Running job search for student: " + student.getName());
 
-        ListInterface<Match> matches = new ArrayList<>();
+        ListInterface<Match> CurrentMatches = new ArrayList<>();
         // Get the student's existing matches from the system
-        matches = findStudentMatches();
+        CurrentMatches = findStudentMatches();
 
         int choice;
         do {
             choice = matchUI.matchMenuInput();
             switch (choice) {
-                case 1:
+                case 1 -> {
                     // look for jobs
                     ListInterface<Match> newMatches = searchJobs();
                     if (newMatches.size() > 0) {
-                        matches = addMatches(newMatches, matches);
-                        displayMatches(listAllMatches(matches));
+                        CurrentMatches = addMatches(newMatches, CurrentMatches);
+                        displayMatches(listAllMatches(CurrentMatches));
                     } else {
                         System.out.println("No jobs found matching your criteria.");
                     }
-                    break;
-                case 2:
-                    // view all available jobs
+                }
+                case 2 -> // view all available jobs
                     searchAllJobs();
-                    break;
-                case 3:
-                    // view current matches
-                    displayMatches(listAllMatches(matches));
-                    break;
-                case 4:
-                    // exit
+                case 3 -> // view current matches
+                    displayMatches(listAllMatches(CurrentMatches));
+                case 4 -> // exit
                     MessageUI.displayExitMessageMatch();
-                    break;
-                default:
-                    MessageUI.displayInvalidChoiceMessage();
+                default -> MessageUI.displayInvalidChoiceMessage();
             }
         } while (choice != 4); // Changed from 3 to 4 to match the menu
 
