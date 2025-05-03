@@ -75,19 +75,31 @@ public class Student implements Serializable {
     @Override
     public String toString() {
         String studentInfo = "";
-        studentInfo += String.format("|%15s|%15s|%15s|%15s|\n", id, name, location, experience + " years");
-        studentInfo += "+---------------+---------------+---------------+---------------+";
-        studentInfo += "\t\nSkills:\n";
-        if (skills.isEmpty()) {
-            studentInfo += "\t\tNo Skill Proficiency\n";
+
+        // Basic profile details
+        studentInfo += "ID        : " + id + "\n";
+        studentInfo += "Name      : " + name + "\n";
+        studentInfo += "Location  : " + location + "\n";
+        studentInfo += "Experience: " + experience + " years\n";
+
+        // Skill Section
+        studentInfo += "\nSkills:\n";
+
+        if (skills == null || skills.isEmpty()) {
+            studentInfo += "  No Skill Proficiency\n";
         } else {
-            studentInfo += "\t\t+-----+---------------+-------------+\n";
-            studentInfo += "\t\t| No. |     Skill     | Proficiency |\n";
-            studentInfo += "\t\t+-----+---------------+-------------+\n";
+            studentInfo += "+-----+-------------------+-------------+\n";
+            studentInfo += "| No. | Skill             | Proficiency |\n";
+            studentInfo += "+-----+-------------------+-------------+\n";
             for (int i = 0; i < skills.size(); i++) {
-                studentInfo += String.format("\t\t|%-4d %s\n", i + 1, skills.get(i));
+                SkillProficiency sp = skills.get(i);
+                studentInfo += String.format("| %-3d | %-17s | %-11d |\n",
+                        i + 1, sp.getSkillName(), sp.getProficiency());
             }
+            studentInfo += "+-----+-------------------+-------------+\n";
         }
+
         return studentInfo;
     }
+
 }
