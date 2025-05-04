@@ -288,8 +288,7 @@ public class MatchingEngine {
 
     protected ListInterface<Match> getMatchesBySeletedJob(JobPosting job) {
         ListInterface<Match> SeletedJobMatches = new ArrayList<>();
-        // debuging
-        System.out.println("Matches size: " + this.matches.size());
+        
         for (int i = 0; i < this.matches.size(); i++) {
             if (job.getId().equals(this.matches.get(i).getJobPosting().getId())) {
                 SeletedJobMatches.add(new Match(this.matches.get(i)));

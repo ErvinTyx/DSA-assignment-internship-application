@@ -73,9 +73,6 @@ public class InterviewSchedulerManager {
                 }
             }
         }
-        // debuging
-        System.out.println("interviewIndex size: " + interviewIndex.size());
-        System.out.println("matchIndex size: " + matchIndex.size());
         int choice = 0;
         do {
             choice = interviewUI.displayInterviewMenuStudentOptions();
