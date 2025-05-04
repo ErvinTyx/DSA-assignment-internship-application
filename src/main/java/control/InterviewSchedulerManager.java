@@ -1,7 +1,8 @@
 package control;
 
-/*
-* @author TeohYuXiang
+/**
+ *
+ * @author Teoh Yu Xiang
  */
 import java.time.LocalDateTime;
 import adt.*;
@@ -54,6 +55,9 @@ public class InterviewSchedulerManager {
                     break;
             }
         } while (choice != 3);
+        for (int i = 0; i < companyInterviews.size(); i++) {
+            interviews.add(new Interview(companyInterviews.get(i)));
+        }
         interviewDAO.saveToFile(interviews);
     }
 
@@ -69,6 +73,9 @@ public class InterviewSchedulerManager {
                 }
             }
         }
+        // debuging
+        System.out.println("interviewIndex size: " + interviewIndex.size());
+        System.out.println("matchIndex size: " + matchIndex.size());
         int choice = 0;
         do {
             choice = interviewUI.displayInterviewMenuStudentOptions();
@@ -77,11 +84,11 @@ public class InterviewSchedulerManager {
                     // view interviewers for student
                     displayInterviews(ListAllInterview(interviewIndex, matchIndex));
                     break;
+                // case 2:
+                //     // set interview status
+                //     setInterviewStatus(interviewIndex, matchIndex);
+                //     break;
                 case 2:
-                    // set interview status
-                    setInterviewStatus(interviewIndex, matchIndex);
-                    break;
-                case 3:
                     // return to student menu
                     MessageUI.displayExitingMessageInterviewScheduler();
                     break;
@@ -89,7 +96,7 @@ public class InterviewSchedulerManager {
                     MessageUI.displayInvalidChoiceMessage();
                     break;
             }
-        } while (choice != 3);
+        } while (choice != 2);
         interviewDAO.saveToFile(interviews);
     }
 
@@ -99,7 +106,7 @@ public class InterviewSchedulerManager {
             displayInterviews(ListAllInterview(interviewIndex, matchIndex));
             choice = interviewUI.inputSelectedInterview();
             if (choice != 0 && choice <= interviewIndex.size()) {
-                Interview interview = interviews.get(choice);
+                Interview interview = interviews.get(choice-1);
                 // display specific interview
                 displayInterview(listInterview(interview, matchIndex, choice));
                 // check whether it is company accept
@@ -127,16 +134,21 @@ public class InterviewSchedulerManager {
     public String ListAllInterview(ListInterface<Integer> interviewIndex, ListInterface<Integer> matchIndex) {
 
         String result = "";
-        for (int i = 0; i < interviewIndex.size(); i++) {
-            result += "\nInterviews" + (1 + i) + "\n";
-            result += "=====================\n";
-            Interview interview = interviews.get(interviewIndex.get(i));
-            result += "Interview Id:" + interview.getId() + "\n";
-            result += "Interview Scheduled Time:" + interview.getScheduledTime() + "\n";
-            result += "Status:" + interview.getDisplayState(interview.getState()[matchIndex.get(i)]) + "\n";
-            result += "\nMatch Details  :\n"
-                    + interviews.get(interviewIndex.get(i)).getMatches().get(matchIndex.get(i)).toString();
-            result += "\n";
+        if (interviewIndex.isEmpty()) {
+            result += "No Interviews Scheduled\n";
+        } else {
+
+            for (int i = 0; i < interviewIndex.size(); i++) {
+                result += "\nInterviews" + (1 + i) + "\n";
+                result += "=====================\n";
+                Interview interview = interviews.get(interviewIndex.get(i));
+                result += "Interview Id:" + interview.getId() + "\n";
+                result += "Interview Scheduled Time:" + interview.getScheduledTime() + "\n";
+                result += "Status:" + interview.getDisplayState(interview.getState()[matchIndex.get(i)]) + "\n";
+                result += "\nMatch Details  :\n"
+                        + interviews.get(interviewIndex.get(i)).getMatches().get(matchIndex.get(i)).toString();
+                result += "\n";
+            }
         }
         return result;
     }
@@ -146,8 +158,8 @@ public class InterviewSchedulerManager {
         String info = "";
         if (companyInterviews.isEmpty()) {
             info += "No Interviews Scheduled\n";
-        }else{
-            
+        } else {
+
             for (int i = 0; i < interviewIndex.size(); i++) {
                 info += companyInterviews.get(interviewIndex.get(i)).getMatches().get(matchIndex.get(i)).toString();
             }
@@ -163,8 +175,8 @@ public class InterviewSchedulerManager {
         String info = "";
         if (companyInterviews.isEmpty()) {
             info += "No Interviews Scheduled\n";
-            
-        }else{
+
+        } else {
             info += "\nInterviews\n";
             info += "=====================\n";
             for (int i = 0; i < companyInterviews.size(); i++) {
@@ -178,30 +190,46 @@ public class InterviewSchedulerManager {
         int choice = 0;
         ListInterface<Interview> interview = new ArrayList<>();
         do {
-            // select a job
-            choice = interviewUI.displayJobs(displayJobs(companyJobs));
-            // get interview date and time
-            LocalDateTime scheduledTime = interviewUI.getInterviewDateAndTime();
+            boolean flag = true;
+            do {
 
-            // retrieve all applicants from a selected job
-            ListInterface<Match> matches = getAllMatchesBySeletedJobPosting(companyJobs.get(choice));
+                // select a job
+                choice = interviewUI.displayJobs(displayJobs(companyJobs));
+                if (choice < 0 || choice > companyJobs.size()) {
+                    flag = true;
+                    // display invalid choice message
+                    MessageUI.displayInvalidChoiceMessage();
 
-            // accept applicants
-            int[] array = new int[matches.size()];
-            for (int i = 0; i < matches.size(); i++) {
-                // print out applicant match information
-                matchingEngine.displayMatches(matches.get(i).toString());
-                int accept = interviewUI.acceptApplicant();
-                array[i] = accept;
+                } else {
+                    flag = false;
+                }
+            } while (flag);
+            if (choice != 0) {
+
+                // retrieve all applicants from a selected job
+                ListInterface<Match> matches = getAllMatchesBySeletedJobPosting(companyJobs.get(choice - 1));
+
+                // get interview date and time
+                LocalDateTime scheduledTime = interviewUI.getInterviewDateAndTime();
+
+                // accept applicants
+                int[] array = new int[matches.size()];
+                for (int i = 0; i < matches.size(); i++) {
+                    // print out applicant match information
+                    matchingEngine.displayMatches(matches.get(i).toString());
+                    int accept = interviewUI.acceptApplicant();
+                    array[i] = accept;
+                }
+                this.interviews.add(new Interview(scheduledTime, matches, array));
+                // save interview
+                interview.add(new Interview(scheduledTime, matches, array));
             }
-            this.interviews.add(new Interview(scheduledTime, matches, array));
-            interview.add(new Interview(scheduledTime, matches, array));
-            // save interview
         } while (choice != 0);
         return interview;
     }
 
     private ListInterface<Match> getAllMatchesBySeletedJobPosting(JobPosting jobPosting) {
+        MatchingEngine matchingEngine = new MatchingEngine();
         ListInterface<Match> matches = matchingEngine.getMatchesBySeletedJob(jobPosting);
         return matches;
     }

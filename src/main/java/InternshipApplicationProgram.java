@@ -4,7 +4,7 @@
 
 /**
  *
- * @author ervin
+ * @author Teoh Yu Xiang
  */
 import control.Main;
 

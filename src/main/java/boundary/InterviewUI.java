@@ -5,6 +5,10 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+/**
+ *
+ * @author Teoh Yu Xiang
+ */
 
 public class InterviewUI {
 
@@ -41,13 +45,12 @@ public class InterviewUI {
     }
 
     private void displayInterviewMenuStudent(){
-        System.out.println();
-        System.out.println();
+        System.out.println("");
+        System.out.println("");
         System.out.println("Interview Menu");
         System.out.println("---------------");
         System.out.println("1. View Interviews");
-        System.out.println("2. Set Interview Status");
-        System.out.println("3. Return To Student Menu");
+        System.out.println("2. Return To Student Menu");
     }
 
     public int displayInterviewMenuStudentOptions() {
@@ -58,8 +61,8 @@ public class InterviewUI {
             try {
                 System.out.print("Enter your choice: ");
                 choice = scanner.nextInt();
-                if (choice < 1 || choice > 3) {
-                    System.out.println("Please enter a valid choice between 1 and 3.");
+                if (choice < 1 || choice > 2) {
+                    System.out.println("Please enter a valid choice between 1 and 2.");
                 } else {
                     flag = false;
                 }
@@ -83,7 +86,8 @@ public class InterviewUI {
         boolean flag = true;
         while (flag) {
             try {
-                System.out.print("Enter your choice: ");
+                System.out.println("Enter 0 to exit.");
+                System.out.print("Enter number of job to schedule interview: ");
                 choice = scanner.nextInt();
                 flag = false;
             } catch (InputMismatchException e) {

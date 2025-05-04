@@ -93,13 +93,12 @@ public class MatchingEngine {
     public void runLookForJobs(Student student) {
         if (student == null) {
             MessageUI.displayErrorMessageStudentNull();
-            
+
             return;
         }
 
         this.student = student;
         MessageUI.displayMessageRunningJobSearchStudent(student.getName());
-
 
         ListInterface<Match> CurrentMatches = new ArrayList<>();
         // Get the student's existing matches from the system
@@ -121,7 +120,7 @@ public class MatchingEngine {
                 }
                 case 2 -> // view all available jobs
                     searchAllJobs();
-                case 3 -> 
+                case 3 ->
                     MessageUI.displayExitMessageMatch();
                 default -> MessageUI.displayInvalidChoiceMessage();
             }
@@ -155,7 +154,6 @@ public class MatchingEngine {
 
         // Debug info before search
         MessageUI.displayStartingJobSearch(jobTitle, weighting);
-        
 
         // Ensure companyManager is initialized
         if (companyManager == null) {
@@ -289,15 +287,17 @@ public class MatchingEngine {
     }
 
     protected ListInterface<Match> getMatchesBySeletedJob(JobPosting job) {
-        ListInterface<Match> matches = new ArrayList<>();
+        ListInterface<Match> SeletedJobMatches = new ArrayList<>();
+        // debuging
+        System.out.println("Matches size: " + this.matches.size());
         for (int i = 0; i < this.matches.size(); i++) {
-            if (job.getId().equals(matches.get(i).getJobPosting().getId())) {
-                matches.add(new Match(matches.get(i)));
-                this.matches.remove(i + 1);
+            if (job.getId().equals(this.matches.get(i).getJobPosting().getId())) {
+                SeletedJobMatches.add(new Match(this.matches.get(i)));
+                this.matches.remove(i+1);
             }
         }
-        return matches;
+        matchDAO.saveToFile(this.matches);
+        return SeletedJobMatches;
     }
 
-     
 }

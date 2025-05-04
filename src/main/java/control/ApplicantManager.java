@@ -13,8 +13,8 @@ public class ApplicantManager {
     private final ApplicantProfileUI applicantProfileUI = new ApplicantProfileUI();
     private int index = -1;
     private final StudentDAO studentDAO = new StudentDAO();
-    private final MatchingEngine matchingEngine = new MatchingEngine();
-    private final InterviewSchedulerManager interviewSchedulerManager = new InterviewSchedulerManager(matchingEngine);
+    private MatchingEngine matchingEngine;
+    private InterviewSchedulerManager interviewSchedulerManager;
     
 
     public ApplicantManager() {
@@ -82,9 +82,13 @@ public class ApplicantManager {
 
 
                     case 4:
+                        matchingEngine = new MatchingEngine();
                         matchingEngine.runLookForJobs(students.get(index));
                         break;
                     case 5:
+                        // schedule
+                        matchingEngine = new MatchingEngine();
+                        interviewSchedulerManager = new InterviewSchedulerManager(matchingEngine);
                         interviewSchedulerManager.runInterviewScheduler(students.get(index).getId());
                         break;
                     case 3:

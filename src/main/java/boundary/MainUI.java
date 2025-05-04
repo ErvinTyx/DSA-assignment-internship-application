@@ -8,6 +8,8 @@ public class MainUI {
     private Scanner sc = new Scanner(System.in);
 
     private void mainMenu() {
+        System.out.println("");
+        System.out.println("");
         System.out.println("Internship Application System");
         System.out.println("1. Applicant");
         System.out.println("2. Company");

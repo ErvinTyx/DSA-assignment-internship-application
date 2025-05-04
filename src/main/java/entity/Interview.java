@@ -1,11 +1,12 @@
 package entity;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import adt.ListInterface;
 import entity.Match;
 
-public class Interview {
+public class Interview implements Serializable{
 
     // Interview DateTime
     private LocalDateTime scheduledTime;
