@@ -91,6 +91,7 @@ public class InterviewUI {
                 scanner.nextLine(); // clear the invalid input
             }
         }
+        scanner.nextLine();
         return choice;
     }
 

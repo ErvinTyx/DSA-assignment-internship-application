@@ -89,5 +89,9 @@ public class MatchUI {
         return choice;
     }
 
+    public void pressEnterToContinueMessage(){
+        System.out.print("Press enter to continue.");
+        sc.nextLine();
+    }
 
 }

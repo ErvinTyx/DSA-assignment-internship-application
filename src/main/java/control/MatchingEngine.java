@@ -23,6 +23,12 @@ public class MatchingEngine {
         matches = matchDAO.retrieveFromFile();
     }
 
+    public MatchingEngine(CompanyManager companyManager) {
+        this.matches = new ArrayList<>();
+        this.companyManager = companyManager;
+        matches = matchDAO.retrieveFromFile();
+    }
+
     public ListInterface<Match> calculateJobScoreMatches(ListInterface<JobPosting> jobPostings) {
         ListInterface<Match> newMatches = new ArrayList<>();
 
@@ -30,7 +36,7 @@ public class MatchingEngine {
             JobPosting jobPosting = jobPostings.get(i);
 
             if (student == null) {
-                System.out.println("ERROR: Student is null in calculateJobScoreMatches");
+                MessageUI.displayErrorMessageStudentNull();
                 return newMatches;
             }
 
@@ -39,7 +45,7 @@ public class MatchingEngine {
         }
 
         if (newMatches.size() == 0) {
-            System.out.println("No matching jobs found. Returning empty list.");
+            MessageUI.displayNoJobsFoundYourCriteria();
             return newMatches;
         }
 
@@ -55,7 +61,8 @@ public class MatchingEngine {
             if (choice != -1 && choice < newMatches.size()) {
                 // upload to the match list
                 this.matches.add(new Match(newMatches.get(choice)));
-                System.out.println("Job application submitted successfully!");
+                MessageUI.displayJobApplicationSuccessMessage();
+                matchUI.pressEnterToContinueMessage();
             }
         } while (choice != -1);
 
@@ -72,25 +79,27 @@ public class MatchingEngine {
 
     public String listAllMatches(ListInterface<Match> matches) {
         String output = "";
-        if (matches.size() == 0) {
+        if (matches.isEmpty()) {
             return "No matching jobs found.";
         }
 
         for (int i = 0; i < matches.size(); i++) {
             Match match = matches.get(i);
-            output += (i + 1) + "\n" + match.toString() + "\n";
+            output += "\n" + match.toString(i) + "\n";
         }
         return output;
     }
 
     public void runLookForJobs(Student student) {
         if (student == null) {
-            System.out.println("ERROR: Cannot run job search with null student");
+            MessageUI.displayErrorMessageStudentNull();
+            
             return;
         }
 
         this.student = student;
-        System.out.println("Running job search for student: " + student.getName());
+        MessageUI.displayMessageRunningJobSearchStudent(student.getName());
+
 
         ListInterface<Match> CurrentMatches = new ArrayList<>();
         // Get the student's existing matches from the system
@@ -107,7 +116,7 @@ public class MatchingEngine {
                         CurrentMatches = addMatches(newMatches, CurrentMatches);
                         displayMatches(listAllMatches(CurrentMatches));
                     } else {
-                        System.out.println("No jobs found matching your criteria.");
+                        MessageUI.displayNoJobsFoundYourCriteria();
                     }
                 }
                 case 2 -> // view all available jobs
@@ -145,11 +154,12 @@ public class MatchingEngine {
         int weighting = matchUI.inputWeighting();
 
         // Debug info before search
-        System.out.println("Starting job search for title: '" + jobTitle + "' with weighting: " + weighting);
+        MessageUI.displayStartingJobSearch(jobTitle, weighting);
+        
 
         // Ensure companyManager is initialized
         if (companyManager == null) {
-            System.out.println("ERROR: companyManager is null, initializing now");
+            MessageUI.displayErrorMessageCompanyManagerNull();
             companyManager = new CompanyManager();
         }
 

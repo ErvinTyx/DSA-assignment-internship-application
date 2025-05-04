@@ -14,7 +14,7 @@ public class CompanyManager {
     private final JobManager jobManager = new JobManager(new ArrayList<>());
     private final CompanyUI companyUI = new CompanyUI();
     private final CompanyDAO companyDAO = new CompanyDAO();
-    private final InterviewSchedulerManager interviewSchedulerManager = new InterviewSchedulerManager(null);
+    private InterviewSchedulerManager interviewSchedulerManager;
     private int index = -1;
 
     public CompanyManager() {
@@ -84,6 +84,8 @@ public class CompanyManager {
                         companyUI.listCompanyInfo(displayCompanyInfo(companyList.get(index)));
                         break;
                     case 5:
+                        MatchingEngine matchingEngine = new MatchingEngine();
+                        interviewSchedulerManager = new InterviewSchedulerManager(matchingEngine);
                         interviewSchedulerManager.runInterviewScheduler(companyList.get(index).getJobPostings());
                         break;
                     case 3:
@@ -129,7 +131,8 @@ public class CompanyManager {
         companyManager.runCompanyProfile();
     }
 
-    // FIXED METHOD: Changed to public and removed the third parameter to match what MatchingEngine expects
+    // FIXED METHOD: Changed to public and removed the third parameter to match what
+    // MatchingEngine expects
     public ListInterface<JobPosting> searchJobs(String jobTitle, int weighting) {
         ListInterface<JobPosting> result = new ArrayList<>();
         for (int i = 0; i < companyList.size(); i++) {
