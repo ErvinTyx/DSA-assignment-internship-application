@@ -35,6 +35,6 @@ public class StudentInitializer {
         StudentDAO studentDAO = new StudentDAO();
         studentDAO.saveToFile(students);
 
-        System.out.println("Student list successfully written to Student.txt");
+        System.out.println("Student list successfully written to Student.dat");
     }
 }
