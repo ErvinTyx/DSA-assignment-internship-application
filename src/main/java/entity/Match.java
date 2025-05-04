@@ -45,9 +45,15 @@ public class Match implements Serializable {
         return job;
     }
 
+    public String toString(int i) {
+        return "\n=========================\n"+"Match "+ i +"\n" +"=========================\n"+
+                "=======Student=====\n" + student +
+                "=======Job========\n"+ job +"=======Score======\n"+ score;
+    }
+
     @Override
     public String toString() {
-        return "=========================\n"+"Match\n" +"=========================\n"+
+        return "\n=========================\n"+"Match\n" +"=========================\n"+
                 "=======Student=====\n" + student +
                 "=======Job========\n"+ job +"=======Score======\n"+ score;
     }

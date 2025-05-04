@@ -148,18 +148,37 @@ public class JobManager implements Serializable {
         displayAllJobPosting();
     }
 
+    
+
     public static void main(String[] args) {
         JobManager jobManager = new JobManager(new ArrayList<>());
         jobManager.runJobPosting();
     }
 
-    protected ListInterface<JobPosting> searchJobs(String jobTitle, int weighting, ListInterface<JobPosting> jobPostings) {
+    public ListInterface<JobPosting> searchJobs(String jobTitle, int weighting, ListInterface<JobPosting> companyJobs) {
         ListInterface<JobPosting> result = new ArrayList<>();
-        for (int i = 0; i < this.jobPostings.size(); i++) {
-            if(SearchUtil.fuzzySearch(jobTitle, jobPostings.get(i).getTitle(), weighting)){
-                jobPostings.add(this.jobPostings.get(i));
+        
+        
+        // Search for jobs with matching title
+        for (int i = 0; i < companyJobs.size(); i++) {
+            JobPosting job = companyJobs.get(i);
+            
+           
+            // If weighting is very high (like 100), we should do an exact match
+            if (weighting >= 90) {
+                if (job.getTitle().equalsIgnoreCase(jobTitle)) {
+                    result.add(job);
+                }
+            } 
+            // Otherwise, do a more relaxed search (contains)
+            else {
+                if (job.getTitle().toLowerCase().contains(jobTitle.toLowerCase())) {
+                    result.add(job);
+                }
             }
         }
+
         return result;
     }
+
 }

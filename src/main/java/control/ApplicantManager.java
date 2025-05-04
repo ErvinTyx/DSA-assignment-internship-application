@@ -9,12 +9,12 @@ import utility.MessageUI;
 
 public class ApplicantManager {
     private ListInterface<Student> students = new ArrayList<>();
-    private SkillProficiencyManager skillProficiencyManager = new SkillProficiencyManager(new ArrayList<>());
-    private ApplicantProfileUI applicantProfileUI = new ApplicantProfileUI();
+    private final SkillProficiencyManager skillProficiencyManager = new SkillProficiencyManager(new ArrayList<>());
+    private final ApplicantProfileUI applicantProfileUI = new ApplicantProfileUI();
     private int index = -1;
-    private StudentDAO studentDAO = new StudentDAO();
-    private MatchingEngine matchingEngine = new MatchingEngine();
-    private InterviewSchedulerManager interviewSchedulerManager = new InterviewSchedulerManager();
+    private final StudentDAO studentDAO = new StudentDAO();
+    private final MatchingEngine matchingEngine = new MatchingEngine();
+    private final InterviewSchedulerManager interviewSchedulerManager = new InterviewSchedulerManager(matchingEngine);
     
 
     public ApplicantManager() {
@@ -26,14 +26,11 @@ public class ApplicantManager {
         do {
             choice = applicantProfileUI.getMenuChoiceLogin();
             switch (choice) {
-                case 1:
-                    login();
-                    break;
-                case 2:
-                    signUp();
-                    break;
-                case 3:
-                    break;
+                case 1 -> login();
+                case 2 -> signUp();
+                case 3 -> {
+                    MessageUI.displayLogOutMessage();
+                }
             }
         } while (choice != 3);
         studentDAO.retrieveFromFile();
@@ -60,29 +57,29 @@ public class ApplicantManager {
                         // update
                         int updateChoice = applicantProfileUI.getUpdateMenuChoice();
                         switch (updateChoice) {
-                            case 1:
+                            case 1 -> {
                                 String name = applicantProfileUI.inputApplicantName();
                                 students.get(index).setName(name);
-                                break;
-                            case 2:
+                        }
+                            case 2 -> {
                                 int experience = applicantProfileUI.inputApplicantWorkingExperience();
                                 students.get(index).setExperience(experience);
-                                break;
-                            case 3:
+                        }
+                            case 3 -> {
                                 String location = applicantProfileUI.inputApplicantLocation();
                                 students.get(index).setLocation(location);
-                                break;
-                            case 4:
+                        }
+                            case 4 -> {
                                 skillProficiencyManager
                                         .runSkillProficiency(students.get(index).getSkillProficiencies());
                                 ListInterface<SkillProficiency> skills = skillProficiencyManager.getSkillProficiencys();
                                 students.get(index).setSkills(skills);
-                                break;
-                            default:
-                                MessageUI.displayInvalidChoiceMessage();
+                        }
+                            default -> MessageUI.displayInvalidChoiceMessage();
                         }
                         applicantProfileUI.listStudentInfo(displayStudentInfo(students.get(index)));
                         break;
+
 
                     case 4:
                         matchingEngine.runLookForJobs(students.get(index));

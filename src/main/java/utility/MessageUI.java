@@ -44,5 +44,28 @@ public class MessageUI {
     public static void displayExitingMessageInterviewScheduler() {
         System.out.println("Exiting the Interview Scheduler.");
     }
+
+    public static void displayJobApplicationSuccessMessage() {
+        System.out.println("Job application submitted successfully!");
+    }
+
+    public static void displayErrorMessageStudentNull() {
+        System.out.println("ERROR: Cannot run job search with null student");
+    }
     
+    public static void displayMessageRunningJobSearchStudent(String studentName) {
+        System.out.println("Running job search for student: " + studentName);
+    }
+
+    public static void displayNoJobsFoundYourCriteria() {
+        System.out.println("No jobs found matching your criteria.");
+    }
+
+    public static void displayStartingJobSearch(String jobTitle, int weighting) {
+        System.out.println("Starting job search for job title: " + jobTitle + " with weighting: " + weighting);
+    }
+
+    public static void displayErrorMessageCompanyManagerNull() {
+        System.out.println("ERROR: Cannot run job search with null companyManager");
+    }
 }
