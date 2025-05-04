@@ -19,8 +19,7 @@ public class InterviewUI {
         System.out.println("Interview Menu");
         System.out.println("---------------");
         System.out.println("1. Shedule Interview for a Job Posting");
-        System.out.println("2. View Interviewers");
-        System.out.println("3. Return To Company Menu");
+        System.out.println("2. Return To Company Menu");
     }
 
     public int displayInterviewMenuOptions() {
@@ -31,7 +30,7 @@ public class InterviewUI {
             try {
                 System.out.print("Enter your choice: ");
                 choice = scanner.nextInt();
-                if (choice < 1 || choice > 3) {
+                if (choice < 1 || choice > 2) {
                     System.out.println("Please enter a valid choice between 1 and 5.");
                 } else {
                     flag = false;

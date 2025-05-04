@@ -42,11 +42,11 @@ public class InterviewSchedulerManager {
                     }
                     displayInterview(ListAllInterview(companyInterviews));
                     break;
+                // case 2:
+                //     // view interviewers
+                //     displayInterviews(listInterviews(companyInterviews));
+                    // break;
                 case 2:
-                    // view interviewers
-                    displayInterviews(listInterviews(companyInterviews));
-                    break;
-                case 3:
                     // return to company menu
                     MessageUI.displayExitingMessageInterviewScheduler();
                     break;
