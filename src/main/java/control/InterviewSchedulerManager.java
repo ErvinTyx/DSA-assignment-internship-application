@@ -32,10 +32,6 @@ public class InterviewSchedulerManager {
             choice = interviewUI.displayInterviewMenuOptions();
             switch (choice) {
                 case 1:
-                    // view interviewers
-                    displayInterviews(listInterviews(companyInterviews));
-                    break;
-                case 2:
                     // schedule interview for a job
                     // select a job
 
@@ -44,6 +40,10 @@ public class InterviewSchedulerManager {
                         companyInterviews.add(addedInterview.get(i));
                     }
                     displayInterview(ListAllInterview(companyInterviews));
+                    break;
+                case 2:
+                    // view interviewers
+                    displayInterviews(listInterviews(companyInterviews));
                     break;
                 case 3:
                     // return to company menu
@@ -144,8 +144,13 @@ public class InterviewSchedulerManager {
     public void displayInterviews(ListInterface<Interview> companyInterviews, ListInterface<Integer> interviewIndex,
             ListInterface<Integer> matchIndex) {
         String info = "";
-        for (int i = 0; i < interviewIndex.size(); i++) {
-            info += companyInterviews.get(interviewIndex.get(i)).getMatches().get(matchIndex.get(i)).toString();
+        if (companyInterviews.isEmpty()) {
+            info += "No Interviews Scheduled\n";
+        }else{
+            
+            for (int i = 0; i < interviewIndex.size(); i++) {
+                info += companyInterviews.get(interviewIndex.get(i)).getMatches().get(matchIndex.get(i)).toString();
+            }
         }
         displayInterview(info);
     }
@@ -156,8 +161,15 @@ public class InterviewSchedulerManager {
 
     public String listInterviews(ListInterface<Interview> companyInterviews) {
         String info = "";
-        for (int i = 0; i < companyInterviews.size(); i++) {
-            info += companyInterviews.get(i).toString();
+        if (companyInterviews.isEmpty()) {
+            info += "No Interviews Scheduled\n";
+            
+        }else{
+            info += "\nInterviews\n";
+            info += "=====================\n";
+            for (int i = 0; i < companyInterviews.size(); i++) {
+                info += companyInterviews.get(i).toString();
+            }
         }
         return info;
     }
@@ -173,8 +185,6 @@ public class InterviewSchedulerManager {
 
             // retrieve all applicants from a selected job
             ListInterface<Match> matches = getAllMatchesBySeletedJobPosting(companyJobs.get(choice));
-            // TODO : implement sorting algorithm
-            // sort high to low
 
             // accept applicants
             int[] array = new int[matches.size()];
