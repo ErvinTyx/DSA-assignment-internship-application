@@ -1,4 +1,9 @@
-# Abstract data type
+# Intership application
+In this project we will be using one of the data structure algorithm to handle all data models.
+This project for data structure we use arraylist for our data model and merge sort for sorting.
+Another algorithm we will be using is mahattan distance to find the close related word each other.
+
+## Files directory
 ```files
 src/
 └──main/java/
