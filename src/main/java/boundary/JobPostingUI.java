@@ -9,6 +9,7 @@ import java.util.Scanner;
 public class JobPostingUI {
     private Scanner sc = new Scanner(System.in);
 
+    /** Prints the job posting actions. */
     private void jobPostingMenu() {
         System.out.println();
         System.out.println();
@@ -20,8 +21,15 @@ public class JobPostingUI {
         System.out.println("3. Update Job Posting");
         System.out.println("4. Delete Job Posting");
         System.out.println("5. Return To Company Menu");
+        System.out.println("6. Change sort order");
     }
 
+    /** Prompts for sort direction and returns true for 1 (ascending) or false for 2 (descending). */
+    public boolean inputSortAscending() {
+        return SortUI.inputAscending(sc);
+    }
+
+    /** Displays the job posting menu and returns a choice from 1 to 6; consumes the rest of the line. */
     public int getMenuChoice() {
         jobPostingMenu();
         int choice = 0;
@@ -30,8 +38,8 @@ public class JobPostingUI {
             try {
                 System.out.print("Enter your choice: ");
                 choice = sc.nextInt();
-                if (choice < 1 || choice > 5) {
-                    System.out.println("Please enter a valid choice between 1 and 5.");
+                if (choice < 1 || choice > 6) {
+                    System.out.println("Please enter a valid choice between 1 and 6.");
                 } else {
                     flag = false;
                 }
@@ -44,18 +52,21 @@ public class JobPostingUI {
         return choice;
     }
 
+    /** Prompts for and returns the title from the next line. */
     public String inputJobPostingTitle() {
         System.out.print("Enter Job Posting Title: ");
         String jobPostingTitle = sc.nextLine();
         return jobPostingTitle;
     }
 
+    /** Prompts for and returns the description from the next line. */
     public String inputJobPostingDescription() {
         System.out.print("Enter Job Posting Description: ");
         String jobPostingDescription = sc.nextLine();
         return jobPostingDescription;
     }
 
+    /** Reads a non-negative integer, consumes the rest of its line, and returns it. */
     public int inputJobPostingExperienceRequired() {
         int jobPostingExperienceRequired = 0;
         boolean flag = true;
@@ -77,12 +88,14 @@ public class JobPostingUI {
         return jobPostingExperienceRequired;
     }
 
+    /** Prompts for and returns the location from the next line. */
     public String inputJobPostingLocation() {
         System.out.print("Enter Job Posting Location: ");
         String jobPostingLocation = sc.nextLine();
         return jobPostingLocation;
     }
 
+    /** Reads minimum and maximum values until maximum is at least minimum, then returns them in a two-element array in that order; consumes the rest of the line. */
     public double[] inputJobPostingSalary() {
         double jobPostingSalary = 0;
         double jobPostingMaxSalary = 0;
@@ -107,6 +120,7 @@ public class JobPostingUI {
         return new double[] { jobPostingSalary, jobPostingMaxSalary };
     }
 
+    /** Reads a value from 1 to 10, consumes the rest of the line, and returns it. */
     public int inputJobPostingExperienceImportance() {
         int jobPostingExperienceRequired = 0;
         boolean flag = true;
@@ -128,6 +142,7 @@ public class JobPostingUI {
         return jobPostingExperienceRequired;
     }
 
+    /** Reads a value from 1 to 10, consumes the rest of the line, and returns it. */
     public int inputJobPostingLocationImportance() {
         int jobPostingLocationImportance = 0;
         boolean flag = true;
@@ -149,6 +164,7 @@ public class JobPostingUI {
         return jobPostingLocationImportance;
     }
 
+    /** Reads a value from 1 to 10, consumes the rest of the line, and returns it. */
     public int inputJobPostingSkillImportance() {
         int jobPostingSkillImportance = 0;
         boolean flag = true;
@@ -170,6 +186,7 @@ public class JobPostingUI {
         return jobPostingSkillImportance;
     }
 
+    /** Prints job posting table headings and the supplied rows. */
     public void listAllJobPosting(String allJobPosting) {
         System.out.println("\t---------------------");
         System.out.println("\tJob Posting List");
@@ -183,6 +200,7 @@ public class JobPostingUI {
         System.out.println(allJobPosting);
     }
 
+    /** Returns a positive displayed row number as a one-based selection and consumes the rest of the line. */
     public int inputJobPostingIndex() {
         int jobPostingIndex = 0;
         boolean flag = true;
