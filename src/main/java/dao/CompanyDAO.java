@@ -11,6 +11,10 @@ public class CompanyDAO {
     private String fileName = "Company.dat"; // For security and maintainability, should not have filename hardcoded
                                               // here.
 
+    /**
+     * Writes the serialized list directly to the data file, replacing it; I/O errors are printed and no success value is returned.
+     * @param companyList the companyList value
+     */
     public void saveToFile(ListInterface<Company> companyList) {
         File file = new File(fileName);
         try {
@@ -23,6 +27,11 @@ public class CompanyDAO {
             System.out.println("\nCannot save to file");
         }
     }
+
+        /**
+     * Loads and returns the serialized list, or an empty list when loading fails.
+     * @return loads and returns the serialized list, or an empty list when loading fails.
+     */
 
     @SuppressWarnings({ "unchecked", "finally" })
     public ListInterface<Company> retrieveFromFile() {

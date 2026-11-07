@@ -4,6 +4,10 @@ import adt.*;
 import entity.Company;
 
 public class CompanyInitializer {
+    /**
+     * Creates and returns the sample companies and their associated job postings.
+     * @return creates and returns the sample companies and their associated job postings.
+     */
     public ListInterface<Company> initializeCompanyList() {
         ListInterface<Company> companies = new ArrayList<>();
         JobPostingInitializer jobPostingsinitializer = new JobPostingInitializer();
@@ -22,6 +26,10 @@ public class CompanyInitializer {
         return companies;
     }
 
+    /**
+     * Creates sample data and writes it to the corresponding data file, replacing any existing file.
+     * @param args the args value
+     */
     public static void main(String[] args) {
         CompanyInitializer companyInitializer = new CompanyInitializer();
         ListInterface<Company> companies = companyInitializer.initializeCompanyList();

@@ -6,6 +6,10 @@ import entity.SkillRequirement;
 
 
 public class SkillRequiredInitializer {
+    /**
+     * Creates and returns sample skill requirements for developer skills.
+     * @return creates and returns sample skill requirements for developer skills.
+     */
     public ListInterface<SkillRequirement> initializeDeveloperSkills() {
         ListInterface<SkillRequirement> developerSkills = new ArrayList<>();
         developerSkills.add(new SkillRequirement("Java", 5));
@@ -16,6 +20,10 @@ public class SkillRequiredInitializer {
         return developerSkills;
     }
 
+    /**
+     * Creates and returns sample skill requirements for qaskills.
+     * @return creates and returns sample skill requirements for qaskills.
+     */
     public ListInterface<SkillRequirement> initializeQASkills() {
         ListInterface<SkillRequirement> qaSkills = new ArrayList<>();
         qaSkills.add(new SkillRequirement("HTML", 7));
@@ -32,6 +40,10 @@ public class SkillRequiredInitializer {
         return qaSkills;
     }
 
+    /**
+     * Creates and returns sample skill requirements for uxskills.
+     * @return creates and returns sample skill requirements for uxskills.
+     */
     public ListInterface<SkillRequirement> initializeUXSkills() {
         ListInterface<SkillRequirement> UXSkills = new ArrayList<>();
         UXSkills.add(new SkillRequirement("Figma", 7));
@@ -47,6 +59,10 @@ public class SkillRequiredInitializer {
         return UXSkills;
     }
 
+    /**
+     * Creates and returns sample skill requirements for pmskills.
+     * @return creates and returns sample skill requirements for pmskills.
+     */
     public ListInterface<SkillRequirement> initializePMSkills() {
         ListInterface<SkillRequirement> PMSkills = new ArrayList<>();
         PMSkills.add(new SkillRequirement("Agile", 7));
@@ -58,6 +74,10 @@ public class SkillRequiredInitializer {
         return PMSkills;
     }
 
+    /**
+     * Creates and returns sample skill requirements for dev ops skills.
+     * @return creates and returns sample skill requirements for dev ops skills.
+     */
     public ListInterface<SkillRequirement> initializeDevOpsSkills() {
         ListInterface<SkillRequirement> devOpsSkills = new ArrayList<>();
         devOpsSkills.add(new SkillRequirement("Git", 7));
@@ -69,6 +89,10 @@ public class SkillRequiredInitializer {
         return devOpsSkills;
     }
 
+    /**
+     * Creates and returns sample skill requirements for project manager skills.
+     * @return creates and returns sample skill requirements for project manager skills.
+     */
     public ListInterface<SkillRequirement> initializeProjectManagerSkills() {
         ListInterface<SkillRequirement> projectManagerSkills = new ArrayList<>();
         projectManagerSkills.add(new SkillRequirement("Agile", 7));
@@ -80,6 +104,10 @@ public class SkillRequiredInitializer {
         return projectManagerSkills;
     }
 
+    /**
+     * Creates and returns sample skill requirements for data science skills.
+     * @return creates and returns sample skill requirements for data science skills.
+     */
     public ListInterface<SkillRequirement> initializeDataScienceSkills() {
         ListInterface<SkillRequirement> DataScienceSkills = new ArrayList<>();
         DataScienceSkills.add(new SkillRequirement("Python", 8));
@@ -95,6 +123,10 @@ public class SkillRequiredInitializer {
         return DataScienceSkills;
     }
 
+    /**
+     * Creates and returns sample skill requirements for network engineer skills.
+     * @return creates and returns sample skill requirements for network engineer skills.
+     */
     public ListInterface<SkillRequirement> initializeNetworkEngineerSkills() {
         ListInterface<SkillRequirement> NetworkEngineerSkills = new ArrayList<>();
         NetworkEngineerSkills.add(new SkillRequirement("TCP/IP", 8));
@@ -110,6 +142,10 @@ public class SkillRequiredInitializer {
         return NetworkEngineerSkills;
     }
 
+    /**
+     * Creates and returns sample skill requirements for business analyst skills.
+     * @return creates and returns sample skill requirements for business analyst skills.
+     */
     public ListInterface<SkillRequirement> initializeBusinessAnalystSkills(){
         ListInterface<SkillRequirement> BusinessAnalystSkills = new ArrayList<>();
         BusinessAnalystSkills.add(new SkillRequirement("Business Analysis", 8));
@@ -125,6 +161,10 @@ public class SkillRequiredInitializer {
         return BusinessAnalystSkills;
     }
 
+    /**
+     * Creates and returns sample skill requirements for security engineer skills.
+     * @return creates and returns sample skill requirements for security engineer skills.
+     */
     public ListInterface<SkillRequirement> initializeSecurityEngineerSkills(){
         ListInterface<SkillRequirement> SecurityEngineerSkills = new ArrayList<>();
         SecurityEngineerSkills.add(new SkillRequirement("Firewall Configuration", 8));

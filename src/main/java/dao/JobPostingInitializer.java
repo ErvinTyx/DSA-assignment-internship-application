@@ -6,6 +6,10 @@ import entity.JobPosting;
 public class JobPostingInitializer {
     private SkillRequiredInitializer skillRequiredInitializer = new SkillRequiredInitializer();
 
+    /**
+     * Creates and returns the sample job postings.
+     * @return creates and returns the sample job postings.
+     */
     public ListInterface<JobPosting> initializeJobPosting() {
         ListInterface<JobPosting> jobPostings = new ArrayList<>();
         jobPostings.add(

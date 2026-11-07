@@ -5,6 +5,10 @@ import entity.Student;
 
 public class StudentInitializer {
 
+    /**
+     * Creates and returns the sample student profiles.
+     * @return creates and returns the sample student profiles.
+     */
     public ListInterface<Student> getStudents() {
         ListInterface<Student> students = new ArrayList<>();
 
@@ -29,6 +33,10 @@ public class StudentInitializer {
         return students;
     }
 
+    /**
+     * Creates sample data and writes it to the corresponding data file, replacing any existing file.
+     * @param args the args value
+     */
     public static void main(String[] args) {
         StudentInitializer studentInitializer = new StudentInitializer();
         ListInterface<Student> students = studentInitializer.getStudents();

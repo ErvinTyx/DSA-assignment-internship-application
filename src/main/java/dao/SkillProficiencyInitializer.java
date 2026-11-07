@@ -4,6 +4,10 @@ import adt.*;
 import entity.SkillProficiency;
 
 public class SkillProficiencyInitializer {
+    /**
+     * Returns the developer proficiencies.
+     * @return returns the developer proficiencies.
+     */
     public static ListInterface<SkillProficiency> getDeveloperProficiencies() {
         ListInterface<SkillProficiency> proficiencies = new ArrayList<>();
         proficiencies.add(new SkillProficiency("Java", 5));
@@ -15,6 +19,10 @@ public class SkillProficiencyInitializer {
     }
 
     // QA (Quality Assurance) proficiencies
+    /**
+     * Returns the qaproficiencies.
+     * @return returns the qaproficiencies.
+     */
     public static ListInterface<SkillProficiency> getQAProficiencies() {
         ListInterface<SkillProficiency> proficiencies = new ArrayList<>();
         proficiencies.add(new SkillProficiency("Selenium", 4));
@@ -26,6 +34,10 @@ public class SkillProficiencyInitializer {
     }
 
     // UX (User Experience) proficiencies
+    /**
+     * Returns the uxproficiencies.
+     * @return returns the uxproficiencies.
+     */
     public static ListInterface<SkillProficiency> getUXProficiencies() {
         ListInterface<SkillProficiency> proficiencies = new ArrayList<>();
         proficiencies.add(new SkillProficiency("Figma", 4));
@@ -37,6 +49,10 @@ public class SkillProficiencyInitializer {
     }
 
     // PM (Project Management) proficiencies
+    /**
+     * Returns the pmproficiencies.
+     * @return returns the pmproficiencies.
+     */
     public static ListInterface<SkillProficiency> getPMProficiencies() {
         ListInterface<SkillProficiency> proficiencies = new ArrayList<>();
         proficiencies.add(new SkillProficiency("Agile", 5));
@@ -48,6 +64,10 @@ public class SkillProficiencyInitializer {
     }
 
     // Backend Developer proficiencies
+    /**
+     * Returns the backend developer proficiencies.
+     * @return returns the backend developer proficiencies.
+     */
     public static ListInterface<SkillProficiency> getBackendDeveloperProficiencies() {
         ListInterface<SkillProficiency> proficiencies = new ArrayList<>();
         proficiencies.add(new SkillProficiency("Java", 5));
@@ -59,6 +79,10 @@ public class SkillProficiencyInitializer {
     }
 
     // QA Engineer proficiencies
+    /**
+     * Returns the qaengineer proficiencies.
+     * @return returns the qaengineer proficiencies.
+     */
     public static ListInterface<SkillProficiency> getQAEngineerProficiencies() {
         ListInterface<SkillProficiency> proficiencies = new ArrayList<>();
         proficiencies.add(new SkillProficiency("Selenium", 5));
@@ -70,6 +94,10 @@ public class SkillProficiencyInitializer {
     }
 
     // Product Manager proficiencies
+    /**
+     * Returns the product manager proficiencies.
+     * @return returns the product manager proficiencies.
+     */
     public static ListInterface<SkillProficiency> getProductManagerProficiencies() {
         ListInterface<SkillProficiency> proficiencies = new ArrayList<>();
         proficiencies.add(new SkillProficiency("Agile", 5));
@@ -81,6 +109,10 @@ public class SkillProficiencyInitializer {
     }
 
     // DevOps Engineer proficiencies
+    /**
+     * Returns the dev ops engineer proficiencies.
+     * @return returns the dev ops engineer proficiencies.
+     */
     public static ListInterface<SkillProficiency> getDevOpsEngineerProficiencies() {
         ListInterface<SkillProficiency> proficiencies = new ArrayList<>();
         proficiencies.add(new SkillProficiency("Docker", 5));
@@ -92,6 +124,10 @@ public class SkillProficiencyInitializer {
     }
 
     // Data Scientist proficiencies
+    /**
+     * Returns the data scientist proficiencies.
+     * @return returns the data scientist proficiencies.
+     */
     public static ListInterface<SkillProficiency> getDataScientistProficiencies() {
         ListInterface<SkillProficiency> proficiencies = new ArrayList<>();
         proficiencies.add(new SkillProficiency("Python", 5));
@@ -103,6 +139,10 @@ public class SkillProficiencyInitializer {
     }
 
     // Network Engineer proficiencies
+    /**
+     * Returns the network engineer proficiencies.
+     * @return returns the network engineer proficiencies.
+     */
     public static ListInterface<SkillProficiency> getNetworkEngineerProficiencies() {
         ListInterface<SkillProficiency> proficiencies = new ArrayList<>();
         proficiencies.add(new SkillProficiency("TCP/IP", 5));
@@ -114,6 +154,10 @@ public class SkillProficiencyInitializer {
     }
 
     // Business Analyst proficiencies
+    /**
+     * Returns the business analyst proficiencies.
+     * @return returns the business analyst proficiencies.
+     */
     public static ListInterface<SkillProficiency> getBusinessAnalystProficiencies() {
         ListInterface<SkillProficiency> proficiencies = new ArrayList<>();
         proficiencies.add(new SkillProficiency("Requirements Gathering", 5));
@@ -125,6 +169,10 @@ public class SkillProficiencyInitializer {
     }
 
     // Cloud Engineer proficiencies
+    /**
+     * Returns the cloud engineer proficiencies.
+     * @return returns the cloud engineer proficiencies.
+     */
     public static ListInterface<SkillProficiency> getCloudEngineerProficiencies() {
         ListInterface<SkillProficiency> proficiencies = new ArrayList<>();
         proficiencies.add(new SkillProficiency("AWS", 5));
@@ -136,6 +184,10 @@ public class SkillProficiencyInitializer {
     }
 
     // Security Engineer proficiencies
+    /**
+     * Returns the security engineer proficiencies.
+     * @return returns the security engineer proficiencies.
+     */
     public static ListInterface<SkillProficiency> getSecurityEngineerProficiencies() {
         ListInterface<SkillProficiency> proficiencies = new ArrayList<>();
         proficiencies.add(new SkillProficiency("Network Security", 5));
@@ -148,6 +200,10 @@ public class SkillProficiencyInitializer {
 
    
     // Mobile Developer proficiencies
+    /**
+     * Returns the mobile developer proficiencies.
+     * @return returns the mobile developer proficiencies.
+     */
     public static ListInterface<SkillProficiency> getMobileDeveloperProficiencies() {
         ListInterface<SkillProficiency> proficiencies = new ArrayList<>();
         proficiencies.add(new SkillProficiency("Swift", 5));

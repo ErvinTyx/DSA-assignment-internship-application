@@ -7,6 +7,7 @@ public class MainUI {
     
     private Scanner sc = new Scanner(System.in);
 
+    /** Prints the application main menu. */
     private void mainMenu() {
         System.out.println("");
         System.out.println("");
@@ -17,6 +18,7 @@ public class MainUI {
         System.out.print("Enter your choice: ");
     }
 
+    /** Displays the main menu and returns the next integer without range validation; consumes the rest of the line. */
     public int mainMenuInput() {
         int choice = 0;
         boolean flag = true;

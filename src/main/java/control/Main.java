@@ -8,6 +8,7 @@ public class Main {
     private CompanyManager companyManager = new CompanyManager();
     private MainUI mainUI = new MainUI();
 
+    /** Routes the main menu to applicant or company profiles until choice 3. */
     public void runMain() {
         int choice = 0;
         do {

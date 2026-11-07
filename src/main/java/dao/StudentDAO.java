@@ -15,6 +15,10 @@ public class StudentDAO {
     private String fileName = "Student.dat"; // For security and maintainability, should not have filename hardcoded
                                              // here.
 
+    /**
+     * Writes the serialized list directly to the data file, replacing it; I/O errors are printed and no success value is returned.
+     * @param productList the productList value
+     */
     public void saveToFile(ListInterface<Student> productList) {
         File file = new File(fileName);
         try {
@@ -27,6 +31,11 @@ public class StudentDAO {
             System.out.println("\nCannot save to file");
         }
     }
+
+        /**
+     * Loads and returns the serialized list, or an empty list when loading fails.
+     * @return loads and returns the serialized list, or an empty list when loading fails.
+     */
 
     @SuppressWarnings({ "finally", "unchecked" })
     public ListInterface<Student> retrieveFromFile() {
