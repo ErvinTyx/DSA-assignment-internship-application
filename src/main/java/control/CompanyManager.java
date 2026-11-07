@@ -4,6 +4,7 @@ import adt.*;
 import boundary.CompanyUI;
 import entity.JobPosting;
 import utility.MessageUI;
+import utility.EntitySorting;
 import entity.Company;
 import control.JobManager;
 import dao.CompanyDAO;
@@ -16,11 +17,20 @@ public class CompanyManager {
     private final CompanyDAO companyDAO = new CompanyDAO();
     private InterviewSchedulerManager interviewSchedulerManager;
     private int index = -1;
+    private boolean browseAscending = true;
 
-    public CompanyManager() {
-        companyList = companyDAO.retrieveFromFile();
+    /** Sets the direction used for subsequent company and nested job browsing. */
+    public void setBrowseAscending(boolean ascending) {
+        browseAscending = ascending;
     }
 
+    /** Loads and sorts the saved companies. */
+    public CompanyManager() {
+        companyList = companyDAO.retrieveFromFile();
+        EntitySorting.sortCompanies(companyList);
+    }
+
+    /** Runs the login and registration menu until choice 3, then saves the companies. */
     public void runCompanyProfile() {
         boolean flag = true;
         while (flag) {
@@ -39,8 +49,10 @@ public class CompanyManager {
         companyDAO.saveToFile(companyList);
     }
 
+    /** Finds a company by ID only and runs its profile, job, and interview menus until logout or confirmed deletion. Company changes are saved when the outer menu exits. */
     public void login() {
         index = -1;
+        EntitySorting.sortCompanies(companyList, true);
         String id = companyUI.inputCompanyId();
         for (int i = 0; i < companyList.size(); i++) {
             if (id.equals(companyList.get(i).getId())) {
@@ -112,27 +124,29 @@ public class CompanyManager {
         }
     }
 
+    /** Collects and adds a company, then displays its details. */
     public void signUp() {
         String name = companyUI.inputCompanyName();
         String location = companyUI.inputCompanyLocation();
         Company company = new Company(name, location);
         companyList.add(company);
+        EntitySorting.sortCompanies(companyList, true);
         companyUI.listCompanyInfo(displayCompanyInfo(company));
         companyUI.displayEnterToContinueMessage();
     }
 
+    /** Formats company details; the no-argument form sorts a company display copy and each company’s job list in the selected browse direction. */
     public String displayCompanyInfo(Company company) {
         String result = company.toString();
         return result;
     }
 
+    /** Starts the company profile menu. */
     public static void main(String[] args) {
         CompanyManager companyManager = new CompanyManager();
         companyManager.runCompanyProfile();
     }
 
-    // FIXED METHOD: Changed to public and removed the third parameter to match what
-    // MatchingEngine expects
     public ListInterface<JobPosting> searchJobs(String jobTitle, int weighting) {
         ListInterface<JobPosting> result = new ArrayList<>();
         for (int i = 0; i < companyList.size(); i++) {
@@ -159,10 +173,20 @@ public class CompanyManager {
         return result;
     }
 
+    /** Formats company details; the no-argument form sorts a company display copy and each company’s job list in the selected browse direction. */
     protected String displayCompanyInfo() {
+        // A display copy avoids changing the index of an active company account.
+        ListInterface<Company> sortedCompanies = new ArrayList<>();
+        for (Company company : companyList) {
+            sortedCompanies.add(company);
+        }
+        EntitySorting.sortCompanies(sortedCompanies, browseAscending);
+        for (Company company : sortedCompanies) {
+            EntitySorting.sortJobs(company.getJobPostings(), browseAscending);
+        }
         String result = "";
-        for (int i = 0; i < companyList.size(); i++) {
-            result += displayCompanyInfo(companyList.get(i));
+        for (int i = 0; i < sortedCompanies.size(); i++) {
+            result += displayCompanyInfo(sortedCompanies.get(i));
         }
         return result;
     }
