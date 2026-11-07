@@ -5,6 +5,7 @@ import boundary.CompanyUI;
 import entity.JobPosting;
 import utility.MessageUI;
 import utility.EntitySorting;
+import utility.SearchUtil;
 import entity.Company;
 import control.JobManager;
 import dao.CompanyDAO;
@@ -147,28 +148,17 @@ public class CompanyManager {
         companyManager.runCompanyProfile();
     }
 
-    public ListInterface<JobPosting> searchJobs(String jobTitle, int weighting) {
+    /** Collects matching jobs across companies, ordered by title relevance and then title. */
+    public ListInterface<JobPosting> searchJobs(String jobTitle) {
         ListInterface<JobPosting> result = new ArrayList<>();
         for (int i = 0; i < companyList.size(); i++) {
-
-            // Get job postings for this company
-            ListInterface<JobPosting> companyJobs = companyList.get(i).getJobPostings();
-
-            // Check if jobManager is properly initialized
-            if (jobManager == null) {
-                System.out.println("ERROR: jobManager is null");
-                continue;
-            }
-
-            // Search for matching jobs in this company
-            ListInterface<JobPosting> foundJob = jobManager.searchJobs(jobTitle, weighting, companyJobs);
-
-            // Add all found jobs to the result list
-            for (int j = 0; j < foundJob.size(); j++) {
-                result.add(foundJob.get(j));
-            }
+            ListInterface<JobPosting> found = jobManager.searchJobs(jobTitle, companyList.get(i).getJobPostings());
+            for (int j = 0; j < found.size(); j++) result.add(found.get(j));
         }
-
+        result.sort((a, b) -> {
+            int relevance = SearchUtil.compareJobTitles(jobTitle, a.getTitle(), b.getTitle());
+            return relevance != 0 ? relevance : a.getTitle().compareToIgnoreCase(b.getTitle());
+        });
         System.out.println("Total matching jobs found across all companies: " + result.size());
         return result;
     }

@@ -181,29 +181,17 @@ public class JobManager implements Serializable {
         jobManager.runJobPosting();
     }
 
-    public ListInterface<JobPosting> searchJobs(String jobTitle, int weighting, ListInterface<JobPosting> companyJobs) {
+    /** Returns matching jobs ordered by title relevance and then title. */
+    public ListInterface<JobPosting> searchJobs(String jobTitle, ListInterface<JobPosting> companyJobs) {
         ListInterface<JobPosting> result = new ArrayList<>();
-        
-        
-        // Search for jobs with matching title
         for (int i = 0; i < companyJobs.size(); i++) {
             JobPosting job = companyJobs.get(i);
-            
-           
-            // If weighting is very high (like 100), we should do an exact match
-            if (weighting >= 90) {
-                if (job.getTitle().equalsIgnoreCase(jobTitle)) {
-                    result.add(job);
-                }
-            } 
-            // Otherwise, do a more relaxed search (contains)
-            else {
-                if (job.getTitle().toLowerCase().contains(jobTitle.toLowerCase())) {
-                    result.add(job);
-                }
-            }
+            if (SearchUtil.matchesJobTitle(jobTitle, job.getTitle())) result.add(job);
         }
-
+        result.sort((a, b) -> {
+            int relevance = SearchUtil.compareJobTitles(jobTitle, a.getTitle(), b.getTitle());
+            return relevance != 0 ? relevance : a.getTitle().compareToIgnoreCase(b.getTitle());
+        });
         return result;
     }
 }

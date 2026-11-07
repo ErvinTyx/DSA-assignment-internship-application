@@ -1,21 +1,77 @@
 package utility;
 
-import java.util.Comparator;
-
-import adt.ListInterface;
-import entity.Match;
 
 public class SearchUtil {
 
 
+    /** Converts null to empty text, trims edges, lowercases, and collapses whitespace for title matching. */
+    private static String normalize(String value) {
+        return value == null ? "" : value.trim().toLowerCase().replaceAll("\\s+", " ");
+    }
+
+    // Returns category, edit distance and normalization length, in that order.
     /**
-     * Calculates the Levenshtein distance between two strings, which is the
-     * minimum number of single-character edits (i.e. insertions, deletions or
-     * substitutions) required to change one word into the other.
-     *
-     * @param input  the string to be compared
-     * @param target the string to compare with
-     * @return the Levenshtein distance between the two strings
+     * Classifies title relevance: 0 exact, 1 substring, 2 close typo, or 3 no match.
+     * Fuzzy matching checks contiguous title-word windows and allows 1-3 edits based on query length;
+     * queries shorter than three characters skip fuzzy matching.
+     * @return category, best edit distance, and normalization length as a three-value array
+     */
+    private static int[] relevance(String query, String title) {
+        String q = normalize(query), t = normalize(title);
+        if (q.isEmpty() || t.isEmpty()) return new int[] {3, 0, 1};
+        if (q.equals(t)) return new int[] {0, 0, 1};
+        if (t.contains(q)) return new int[] {1, 0, 1};
+        if (q.length() < 3) return new int[] {3, 0, 1};
+        int cutoff = Math.min(3, Math.max(1, q.length() / 4));
+        String[] words = t.split(" ");
+        int wordCount = q.split(" ").length;
+        int bestDistance = Integer.MAX_VALUE, bestLength = 1;
+        for (int start = 0; start < words.length; start++) {
+            String window = "";
+            for (int end = start; end < words.length && end < start + wordCount; end++) {
+                window += (end == start ? "" : " ") + words[end];
+                if (end - start + 1 != wordCount) continue;
+                int distance = levenshteinDistance(q, window);
+                int length = Math.max(q.length(), window.length());
+                if (distance <= cutoff && (bestDistance == Integer.MAX_VALUE
+                        || (long) distance * bestLength < (long) bestDistance * length)) {
+                    bestDistance = distance;
+                    bestLength = length;
+                }
+            }
+        }
+        return bestDistance == Integer.MAX_VALUE ? new int[] {3, 0, 1}
+                : new int[] {2, bestDistance, bestLength};
+    }
+
+    /**
+     * Reports whether a normalized title is an exact, substring, or automatically tolerated typo match.
+     * Blank queries and missing titles return false; no user-entered edit distance is needed.
+     */
+    public static boolean matchesJobTitle(String query, String title) {
+        return relevance(query, title)[0] < 3;
+    }
+
+    /**
+     * Ranks two titles for a query: exact before substring before typo before no match.
+     * Within the typo category, lower normalized edit distance ranks first.
+     * Cross-multiplication compares distance/length ratios without floating-point division.
+     * @return negative when first is more relevant, zero for a relevance tie, positive otherwise
+     */
+    public static int compareJobTitles(String query, String first, String second) {
+        int[] a = relevance(query, first), b = relevance(query, second);
+        if (a[0] != b[0]) return a[0] < b[0] ? -1 : 1;
+        long left = (long) a[1] * b[2], right = (long) b[1] * a[2];
+        return left < right ? -1 : left > right ? 1 : 0;
+    }
+
+    /**
+     * Calculates the minimum insertions, deletions, or substitutions between two case-sensitive strings.
+     * The dynamic-programming matrix uses O(input.length * target.length) time and storage.
+     * @param input first string, including empty text
+     * @param target second string, including empty text
+     * @return zero for identical strings, otherwise the minimum edit count
+     * @throws IllegalArgumentException if either string is null
      */
     public static int levenshteinDistance(String input, String target) {
         if (input == null || target == null) {
@@ -45,14 +101,12 @@ public class SearchUtil {
     }
 
     /**
-     * Performs a fuzzy search on a string, which checks for similarity between
-     * the input and target strings.
-     *
-     * @param input   the string to be compared
-     * @param target  the string to compare with
-     * @param threshold the maximum allowed Levenshtein distance
-     * @return true if the strings are similar (i.e. within the given threshold),
-     *         false otherwise
+     * Checks whether the case-sensitive edit distance is within an explicit internal threshold.
+     * Unlike automatic job-title matching, this helper does not trim or normalize its arguments.
+     * @param input first string
+     * @param target second string
+     * @param threshold maximum accepted number of edits
+     * @return false for null input or a distance above the threshold
      */
     public static boolean fuzzySearch(String input, String target, int threshold) {
         if (input == null || target == null) {
