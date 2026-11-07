@@ -15,13 +15,16 @@ public class InterviewUI {
     private Scanner scanner = new Scanner(System.in);
     private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
+    /** Prints the company interview actions. */
     private void displayInterviewMenu() {
         System.out.println("Interview Menu");
         System.out.println("---------------");
         System.out.println("1. Shedule Interview for a Job Posting");
         System.out.println("2. Return To Company Menu");
+        System.out.println("3. Change interview date order");
     }
 
+    /** Displays the company interview menu and returns a choice from 1 to 3; invalid tokens are discarded by line. */
     public int displayInterviewMenuOptions() {
         displayInterviewMenu();
         int choice = 0;
@@ -30,8 +33,8 @@ public class InterviewUI {
             try {
                 System.out.print("Enter your choice: ");
                 choice = scanner.nextInt();
-                if (choice < 1 || choice > 2) {
-                    System.out.println("Please enter a valid choice between 1 and 5.");
+                if (choice < 1 || choice > 3) {
+                    System.out.println("Please enter a valid choice between 1 and 3.");
                 } else {
                     flag = false;
                 }
@@ -43,6 +46,7 @@ public class InterviewUI {
         return choice;
     }
 
+    /** Prints the student interview actions. */
     private void displayInterviewMenuStudent(){
         System.out.println("");
         System.out.println("");
@@ -50,8 +54,10 @@ public class InterviewUI {
         System.out.println("---------------");
         System.out.println("1. View Interviews");
         System.out.println("2. Return To Student Menu");
+        System.out.println("3. Change interview date order");
     }
 
+    /** Displays the student interview menu and returns a choice from 1 to 3; invalid tokens are discarded by line. */
     public int displayInterviewMenuStudentOptions() {
         displayInterviewMenuStudent();
         int choice = 0;
@@ -60,8 +66,8 @@ public class InterviewUI {
             try {
                 System.out.print("Enter your choice: ");
                 choice = scanner.nextInt();
-                if (choice < 1 || choice > 2) {
-                    System.out.println("Please enter a valid choice between 1 and 2.");
+                if (choice < 1 || choice > 3) {
+                    System.out.println("Please enter a valid choice between 1 and 3.");
                 } else {
                     flag = false;
                 }
@@ -74,10 +80,17 @@ public class InterviewUI {
     }
 
 
+    /** Prompts for sort direction and returns true for 1 (ascending) or false for 2 (descending). */
+    public boolean inputSortAscending() {
+        return SortUI.inputAscending(scanner);
+    }
+
+    /** Prints the supplied interview text. */
     public void displayInterview(String info) {
         System.out.println(info);
     }
 
+    /** Prints job rows and returns the entered integer selection; 0 is shown as the exit choice and the rest of the line is consumed. */
     public int displayJobs(String info) {
         // see wan add header anot
         System.out.println(info);
@@ -98,6 +111,7 @@ public class InterviewUI {
         return choice;
     }
 
+    /** Reads yyyy-MM-dd HH:mm and repeats until parsing succeeds and the time is not before now. */
     public LocalDateTime getInterviewDateAndTime() {
         // get date and time
         LocalDateTime dateTime = null;
@@ -117,6 +131,7 @@ public class InterviewUI {
         return dateTime;
     }
 
+    /** Returns 1 for reject or 2 for accept, repeating until one of those choices is entered. */
     public int acceptApplicant() {
         int choice = 0;
         boolean flag = true;
@@ -139,6 +154,7 @@ public class InterviewUI {
         return choice;
     }
 
+    /** Returns the entered interview number; 0 is shown as exit, but other values are not range-checked. */
     public int inputSelectedInterview(){
         int choice = 0;
         boolean flag = true;
@@ -155,7 +171,8 @@ public class InterviewUI {
         }
         return choice;
     }
-    
+
+    /** Returns 1 for yes or 2 for no, repeating until one of those choices is entered. */
     public int inputInterviewComing(){
         int choice = 0;
         boolean flag = true;

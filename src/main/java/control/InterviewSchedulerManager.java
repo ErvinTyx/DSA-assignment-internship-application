@@ -11,6 +11,7 @@ import entity.Interview;
 import entity.JobPosting;
 import entity.Match;
 import utility.MessageUI;
+import utility.EntitySorting;
 import dao.InterviewDAO;
 
 public class InterviewSchedulerManager {
@@ -19,12 +20,16 @@ public class InterviewSchedulerManager {
     private final InterviewUI interviewUI = new InterviewUI();
     private final InterviewDAO interviewDAO = new InterviewDAO();
     private final MatchingEngine matchingEngine;
+    private boolean ascending = true;
 
+    /** Loads saved interviews, sorts them chronologically, and retains the matching engine. */
     public InterviewSchedulerManager(MatchingEngine matchingEngine) {
         interviews = interviewDAO.retrieveFromFile();
+        EntitySorting.sortInterviews(interviews, ascending);
         this.matchingEngine = matchingEngine;
     }
 
+    /** Runs the company or student interview menu until choice 2; choice 3 changes this scheduler’s sort direction. The student menu rebuilds applicant indexes after sorting and saves interviews on exit. */
     public void runInterviewScheduler(ListInterface<JobPosting> companyJobs) {
         ListInterface<Interview> companyInterviews = getInterviewsFromCompany(companyJobs);
         int choice = 0;
@@ -50,29 +55,24 @@ public class InterviewSchedulerManager {
                     // return to company menu
                     MessageUI.displayExitingMessageInterviewScheduler();
                     break;
+                case 3:
+                    ascending = interviewUI.inputSortAscending();
+                    displayInterview(ListAllInterview(companyInterviews));
+                    break;
                 default:
                     MessageUI.displayInvalidChoiceMessage();
                     break;
             }
-        } while (choice != 3);
-        for (int i = 0; i < companyInterviews.size(); i++) {
-            interviews.add(new Interview(companyInterviews.get(i)));
-        }
-        interviewDAO.saveToFile(interviews);
+        } while (choice != 2);
     }
 
+    /** Runs the company or student interview menu until choice 2; choice 3 changes this scheduler’s sort direction. The student menu rebuilds applicant indexes after sorting and saves interviews on exit. */
     public void runInterviewScheduler(String studentId) {
+        // Establish chronological order before building index mappings.
+        EntitySorting.sortInterviews(interviews, ascending);
         ListInterface<Integer> interviewIndex = new ArrayList<>();
         ListInterface<Integer> matchIndex = new ArrayList<>();
-        // getting specific information
-        for (int i = 0; i < interviews.size(); i++) {
-            for (int j = 0; j < interviews.get(i).getMatches().size(); j++) {
-                if (interviews.get(i).getMatches().get(j).getStudent().getId().equals(studentId)) {
-                    interviewIndex.add(i);
-                    matchIndex.add(j);
-                }
-            }
-        }
+        buildStudentIndexes(studentId, interviewIndex, matchIndex);
         int choice = 0;
         do {
             choice = interviewUI.displayInterviewMenuStudentOptions();
@@ -89,6 +89,14 @@ public class InterviewSchedulerManager {
                     // return to student menu
                     MessageUI.displayExitingMessageInterviewScheduler();
                     break;
+                case 3:
+                    ascending = interviewUI.inputSortAscending();
+                    EntitySorting.sortInterviews(interviews, ascending);
+                    interviewIndex = new ArrayList<>();
+                    matchIndex = new ArrayList<>();
+                    buildStudentIndexes(studentId, interviewIndex, matchIndex);
+                    displayInterviews(ListAllInterview(interviewIndex, matchIndex));
+                    break;
                 default:
                     MessageUI.displayInvalidChoiceMessage();
                     break;
@@ -97,6 +105,20 @@ public class InterviewSchedulerManager {
         interviewDAO.saveToFile(interviews);
     }
 
+    /** Records parallel zero-based interview and match indexes for the given student ID. */
+    private void buildStudentIndexes(String studentId, ListInterface<Integer> interviewIndex,
+            ListInterface<Integer> matchIndex) {
+        for (int i = 0; i < interviews.size(); i++) {
+            for (int j = 0; j < interviews.get(i).getMatches().size(); j++) {
+                if (interviews.get(i).getMatches().get(j).getStudent().getId().equals(studentId)) {
+                    interviewIndex.add(i);
+                    matchIndex.add(j);
+                }
+            }
+        }
+    }
+
+    /** Legacy helper outside the active student menu. Its indexing and defensive state copy mean it cannot be relied on to persist status changes. */
     public void setInterviewStatus(ListInterface<Integer> interviewIndex, ListInterface<Integer> matchIndex) {
         int choice = 0;
         do {
@@ -115,6 +137,7 @@ public class InterviewSchedulerManager {
         } while (choice != 0);
     }
 
+    /** Formats an interview and the match and state selected through the supplied index mapping. */
     public String listInterview(Interview interview, ListInterface<Integer> matchIndex, int choice) {
         String result = "";
         result += "\nInterviews\n";
@@ -128,6 +151,7 @@ public class InterviewSchedulerManager {
         return result;
     }
 
+    /** Formats the selected student matches and statuses using the already ordered parallel index mappings. */
     public String ListAllInterview(ListInterface<Integer> interviewIndex, ListInterface<Integer> matchIndex) {
 
         String result = "";
@@ -150,6 +174,7 @@ public class InterviewSchedulerManager {
         return result;
     }
 
+    /** Displays matches selected from company interviews using parallel interview and match indexes. */
     public void displayInterviews(ListInterface<Interview> companyInterviews, ListInterface<Integer> interviewIndex,
             ListInterface<Integer> matchIndex) {
         String info = "";
@@ -164,11 +189,14 @@ public class InterviewSchedulerManager {
         displayInterview(info);
     }
 
+    /** Displays supplied text, or formats matches selected by parallel indexes before displaying them. */
     public void displayInterviews(String info) {
         interviewUI.displayInterview(info);
     }
 
+    /** Sorts the supplied company interviews in the selected direction and formats them. */
     public String listInterviews(ListInterface<Interview> companyInterviews) {
+        EntitySorting.sortInterviews(companyInterviews, ascending);
         String info = "";
         if (companyInterviews.isEmpty()) {
             info += "No Interviews Scheduled\n";
@@ -183,6 +211,7 @@ public class InterviewSchedulerManager {
         return info;
     }
 
+    /** Prompts for jobs until choice 0, filters already scheduled applicant/job pairs, and saves each interview before removing its applications. A failed interview save retains applications; a failed removal leaves the saved interview. */
     private ListInterface<Interview> scheduleInterview(ListInterface<JobPosting> companyJobs) {
         int choice = 0;
         ListInterface<Interview> interview = new ArrayList<>();
@@ -206,6 +235,15 @@ public class InterviewSchedulerManager {
                 // retrieve all applicants from a selected job
                 ListInterface<Match> matches = getAllMatchesBySeletedJobPosting(companyJobs.get(choice - 1));
 
+                // A prior interview may have been saved even if removing applications failed.
+                for (int i = matches.size() - 1; i >= 0; i--) {
+                    if (alreadyScheduled(matches.get(i))) matches.remove(i + 1);
+                }
+                if (matches.isEmpty()) {
+                    System.out.println("No unscheduled applicants for this job.");
+                    continue;
+                }
+
                 // get interview date and time
                 LocalDateTime scheduledTime = interviewUI.getInterviewDateAndTime();
 
@@ -217,21 +255,33 @@ public class InterviewSchedulerManager {
                     int accept = interviewUI.acceptApplicant();
                     array[i] = accept;
                 }
-                this.interviews.add(new Interview(scheduledTime, matches, array));
-                // save interview
-                interview.add(new Interview(scheduledTime, matches, array));
+                Interview scheduled = new Interview(scheduledTime, matches, array);
+                this.interviews.add(scheduled);
+                if (interviewDAO.saveToFile(this.interviews)) {
+                    EntitySorting.sortInterviews(this.interviews, ascending);
+                    interview.add(scheduled);
+                    if (!matchingEngine.removeScheduledApplications(matches)) {
+                        System.out.println("Interview saved, but applications could not be removed.");
+                    }
+                } else {
+                    this.interviews.remove(this.interviews.size());
+                    System.out.println("Interview was not saved; applications were retained.");
+                }
             }
         } while (choice != 0);
         return interview;
     }
 
+    /** Gets copied applications for a job and sorts them by score. */
     private ListInterface<Match> getAllMatchesBySeletedJobPosting(JobPosting jobPosting) {
-        MatchingEngine matchingEngine = new MatchingEngine();
         ListInterface<Match> matches = matchingEngine.getMatchesBySeletedJob(jobPosting);
+        EntitySorting.sortMatches(matches);
         return matches;
     }
 
+    /** Sorts the supplied jobs and formats one-based choices. */
     public String displayJobs(ListInterface<JobPosting> companyJobs) {
+        EntitySorting.sortJobs(companyJobs);
         String info = "";
         for (int i = 0; i < companyJobs.size(); i++) {
             info += (i + 1) + ". " + companyJobs.get(i).toString();
@@ -239,11 +289,14 @@ public class InterviewSchedulerManager {
         return info;
     }
 
+    /** Passes formatted interview text to the UI. */
     private void displayInterview(String info) {
         interviewUI.displayInterview(info);
     }
 
+    /** Formats interviews in the selected direction, or formats student entries using parallel interview and match indexes. */
     private String ListAllInterview(ListInterface<Interview> interviews) {
+        EntitySorting.sortInterviews(interviews, ascending);
         String info = "";
         for (int i = 0; i < interviews.size(); i++) {
             info += interviews.get(i).toString();
@@ -251,26 +304,34 @@ public class InterviewSchedulerManager {
         return info;
     }
 
-    /**
-     * This method takes a list of job postings and returns all the interviews
-     * for these job postings.
-     *
-     * @param companyJobs a list of job postings
-     * @return a list of interviews for the given job postings
-     */
+    /** Checks whether an interview already contains the same student ID and job ID pair. */
+    private boolean alreadyScheduled(Match candidate) {
+        for (int i = 0; i < interviews.size(); i++) {
+            ListInterface<Match> recorded = interviews.get(i).getMatches();
+            for (int j = 0; j < recorded.size(); j++) {
+                Match match = recorded.get(j);
+                if (match.getStudent().getId().equals(candidate.getStudent().getId())
+                        && match.getJobPosting().getId().equals(candidate.getJobPosting().getId())) return true;
+            }
+        }
+        return false;
+    }
+
+    /** Returns interviews containing a match for one of the company’s job IDs, sorted in the selected direction. */
     private ListInterface<Interview> getInterviewsFromCompany(ListInterface<JobPosting> companyJobs) {
         ListInterface<Interview> companyInterview = new ArrayList<>();
         for (int i = 0; i < interviews.size(); i++) {
             Interview interview = interviews.get(i);
-            for (int j = 0; j < interview.getMatches().size(); j++) {
-                Match match = interview.getMatches().get(j);
-                if (companyJobs.contains(match.getJobPosting())) {
-                    companyInterview.add(new Interview(interview));
+            boolean found = false;
+            for (int j = 0; j < interview.getMatches().size() && !found; j++) {
+                String jobId = interview.getMatches().get(j).getJobPosting().getId();
+                for (int k = 0; k < companyJobs.size(); k++) {
+                    if (jobId.equals(companyJobs.get(k).getId())) { found = true; break; }
                 }
             }
+            if (found) companyInterview.add(interview);
         }
-
+        EntitySorting.sortInterviews(companyInterview, ascending);
         return companyInterview;
     }
-
 }
